@@ -5,7 +5,11 @@ import { ListingCard } from "@/components/Cards";
 
 type S = { loai?: string; nongsan?: string; tinh?: string };
 export const Route = createFileRoute("/cho/")({
-  validateSearch: (s: Record<string, unknown>): S => ({ loai: (s.loai as string) || undefined, nongsan: (s.nongsan as string) || undefined, tinh: (s.tinh as string) || undefined }),
+  validateSearch: (s: Record<string, unknown>): S => {
+    const r: S = {};
+    for (const k of ["loai", "nongsan", "tinh"] as const) { const v = s[k]; if (typeof v === "string" && v) r[k] = v; }
+    return r;
+  },
   head: () => ({
     meta: [
       { title: "Chợ nông sản — Tin bán và thu mua | Chợ Nông Sản Việt" },
@@ -20,14 +24,14 @@ export const Route = createFileRoute("/cho/")({
 function Market() {
   const s = Route.useSearch();
   const nav = useNavigate({ from: "/cho/" });
-  const set = (k: keyof S, v: string) => nav({ search: { ...s, [k]: v || undefined } });
+  const set = (k: keyof S, v: string) => { const n: S = { ...s }; if (v) n[k] = v; else delete n[k]; nav({ search: n }); };
   const items = LISTINGS.filter((l) => (!s.loai || l.type === s.loai) && (!s.nongsan || l.crop === s.nongsan) && (!s.tinh || l.province === s.tinh));
   return (
     <Page title="Chợ nông sản">
       <SampleNotice>Các tin dưới đây là TIN MẪU. Chức năng đăng tin sẽ mở sau khi có tài khoản.</SampleNotice>
       <div className="grid grid-cols-3 gap-2">
         {[["", "Tất cả"], ["ban", "Cần bán"], ["mua", "Cần mua"]].map(([v, t]) => (
-          <button key={v} onClick={() => set("loai", v)} className={(s.loai ?? "") === v ? "btn-primary px-2" : "btn-outline px-2"}>{t}</button>
+          <button key={v} onClick={() => set("loai", v ?? "")} className={(s.loai ?? "") === v ? "btn-primary px-2" : "btn-outline px-2"}>{t}</button>
         ))}
       </div>
       <div className="grid grid-cols-2 gap-2">

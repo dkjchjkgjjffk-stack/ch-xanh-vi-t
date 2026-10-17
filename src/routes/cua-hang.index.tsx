@@ -4,7 +4,12 @@ import { Page, SampleNotice } from "@/components/Layout";
 import { ProductCard } from "@/components/Cards";
 
 export const Route = createFileRoute("/cua-hang/")({
-  validateSearch: (s: Record<string, unknown>) => ({ q: (s.q as string) || undefined, dm: (s.dm as string) || undefined }),
+  validateSearch: (s: Record<string, unknown>): { q?: string; dm?: string } => {
+    const r: { q?: string; dm?: string } = {};
+    if (typeof s["q"] === "string" && s["q"]) r.q = s["q"];
+    if (typeof s["dm"] === "string" && s["dm"]) r.dm = s["dm"];
+    return r;
+  },
   head: () => ({
     meta: [
       { title: "Cửa hàng vật tư nông nghiệp — Chợ Nông Sản Việt" },
@@ -23,9 +28,9 @@ function Shop() {
     <Page title="Cửa hàng vật tư">
       <SampleNotice />
       <div className="flex gap-2 overflow-x-auto pb-1">
-        <Link to="/cua-hang" search={{ q }} className={`chip shrink-0 py-2 text-base ${!dm ? "bg-primary text-primary-foreground" : "bg-secondary"}`}>Tất cả</Link>
+        <Link to="/cua-hang" search={q ? { q } : {}} className={`chip shrink-0 py-2 text-base ${!dm ? "bg-primary text-primary-foreground" : "bg-secondary"}`}>Tất cả</Link>
         {CATEGORIES.map((c) => (
-          <Link key={c.id} to="/cua-hang" search={{ q, dm: c.id }} className={`chip shrink-0 py-2 text-base ${dm === c.id ? "bg-primary text-primary-foreground" : "bg-secondary"}`}>{c.icon} {c.name}</Link>
+          <Link key={c.id} to="/cua-hang" search={{ ...(q ? { q } : {}), dm: c.id }} className={`chip shrink-0 py-2 text-base ${dm === c.id ? "bg-primary text-primary-foreground" : "bg-secondary"}`}>{c.icon} {c.name}</Link>
         ))}
       </div>
       {q && <p className="text-muted-foreground">Kết quả cho “{q}”: {items.length} sản phẩm</p>}
