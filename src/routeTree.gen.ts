@@ -10,33 +10,115 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BangGiaRouteImport } from './routes/bang-gia'
+import { Route as GioHangRouteImport } from './routes/gio-hang'
+import { Route as ChoIndexRouteImport } from './routes/cho.index'
+import { Route as ChoIdRouteImport } from './routes/cho.$id'
+import { Route as CuaHangIndexRouteImport } from './routes/cua-hang.index'
+import { Route as CuaHangIdRouteImport } from './routes/cua-hang.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BangGiaRoute = BangGiaRouteImport.update({
+  id: '/bang-gia',
+  path: '/bang-gia',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GioHangRoute = GioHangRouteImport.update({
+  id: '/gio-hang',
+  path: '/gio-hang',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChoIndexRoute = ChoIndexRouteImport.update({
+  id: '/cho/',
+  path: '/cho/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChoIdRoute = ChoIdRouteImport.update({
+  id: '/cho/$id',
+  path: '/cho/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CuaHangIndexRoute = CuaHangIndexRouteImport.update({
+  id: '/cua-hang/',
+  path: '/cua-hang/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CuaHangIdRoute = CuaHangIdRouteImport.update({
+  id: '/cua-hang/$id',
+  path: '/cua-hang/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/bang-gia': typeof BangGiaRoute
+  '/gio-hang': typeof GioHangRoute
+  '/cho/$id': typeof ChoIdRoute
+  '/cua-hang/$id': typeof CuaHangIdRoute
+  '/cho/': typeof ChoIndexRoute
+  '/cua-hang/': typeof CuaHangIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/bang-gia': typeof BangGiaRoute
+  '/gio-hang': typeof GioHangRoute
+  '/cho/$id': typeof ChoIdRoute
+  '/cua-hang/$id': typeof CuaHangIdRoute
+  '/cho': typeof ChoIndexRoute
+  '/cua-hang': typeof CuaHangIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/bang-gia': typeof BangGiaRoute
+  '/gio-hang': typeof GioHangRoute
+  '/cho/$id': typeof ChoIdRoute
+  '/cua-hang/$id': typeof CuaHangIdRoute
+  '/cho/': typeof ChoIndexRoute
+  '/cua-hang/': typeof CuaHangIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/bang-gia'
+    | '/gio-hang'
+    | '/cho/$id'
+    | '/cua-hang/$id'
+    | '/cho/'
+    | '/cua-hang/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/bang-gia'
+    | '/gio-hang'
+    | '/cho/$id'
+    | '/cua-hang/$id'
+    | '/cho'
+    | '/cua-hang'
+  id:
+    | '__root__'
+    | '/'
+    | '/bang-gia'
+    | '/gio-hang'
+    | '/cho/$id'
+    | '/cua-hang/$id'
+    | '/cho/'
+    | '/cua-hang/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BangGiaRoute: typeof BangGiaRoute
+  GioHangRoute: typeof GioHangRoute
+  ChoIdRoute: typeof ChoIdRoute
+  CuaHangIdRoute: typeof CuaHangIdRoute
+  ChoIndexRoute: typeof ChoIndexRoute
+  CuaHangIndexRoute: typeof CuaHangIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +130,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/bang-gia': {
+      id: '/bang-gia'
+      path: '/bang-gia'
+      fullPath: '/bang-gia'
+      preLoaderRoute: typeof BangGiaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gio-hang': {
+      id: '/gio-hang'
+      path: '/gio-hang'
+      fullPath: '/gio-hang'
+      preLoaderRoute: typeof GioHangRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cho/': {
+      id: '/cho/'
+      path: '/cho'
+      fullPath: '/cho/'
+      preLoaderRoute: typeof ChoIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cho/$id': {
+      id: '/cho/$id'
+      path: '/cho/$id'
+      fullPath: '/cho/$id'
+      preLoaderRoute: typeof ChoIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cua-hang/': {
+      id: '/cua-hang/'
+      path: '/cua-hang'
+      fullPath: '/cua-hang/'
+      preLoaderRoute: typeof CuaHangIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cua-hang/$id': {
+      id: '/cua-hang/$id'
+      path: '/cua-hang/$id'
+      fullPath: '/cua-hang/$id'
+      preLoaderRoute: typeof CuaHangIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BangGiaRoute: BangGiaRoute,
+  GioHangRoute: GioHangRoute,
+  ChoIdRoute: ChoIdRoute,
+  CuaHangIdRoute: CuaHangIdRoute,
+  ChoIndexRoute: ChoIndexRoute,
+  CuaHangIndexRoute: CuaHangIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
