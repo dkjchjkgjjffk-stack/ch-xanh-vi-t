@@ -1,7 +1,7 @@
 # Chợ Xanh Việt
 
 Hãy xây dựng một nền tảng thương mại điện tử chuyên ngành
-nông nghiệp Việt Nam, tên tạm thời là Chợ Nông Sản Việt.
+nông nghiệp Việt Nam, thương hiệu Chợ Xanh Việt.
 
 YÊU CẦU CHUNG:
 - Giao diện hoàn toàn bằng tiếng Việt.
@@ -84,6 +84,8 @@ Continue developing this project in the [Lovable editor](https://lovable.dev/pro
 ## Development
 
 Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+
+Sao chép `.env.example` thành `.env` rồi điền URL dự án Supabase và publishable key. Không đưa khóa bí mật phía máy chủ vào biến `VITE_*` hoặc commit chúng vào Git.
 
 ```sh
 git clone <this-repository-url>
