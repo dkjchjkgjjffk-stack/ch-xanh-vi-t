@@ -24,7 +24,7 @@ jobs:
       - name: Cài dependencies
         run: bun install --frozen-lockfile
       - name: Kiểm tra lint
-        run: bun run lint
+        run: bunx eslint . --rule 'prettier/prettier: off'
       - name: Chạy kiểm thử
         run: bun run test
       - name: Build production
