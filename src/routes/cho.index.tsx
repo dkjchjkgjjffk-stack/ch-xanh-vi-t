@@ -51,7 +51,8 @@ function Market() {
 
   return (
     <Page title="Chợ nông sản">
-      <SampleNotice>Các tin đang hiển thị là TIN MẪU để xem thử giao diện, chưa phải tin mua bán thật. Chức năng đăng tin sẽ hoạt động sau khi kết nối tài khoản và cơ sở dữ liệu.</SampleNotice>
+      <SampleNotice>Các tin đang hiển thị là TIN MẪU để xem thử giao diện, chưa phải tin mua bán thật. Tin đăng mới cần tài khoản và sẽ chờ kiểm duyệt trước khi công khai.</SampleNotice>
+      <a href="/dang-tin" className="btn-primary w-full text-center">＋ Đăng tin bán / thu mua nông sản</a>
       <label htmlFor="market-search" className="font-semibold">Tìm tin bán hoặc thu mua</label>
       <div className="relative">
         <Search aria-hidden="true" className="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-muted-foreground" />
