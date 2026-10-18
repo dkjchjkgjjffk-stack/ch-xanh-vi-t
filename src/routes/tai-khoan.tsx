@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
@@ -109,7 +109,9 @@ function AccountPage() {
             <div className="flex size-14 items-center justify-center rounded-full bg-primary/10 text-2xl" aria-hidden="true">👤</div>
             <h2 className="text-xl font-bold">Bạn đã đăng nhập</h2>
             <p className="text-sm text-muted-foreground">Tài khoản: <strong className="break-all text-foreground">{session.user.email}</strong></p>
-            <p className="text-sm text-muted-foreground">Tài khoản hiện dùng cho đăng nhập. Chức năng hồ sơ người bán, quản lý tin và đơn hàng sẽ cần được nối tiếp với cơ sở dữ liệu và phân quyền.</p>
+            <p className="text-sm text-muted-foreground">Bạn có thể quản lý trạng thái tin nông sản đã gửi. Tin mới cần chờ quản trị viên duyệt trước khi công khai.</p>
+            <Link to="/tin-cua-toi" className="btn-primary w-full">Tin đăng của tôi</Link>
+            <Link to="/dang-tin" className="btn-outline w-full">＋ Đăng tin nông sản</Link>
             <button type="button" onClick={() => void signOut()} className="btn-outline w-full" disabled={submitting}>Đăng xuất</button>
           </section>
         ) : (
