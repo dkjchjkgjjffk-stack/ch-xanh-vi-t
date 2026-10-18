@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { PRODUCTS, vnd } from "@/data/sample";
+import { useEffect, useMemo, useState } from "react";
+import { PRODUCTS, type Product, vnd } from "@/data/sample";
 import { Page, SampleNotice } from "@/components/Layout";
 import { useCart } from "@/lib/cart";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/gio-hang")({
   head: () => ({
@@ -9,7 +11,7 @@ export const Route = createFileRoute("/gio-hang")({
       { title: "Giỏ hàng — Chợ Xanh Việt" },
       { name: "description", content: "Kiểm tra các vật tư nông nghiệp đã chọn trước khi liên hệ người bán." },
       { property: "og:title", content: "Giỏ hàng" },
-      { property: "og:description", content: "Giỏ hàng mẫu của Chợ Xanh Việt." },
+      { property: "og:description", content: "Giỏ hàng Chợ Xanh Việt." },
     ],
   }),
   component: Cart,
@@ -17,18 +19,70 @@ export const Route = createFileRoute("/gio-hang")({
 
 function Cart() {
   const { cart, setQty, clear } = useCart();
+  const [liveProducts, setLiveProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const liveIds = useMemo(
+    () => Object.keys(cart).filter((id) => !PRODUCTS.some((product) => product.id === id)),
+    [cart],
+  );
+
+  useEffect(() => {
+    let active = true;
+    if (liveIds.length === 0) {
+      setLiveProducts([]);
+      setLoading(false);
+      return () => { active = false; };
+    }
+    setLoading(true);
+    setError("");
+    void supabase.from("products")
+      .select("id,name,category,price,unit,description,icon,manufacturer,registration,seller_name,seller_phone,seller_address,verify_status")
+      .in("id", liveIds).eq("status", "approved").eq("is_sample", false)
+      .then(({ data, error: queryError }) => {
+        if (!active) return;
+        if (queryError) {
+          setError("Không tải được sản phẩm thật trong giỏ. Hãy thử tải lại trang.");
+          setLiveProducts([]);
+        } else {
+          setLiveProducts((data ?? []).map((row) => ({
+            id: row.id,
+            name: row.name,
+            category: row.category as Product["category"],
+            price: Number(row.price),
+            unit: row.unit,
+            icon: row.icon || "📦",
+            description: row.description || "",
+            manufacturer: row.manufacturer || "Người bán chưa cung cấp",
+            registration: row.registration || "Chưa cung cấp",
+            verify: row.verify_status as Product["verify"],
+            seller: { name: row.seller_name, phone: row.seller_phone, address: row.seller_address || "" },
+          })));
+        }
+        setLoading(false);
+      });
+    return () => { active = false; };
+  }, [liveIds]);
+
+  const productById = new Map<string, Product>([
+    ...PRODUCTS.map((product) => [product.id, product] as const),
+    ...liveProducts.map((product) => [product.id, product] as const),
+  ]);
   const lines = Object.entries(cart)
-    .map(([id, q]) => ({ p: PRODUCTS.find((x) => x.id === id), q }))
-    .filter((l): l is { p: (typeof PRODUCTS)[number]; q: number } => Boolean(l.p));
+    .map(([id, q]) => ({ p: productById.get(id), q }))
+    .filter((line): line is { p: Product; q: number } => Boolean(line.p));
   const total = lines.reduce((sum, line) => sum + line.p.price * line.q, 0);
 
   return (
     <Page title="Giỏ hàng">
-      <SampleNotice>Đây là bản xem thử dùng dữ liệu mẫu. Đơn hàng chưa thể gửi tới người bán vì hệ thống chưa có cơ sở dữ liệu đặt hàng. Vì vậy, trang này không yêu cầu bạn nhập tên, số điện thoại hay địa chỉ.</SampleNotice>
+      <SampleNotice>Giỏ hàng hiện chỉ lưu lựa chọn trên thiết bị. Chức năng đặt hàng và thanh toán chưa được kết nối; chưa có đơn hàng nào gửi cho người bán.</SampleNotice>
+      {error && <p role="alert" className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive">{error}</p>}
+      {loading && <p role="status" className="text-sm text-muted-foreground">Đang tải sản phẩm trong giỏ…</p>}
       {lines.length === 0 ? (
         <div className="py-10 text-center">
           <div className="text-6xl" aria-hidden="true">🧺</div>
-          <p className="my-4 text-muted-foreground">Giỏ hàng đang trống.</p>
+          <p className="my-4 text-muted-foreground">{loading ? "Đang tải giỏ hàng…" : "Giỏ hàng đang trống hoặc sản phẩm không còn được đăng bán."}</p>
           <Link to="/cua-hang" className="btn-primary">Khám phá cửa hàng</Link>
         </div>
       ) : (
@@ -51,14 +105,14 @@ function Cart() {
             ))}
           </div>
           <div className="flex justify-between text-xl font-bold"><span>Tạm tính</span><span className="text-primary">{vnd(total)}</span></div>
-          <p className="text-sm text-muted-foreground">Giá và sản phẩm ở trên chỉ là dữ liệu minh họa, chưa phải báo giá hay đơn hàng thực tế.</p>
+          <p className="text-sm text-muted-foreground">Tổng tiền chỉ mang tính tham khảo; chưa bao gồm vận chuyển và chưa phải đơn hàng xác nhận.</p>
           <div className="grid gap-3 sm:grid-cols-2">
             <Link to="/cua-hang" className="btn-primary">Tiếp tục chọn hàng</Link>
             <button type="button" onClick={clear} className="btn-outline">Xóa toàn bộ giỏ hàng</button>
           </div>
           <div className="card space-y-2 p-4">
-            <h2 className="text-lg font-bold">Đặt hàng sẽ hoạt động khi nào?</h2>
-            <p className="text-muted-foreground">Sau khi kết nối cơ sở dữ liệu và thiết lập quy trình nhận đơn, trang này mới có thể lưu đơn và chuyển thông tin tới người bán. Hiện tại, bạn có thể mở từng sản phẩm để xem thông tin liên hệ mẫu; không nên dùng dữ liệu mẫu để giao dịch thật.</p>
+            <h2 className="text-lg font-bold">Đặt hàng</h2>
+            <p className="text-sm text-muted-foreground">Đặt hàng trực tuyến chưa được bật. Mở từng sản phẩm để liên hệ trực tiếp người bán; chỉ giao dịch sau khi tự xác minh hàng hóa, giá và thông tin bên bán.</p>
           </div>
         </>
       )}
