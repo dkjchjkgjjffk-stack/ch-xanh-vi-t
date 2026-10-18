@@ -13,7 +13,7 @@ function SubmitProduct() {
   const [email, setEmail] = useState<string | null>(null);
   const [checking, setChecking] = useState(true);
   const [name, setName] = useState("");
-  const [category, setCategory] = useState<string>(CATEGORIES[0].id);
+  const [category, setCategory] = useState<string>(CATEGORIES[0]?.id ?? "phan-bon");
   const [price, setPrice] = useState("");
   const [unit, setUnit] = useState("bao");
   const [maker, setMaker] = useState("");

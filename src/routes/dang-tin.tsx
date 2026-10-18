@@ -19,7 +19,7 @@ function CreateListing() {
   const [email, setEmail] = useState<string | null>(null);
   const [type, setType] = useState<"ban" | "mua">("ban");
   const [title, setTitle] = useState("");
-  const [crop, setCrop] = useState(CROPS[0]);
+  const [crop, setCrop] = useState<string>(CROPS[0] ?? "Lúa gạo");
   const [quantity, setQuantity] = useState("");
   const [priceText, setPriceText] = useState("Thương lượng");
   const [province, setProvince] = useState("Gia Lai");

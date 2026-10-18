@@ -55,9 +55,15 @@ function AccountPage() {
       setIsAdmin(false);
       return () => { active = false; };
     }
-    void supabase.rpc("has_role", { _user_id: session.user.id, _role: "admin" })
-      .then(({ data }) => { if (active) setIsAdmin(Boolean(data)); })
-      .catch(() => { if (active) setIsAdmin(false); });
+    const checkRole = async () => {
+      try {
+        const { data } = await supabase.rpc("has_role", { _user_id: session.user.id, _role: "admin" });
+        if (active) setIsAdmin(Boolean(data));
+      } catch {
+        if (active) setIsAdmin(false);
+      }
+    };
+    void checkRole();
     return () => { active = false; };
   }, [session]);
 
