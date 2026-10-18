@@ -1,31 +1,57 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { LISTINGS } from "@/data/sample";
+import { LISTINGS, type Listing } from "@/data/sample";
+import { supabase } from "@/integrations/supabase/client";
 import { Page, SampleNotice } from "@/components/Layout";
 
 export const Route = createFileRoute("/cho/$id")({
-  loader: ({ params }) => {
-    const l = LISTINGS.find((x) => x.id === params.id);
-    if (!l) throw notFound();
-    return l;
+  loader: async ({ params }) => {
+    const sample = LISTINGS.find((x) => x.id === params.id);
+    if (sample) return { listing: sample, isSample: true };
+
+    const { data, error } = await supabase
+      .from("listings")
+      .select("id,type,title,crop,icon,quantity,price_text,province,contact_name,phone,description,created_at")
+      .eq("id", params.id)
+      .eq("status", "approved")
+      .eq("is_sample", false)
+      .maybeSingle();
+
+    if (error || !data) throw notFound();
+
+    const listing: Listing = {
+      id: data.id,
+      type: data.type === "mua" ? "mua" : "ban",
+      title: data.title,
+      crop: data.crop,
+      icon: data.icon || "🌾",
+      quantity: data.quantity,
+      price: data.price_text,
+      province: data.province,
+      contactName: data.contact_name,
+      phone: data.phone,
+      description: data.description,
+      postedAt: data.created_at,
+    };
+    return { listing, isSample: false };
   },
   head: ({ loaderData }) => ({
     meta: [
-      { title: `${loaderData?.title ?? "Tin đăng"} — Chợ Xanh Việt` },
-      { name: "description", content: loaderData ? `${loaderData.crop} · ${loaderData.quantity} · ${loaderData.province}` : "Chi tiết tin đăng" },
-      { property: "og:title", content: loaderData?.title ?? "Tin đăng" },
-      { property: "og:description", content: loaderData ? `${loaderData.crop} tại ${loaderData.province}` : "Chi tiết tin đăng" },
+      { title: `${loaderData?.listing.title ?? "Tin đăng"} — Chợ Xanh Việt` },
+      { name: "description", content: loaderData ? `${loaderData.listing.crop} · ${loaderData.listing.quantity} · ${loaderData.listing.province}` : "Chi tiết tin đăng" },
+      { property: "og:title", content: loaderData?.listing.title ?? "Tin đăng" },
+      { property: "og:description", content: loaderData ? `${loaderData.listing.crop} tại ${loaderData.listing.province}` : "Chi tiết tin đăng" },
     ],
   }),
   component: Detail,
 });
 
 function Detail() {
-  const l = Route.useLoaderData();
+  const { listing: l, isSample } = Route.useLoaderData();
   const rows: [string, string][] = [["Loại nông sản", l.crop], ["Số lượng", l.quantity], ["Giá dự kiến", l.price], ["Địa phương", l.province], ["Ngày đăng", new Date(l.postedAt).toLocaleDateString("vi-VN")]];
   return (
     <Page>
       <Link to="/cho" className="font-semibold text-primary">← Chợ nông sản</Link>
-      <SampleNotice>Đây là TIN MẪU, số điện thoại không có thật.</SampleNotice>
+      {isSample ? <SampleNotice>Đây là TIN MẪU, số điện thoại không có thật.</SampleNotice> : <p className="rounded-lg bg-success/10 p-3 text-sm text-success">Tin đã được duyệt. Vẫn nên xác minh thông tin và thỏa thuận giao dịch trực tiếp.</p>}
       <div className="card flex aspect-video items-center justify-center bg-secondary text-8xl">{l.icon}</div>
       <span className={`chip ${l.type === "ban" ? "bg-success text-success-foreground" : "bg-warning text-warning-foreground"}`}>{l.type === "ban" ? "Cần bán" : "Cần mua"}</span>
       <h1 className="text-2xl font-bold">{l.title}</h1>
