@@ -24,6 +24,7 @@ function AccountPage() {
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
   const [configured, setConfigured] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     let unsubscribe: (() => void) | undefined;
@@ -47,6 +48,18 @@ function AccountPage() {
     void initialize();
     return () => unsubscribe?.();
   }, []);
+
+  useEffect(() => {
+    let active = true;
+    if (!session) {
+      setIsAdmin(false);
+      return () => { active = false; };
+    }
+    void supabase.rpc("has_role", { _user_id: session.user.id, _role: "admin" })
+      .then(({ data }) => { if (active) setIsAdmin(Boolean(data)); })
+      .catch(() => { if (active) setIsAdmin(false); });
+    return () => { active = false; };
+  }, [session]);
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -112,6 +125,7 @@ function AccountPage() {
             <p className="text-sm text-muted-foreground">Bạn có thể quản lý trạng thái tin nông sản đã gửi. Tin mới cần chờ quản trị viên duyệt trước khi công khai.</p>
             <Link to="/tin-cua-toi" className="btn-primary w-full">Tin đăng của tôi</Link>
             <Link to="/dang-tin" className="btn-outline w-full">＋ Đăng tin nông sản</Link>
+            {isAdmin && <Link to="/quan-tri" className="btn-outline w-full">Khu vực quản trị · Duyệt tin</Link>}
             <button type="button" onClick={() => void signOut()} className="btn-outline w-full" disabled={submitting}>Đăng xuất</button>
           </section>
         ) : (
