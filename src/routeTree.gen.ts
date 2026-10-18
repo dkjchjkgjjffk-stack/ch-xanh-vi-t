@@ -11,7 +11,18 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BangGiaRouteImport } from './routes/bang-gia'
+import { Route as DangSanPhamRouteImport } from './routes/dang-san-pham'
+import { Route as DangTinRouteImport } from './routes/dang-tin'
+import { Route as DonHangRouteImport } from './routes/don-hang'
 import { Route as GioHangRouteImport } from './routes/gio-hang'
+import { Route as QuanTriRouteImport } from './routes/quan-tri'
+import { Route as QuanTriDonHangRouteImport } from './routes/quan-tri-don-hang'
+import { Route as QuanTriGiaRouteImport } from './routes/quan-tri-gia'
+import { Route as QuanTriSanPhamRouteImport } from './routes/quan-tri-san-pham'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as TaiKhoanRouteImport } from './routes/tai-khoan'
+import { Route as TinCuaToiRouteImport } from './routes/tin-cua-toi'
+import { Route as YeuThichRouteImport } from './routes/yeu-thich'
 import { Route as ChoIndexRouteImport } from './routes/cho.index'
 import { Route as ChoIdRouteImport } from './routes/cho.$id'
 import { Route as CuaHangIndexRouteImport } from './routes/cua-hang.index'
@@ -27,9 +38,64 @@ const BangGiaRoute = BangGiaRouteImport.update({
   path: '/bang-gia',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DangSanPhamRoute = DangSanPhamRouteImport.update({
+  id: '/dang-san-pham',
+  path: '/dang-san-pham',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DangTinRoute = DangTinRouteImport.update({
+  id: '/dang-tin',
+  path: '/dang-tin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DonHangRoute = DonHangRouteImport.update({
+  id: '/don-hang',
+  path: '/don-hang',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GioHangRoute = GioHangRouteImport.update({
   id: '/gio-hang',
   path: '/gio-hang',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuanTriRoute = QuanTriRouteImport.update({
+  id: '/quan-tri',
+  path: '/quan-tri',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuanTriDonHangRoute = QuanTriDonHangRouteImport.update({
+  id: '/quan-tri-don-hang',
+  path: '/quan-tri-don-hang',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuanTriGiaRoute = QuanTriGiaRouteImport.update({
+  id: '/quan-tri-gia',
+  path: '/quan-tri-gia',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuanTriSanPhamRoute = QuanTriSanPhamRouteImport.update({
+  id: '/quan-tri-san-pham',
+  path: '/quan-tri-san-pham',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TaiKhoanRoute = TaiKhoanRouteImport.update({
+  id: '/tai-khoan',
+  path: '/tai-khoan',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TinCuaToiRoute = TinCuaToiRouteImport.update({
+  id: '/tin-cua-toi',
+  path: '/tin-cua-toi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const YeuThichRoute = YeuThichRouteImport.update({
+  id: '/yeu-thich',
+  path: '/yeu-thich',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ChoIndexRoute = ChoIndexRouteImport.update({
@@ -56,7 +122,18 @@ const CuaHangIdRoute = CuaHangIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/bang-gia': typeof BangGiaRoute
+  '/dang-san-pham': typeof DangSanPhamRoute
+  '/dang-tin': typeof DangTinRoute
+  '/don-hang': typeof DonHangRoute
   '/gio-hang': typeof GioHangRoute
+  '/quan-tri': typeof QuanTriRoute
+  '/quan-tri-don-hang': typeof QuanTriDonHangRoute
+  '/quan-tri-gia': typeof QuanTriGiaRoute
+  '/quan-tri-san-pham': typeof QuanTriSanPhamRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/tai-khoan': typeof TaiKhoanRoute
+  '/tin-cua-toi': typeof TinCuaToiRoute
+  '/yeu-thich': typeof YeuThichRoute
   '/cho/$id': typeof ChoIdRoute
   '/cua-hang/$id': typeof CuaHangIdRoute
   '/cho/': typeof ChoIndexRoute
@@ -65,7 +142,18 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/bang-gia': typeof BangGiaRoute
+  '/dang-san-pham': typeof DangSanPhamRoute
+  '/dang-tin': typeof DangTinRoute
+  '/don-hang': typeof DonHangRoute
   '/gio-hang': typeof GioHangRoute
+  '/quan-tri': typeof QuanTriRoute
+  '/quan-tri-don-hang': typeof QuanTriDonHangRoute
+  '/quan-tri-gia': typeof QuanTriGiaRoute
+  '/quan-tri-san-pham': typeof QuanTriSanPhamRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/tai-khoan': typeof TaiKhoanRoute
+  '/tin-cua-toi': typeof TinCuaToiRoute
+  '/yeu-thich': typeof YeuThichRoute
   '/cho/$id': typeof ChoIdRoute
   '/cua-hang/$id': typeof CuaHangIdRoute
   '/cho': typeof ChoIndexRoute
@@ -75,7 +163,18 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/bang-gia': typeof BangGiaRoute
+  '/dang-san-pham': typeof DangSanPhamRoute
+  '/dang-tin': typeof DangTinRoute
+  '/don-hang': typeof DonHangRoute
   '/gio-hang': typeof GioHangRoute
+  '/quan-tri': typeof QuanTriRoute
+  '/quan-tri-don-hang': typeof QuanTriDonHangRoute
+  '/quan-tri-gia': typeof QuanTriGiaRoute
+  '/quan-tri-san-pham': typeof QuanTriSanPhamRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/tai-khoan': typeof TaiKhoanRoute
+  '/tin-cua-toi': typeof TinCuaToiRoute
+  '/yeu-thich': typeof YeuThichRoute
   '/cho/$id': typeof ChoIdRoute
   '/cua-hang/$id': typeof CuaHangIdRoute
   '/cho/': typeof ChoIndexRoute
@@ -86,7 +185,18 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/bang-gia'
+    | '/dang-san-pham'
+    | '/dang-tin'
+    | '/don-hang'
     | '/gio-hang'
+    | '/quan-tri'
+    | '/quan-tri-don-hang'
+    | '/quan-tri-gia'
+    | '/quan-tri-san-pham'
+    | '/reset-password'
+    | '/tai-khoan'
+    | '/tin-cua-toi'
+    | '/yeu-thich'
     | '/cho/$id'
     | '/cua-hang/$id'
     | '/cho/'
@@ -95,7 +205,18 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/bang-gia'
+    | '/dang-san-pham'
+    | '/dang-tin'
+    | '/don-hang'
     | '/gio-hang'
+    | '/quan-tri'
+    | '/quan-tri-don-hang'
+    | '/quan-tri-gia'
+    | '/quan-tri-san-pham'
+    | '/reset-password'
+    | '/tai-khoan'
+    | '/tin-cua-toi'
+    | '/yeu-thich'
     | '/cho/$id'
     | '/cua-hang/$id'
     | '/cho'
@@ -104,7 +225,18 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/bang-gia'
+    | '/dang-san-pham'
+    | '/dang-tin'
+    | '/don-hang'
     | '/gio-hang'
+    | '/quan-tri'
+    | '/quan-tri-don-hang'
+    | '/quan-tri-gia'
+    | '/quan-tri-san-pham'
+    | '/reset-password'
+    | '/tai-khoan'
+    | '/tin-cua-toi'
+    | '/yeu-thich'
     | '/cho/$id'
     | '/cua-hang/$id'
     | '/cho/'
@@ -114,7 +246,18 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BangGiaRoute: typeof BangGiaRoute
+  DangSanPhamRoute: typeof DangSanPhamRoute
+  DangTinRoute: typeof DangTinRoute
+  DonHangRoute: typeof DonHangRoute
   GioHangRoute: typeof GioHangRoute
+  QuanTriRoute: typeof QuanTriRoute
+  QuanTriDonHangRoute: typeof QuanTriDonHangRoute
+  QuanTriGiaRoute: typeof QuanTriGiaRoute
+  QuanTriSanPhamRoute: typeof QuanTriSanPhamRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  TaiKhoanRoute: typeof TaiKhoanRoute
+  TinCuaToiRoute: typeof TinCuaToiRoute
+  YeuThichRoute: typeof YeuThichRoute
   ChoIdRoute: typeof ChoIdRoute
   CuaHangIdRoute: typeof CuaHangIdRoute
   ChoIndexRoute: typeof ChoIndexRoute
@@ -137,11 +280,88 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BangGiaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dang-san-pham': {
+      id: '/dang-san-pham'
+      path: '/dang-san-pham'
+      fullPath: '/dang-san-pham'
+      preLoaderRoute: typeof DangSanPhamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dang-tin': {
+      id: '/dang-tin'
+      path: '/dang-tin'
+      fullPath: '/dang-tin'
+      preLoaderRoute: typeof DangTinRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/don-hang': {
+      id: '/don-hang'
+      path: '/don-hang'
+      fullPath: '/don-hang'
+      preLoaderRoute: typeof DonHangRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/gio-hang': {
       id: '/gio-hang'
       path: '/gio-hang'
       fullPath: '/gio-hang'
       preLoaderRoute: typeof GioHangRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quan-tri': {
+      id: '/quan-tri'
+      path: '/quan-tri'
+      fullPath: '/quan-tri'
+      preLoaderRoute: typeof QuanTriRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quan-tri-don-hang': {
+      id: '/quan-tri-don-hang'
+      path: '/quan-tri-don-hang'
+      fullPath: '/quan-tri-don-hang'
+      preLoaderRoute: typeof QuanTriDonHangRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quan-tri-gia': {
+      id: '/quan-tri-gia'
+      path: '/quan-tri-gia'
+      fullPath: '/quan-tri-gia'
+      preLoaderRoute: typeof QuanTriGiaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quan-tri-san-pham': {
+      id: '/quan-tri-san-pham'
+      path: '/quan-tri-san-pham'
+      fullPath: '/quan-tri-san-pham'
+      preLoaderRoute: typeof QuanTriSanPhamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tai-khoan': {
+      id: '/tai-khoan'
+      path: '/tai-khoan'
+      fullPath: '/tai-khoan'
+      preLoaderRoute: typeof TaiKhoanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tin-cua-toi': {
+      id: '/tin-cua-toi'
+      path: '/tin-cua-toi'
+      fullPath: '/tin-cua-toi'
+      preLoaderRoute: typeof TinCuaToiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/yeu-thich': {
+      id: '/yeu-thich'
+      path: '/yeu-thich'
+      fullPath: '/yeu-thich'
+      preLoaderRoute: typeof YeuThichRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cho/': {
@@ -178,7 +398,18 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BangGiaRoute: BangGiaRoute,
+  DangSanPhamRoute: DangSanPhamRoute,
+  DangTinRoute: DangTinRoute,
+  DonHangRoute: DonHangRoute,
   GioHangRoute: GioHangRoute,
+  QuanTriRoute: QuanTriRoute,
+  QuanTriDonHangRoute: QuanTriDonHangRoute,
+  QuanTriGiaRoute: QuanTriGiaRoute,
+  QuanTriSanPhamRoute: QuanTriSanPhamRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  TaiKhoanRoute: TaiKhoanRoute,
+  TinCuaToiRoute: TinCuaToiRoute,
+  YeuThichRoute: YeuThichRoute,
   ChoIdRoute: ChoIdRoute,
   CuaHangIdRoute: CuaHangIdRoute,
   ChoIndexRoute: ChoIndexRoute,

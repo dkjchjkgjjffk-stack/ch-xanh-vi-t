@@ -55,9 +55,15 @@ function AccountPage() {
       setIsAdmin(false);
       return () => { active = false; };
     }
-    void supabase.rpc("has_role", { _user_id: session.user.id, _role: "admin" })
-      .then(({ data }) => { if (active) setIsAdmin(Boolean(data)); })
-      .catch(() => { if (active) setIsAdmin(false); });
+    const checkRole = async () => {
+      try {
+        const { data } = await supabase.rpc("has_role", { _user_id: session.user.id, _role: "admin" });
+        if (active) setIsAdmin(Boolean(data));
+      } catch {
+        if (active) setIsAdmin(false);
+      }
+    };
+    void checkRole();
     return () => { active = false; };
   }, [session]);
 
@@ -94,6 +100,27 @@ function AccountPage() {
     } catch (caught) {
       const message = caught instanceof Error ? caught.message : "Không thể thực hiện yêu cầu. Vui lòng thử lại.";
       setError(message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const sendReset = async () => {
+    setError("");
+    setNotice("");
+    if (!email.trim()) {
+      setError("Nhập email của bạn vào ô Email rồi bấm lại nút Quên mật khẩu.");
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+      if (resetError) throw resetError;
+      setNotice("Đã gửi email đặt lại mật khẩu. Hãy mở thư và bấm liên kết trong thư.");
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : "Không gửi được email đặt lại mật khẩu. Vui lòng thử lại.");
     } finally {
       setSubmitting(false);
     }
@@ -165,6 +192,11 @@ function AccountPage() {
               <button type="submit" className="btn-primary w-full" disabled={submitting || loading}>
                 {submitting ? "Đang xử lý…" : mode === "login" ? "Đăng nhập" : "Tạo tài khoản"}
               </button>
+              {mode === "login" && (
+                <button type="button" onClick={() => void sendReset()} disabled={submitting} className="w-full text-center text-sm font-semibold text-primary underline underline-offset-4">
+                  Quên mật khẩu? Gửi email đặt lại
+                </button>
+              )}
             </form>
 
             <p className="text-xs leading-relaxed text-muted-foreground">Không chia sẻ mật khẩu với người khác. Chợ Xanh Việt không yêu cầu bạn gửi mật khẩu qua điện thoại hoặc tin nhắn.</p>

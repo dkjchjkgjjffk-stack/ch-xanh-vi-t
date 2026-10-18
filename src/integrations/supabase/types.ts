@@ -106,7 +106,6 @@ export type Database = {
           product_id: string | null
           qty: number
           seller_id: string | null
-          created_at: string
         }
         Insert: {
           id?: string
@@ -116,7 +115,6 @@ export type Database = {
           product_id?: string | null
           qty: number
           seller_id?: string | null
-          created_at?: string
         }
         Update: {
           id?: string
@@ -126,7 +124,6 @@ export type Database = {
           product_id?: string | null
           qty?: number
           seller_id?: string | null
-          created_at?: string
         }
         Relationships: [
           {
@@ -164,7 +161,7 @@ export type Database = {
           payment_status?: string
           phone: string
           status?: string
-          total?: number
+          total: number
           updated_at?: string
         }
         Update: {
@@ -343,16 +340,26 @@ export type Database = {
         Args: { _order: string; _user: string }
         Returns: boolean
       }
-      place_order: {
-        Args: {
-          _address: string
-          _full_name: string
-          _items: Json
-          _phone: string
-          _buyer_note?: string
-        }
-        Returns: string
-      }
+      place_order:
+        | {
+            Args: {
+              _address: string
+              _buyer_note?: string
+              _full_name: string
+              _items: Json
+              _phone: string
+            }
+            Returns: string
+          }
+        | {
+            Args: {
+              _address: string
+              _full_name: string
+              _items: Json
+              _phone: string
+            }
+            Returns: string
+          }
     }
     Enums: {
       app_role: "admin" | "seller" | "buyer"
