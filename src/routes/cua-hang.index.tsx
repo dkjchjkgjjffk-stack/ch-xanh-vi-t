@@ -40,9 +40,15 @@ function Shop() {
           <Link key={c.id} to="/cua-hang" search={{ ...(q ? { q } : {}), dm: c.id }} className={`chip shrink-0 py-2 text-base ${dm === c.id ? "bg-primary text-primary-foreground" : "bg-secondary"}`}>{c.icon} {c.name}</Link>
         ))}
       </div>
-      {q && <p className="text-muted-foreground">Kết quả cho “{q}”: {items.length} sản phẩm</p>}
-      {items.length === 0 ? <p className="py-10 text-center text-muted-foreground">Không tìm thấy sản phẩm.</p> :
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">{items.map((p) => <ProductCard key={p.id} p={p} />)}</div>}
+      {(q || dm) && <p className="text-muted-foreground">Tìm thấy <strong>{items.length}</strong> sản phẩm{q ? ` cho “${q}”` : ""}.</p>}
+      {items.length === 0 ? (
+        <div className="card px-4 py-10 text-center">
+          <div className="text-4xl" aria-hidden="true">🔎</div>
+          <p className="mt-3 font-semibold">Chưa tìm thấy sản phẩm phù hợp</p>
+          <p className="mt-1 text-sm text-muted-foreground">Thử từ khóa khác hoặc xem lại tất cả danh mục.</p>
+          <Link to="/cua-hang" className="btn-outline mt-4">Xóa tìm kiếm và bộ lọc</Link>
+        </div>
+      ) : <div className="grid grid-cols-2 gap-3 md:grid-cols-4">{items.map((p) => <ProductCard key={p.id} p={p} />)}</div>}
     </Page>
   );
 }
