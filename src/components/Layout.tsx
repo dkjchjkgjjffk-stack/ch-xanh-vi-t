@@ -8,6 +8,7 @@ const NAV = [
   { to: "/cho", label: "Chợ nông sản", icon: "🌾" },
   { to: "/bang-gia", label: "Bảng giá", icon: "📊" },
   { to: "/gio-hang", label: "Giỏ hàng", icon: "🧺" },
+  { to: "/tai-khoan", label: "Tài khoản", icon: "👤" },
 ] as const;
 
 export function Header() {
@@ -18,7 +19,7 @@ export function Header() {
     <header className="sticky top-0 z-30 bg-primary text-primary-foreground shadow-card">
       <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
         <Link to="/" className="text-lg font-extrabold leading-tight">🌿 Chợ Xanh Việt</Link>
-        <nav className="ml-auto hidden gap-1 md:flex">
+        <nav className="ml-auto hidden gap-1 md:flex" aria-label="Điều hướng chính">
           {NAV.map((n) => (
             <Link key={n.to} to={n.to} className="rounded-lg px-3 py-2 font-medium hover:bg-primary-foreground/15" activeProps={{ className: "bg-primary-foreground/20" }} activeOptions={{ exact: n.to === "/" }}>
               {n.label}{n.to === "/gio-hang" && count > 0 ? ` (${count})` : ""}
@@ -36,12 +37,12 @@ export function Header() {
 export function BottomNav() {
   const { count } = useCart();
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-5 border-t bg-card pb-[env(safe-area-inset-bottom)] md:hidden">
+    <nav className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-6 border-t bg-card pb-[env(safe-area-inset-bottom)] md:hidden" aria-label="Điều hướng trên điện thoại">
       {NAV.map((n) => (
-        <Link key={n.to} to={n.to} className="relative flex flex-col items-center py-2 text-xs font-medium text-muted-foreground" activeProps={{ className: "text-primary" }} activeOptions={{ exact: n.to === "/" }}>
-          <span className="text-2xl">{n.icon}</span>
-          {n.label}
-          {n.to === "/gio-hang" && count > 0 && <span className="absolute right-3 top-1 chip bg-destructive px-1.5 py-0 text-xs text-destructive-foreground">{count}</span>}
+        <Link key={n.to} to={n.to} className="relative flex min-w-0 flex-col items-center py-2 text-[10px] font-medium text-muted-foreground sm:text-xs" activeProps={{ className: "text-primary" }} activeOptions={{ exact: n.to === "/" }}>
+          <span className="text-xl sm:text-2xl" aria-hidden="true">{n.icon}</span>
+          <span className="truncate">{n.label}</span>
+          {n.to === "/gio-hang" && count > 0 && <span className="absolute right-1 top-1 chip bg-destructive px-1.5 py-0 text-xs text-destructive-foreground">{count}</span>}
         </Link>
       ))}
     </nav>
