@@ -6,10 +6,10 @@ import { useCart } from "@/lib/cart";
 export const Route = createFileRoute("/gio-hang")({
   head: () => ({
     meta: [
-      { title: "Giỏ hàng — Chợ Nông Sản Việt" },
+      { title: "Giỏ hàng — Chợ Xanh Việt" },
       { name: "description", content: "Kiểm tra các vật tư nông nghiệp đã chọn trước khi liên hệ người bán." },
       { property: "og:title", content: "Giỏ hàng" },
-      { property: "og:description", content: "Giỏ hàng mẫu của Chợ Nông Sản Việt." },
+      { property: "og:description", content: "Giỏ hàng mẫu của Chợ Xanh Việt." },
     ],
   }),
   component: Cart,
