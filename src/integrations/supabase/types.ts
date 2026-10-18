@@ -340,6 +340,7 @@ export type Database = {
           _full_name: string
           _items: Json
           _phone: string
+          _buyer_note?: string
         }
         Returns: string
       }
