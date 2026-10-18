@@ -13,7 +13,7 @@ export const Route = createFileRoute("/cua-hang/$id")({
   },
   head: ({ loaderData }) => ({
     meta: [
-      { title: `${loaderData?.name ?? "Sản phẩm"} — Chợ Nông Sản Việt` },
+      { title: `${loaderData?.name ?? "Sản phẩm"} — Chợ Xanh Việt` },
       { name: "description", content: loaderData?.description ?? "Chi tiết sản phẩm" },
       { property: "og:title", content: loaderData?.name ?? "Sản phẩm" },
       { property: "og:description", content: loaderData?.description ?? "Chi tiết sản phẩm" },
