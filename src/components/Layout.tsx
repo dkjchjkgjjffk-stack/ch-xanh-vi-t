@@ -17,7 +17,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-30 bg-primary text-primary-foreground shadow-card">
       <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
-        <Link to="/" className="text-lg font-extrabold leading-tight">🌿 Chợ Nông Sản Việt</Link>
+        <Link to="/" className="text-lg font-extrabold leading-tight">🌿 Chợ Xanh Việt</Link>
         <nav className="ml-auto hidden gap-1 md:flex">
           {NAV.map((n) => (
             <Link key={n.to} to={n.to} className="rounded-lg px-3 py-2 font-medium hover:bg-primary-foreground/15" activeProps={{ className: "bg-primary-foreground/20" }} activeOptions={{ exact: n.to === "/" }}>
