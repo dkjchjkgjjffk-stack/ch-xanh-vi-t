@@ -106,7 +106,6 @@ export type Database = {
           product_id: string | null
           qty: number
           seller_id: string | null
-          created_at: string
         }
         Insert: {
           id?: string
@@ -116,7 +115,6 @@ export type Database = {
           product_id?: string | null
           qty: number
           seller_id?: string | null
-          created_at?: string
         }
         Update: {
           id?: string
@@ -126,7 +124,6 @@ export type Database = {
           product_id?: string | null
           qty?: number
           seller_id?: string | null
-          created_at?: string
         }
         Relationships: [
           {
@@ -142,7 +139,6 @@ export type Database = {
         Row: {
           address: string
           buyer_id: string
-          buyer_note: string
           created_at: string
           full_name: string
           id: string
@@ -151,12 +147,10 @@ export type Database = {
           phone: string
           status: string
           total: number
-          updated_at: string
         }
         Insert: {
           address: string
           buyer_id: string
-          buyer_note?: string
           created_at?: string
           full_name: string
           id?: string
@@ -164,13 +158,11 @@ export type Database = {
           payment_status?: string
           phone: string
           status?: string
-          total?: number
-          updated_at?: string
+          total: number
         }
         Update: {
           address?: string
           buyer_id?: string
-          buyer_note?: string
           created_at?: string
           full_name?: string
           id?: string
@@ -179,7 +171,6 @@ export type Database = {
           phone?: string
           status?: string
           total?: number
-          updated_at?: string
         }
         Relationships: []
       }
@@ -349,7 +340,6 @@ export type Database = {
           _full_name: string
           _items: Json
           _phone: string
-          _buyer_note?: string
         }
         Returns: string
       }
