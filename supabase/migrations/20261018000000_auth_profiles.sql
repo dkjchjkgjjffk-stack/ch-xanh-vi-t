@@ -85,10 +85,21 @@ begin
 end;
 $$;
 
-drop trigger if exists on_auth_user_created on auth.users;
-create trigger on_auth_user_created
-  after insert on auth.users
-  for each row execute procedure public.handle_new_user();
+-- Use a project-specific trigger name and never replace an existing project trigger.
+do $
+begin
+  if not exists (
+    select 1
+    from pg_trigger
+    where tgname = 'on_auth_user_created_choxanhviet'
+      and tgrelid = 'auth.users'::regclass
+      and not tgisinternal
+  ) then
+    create trigger on_auth_user_created_choxanhviet
+      after insert on auth.users
+      for each row execute procedure public.handle_new_user();
+  end if;
+end $;
 
 comment on table public.profiles is 'Thông tin hồ sơ do chính người dùng quản lý; không chứa mật khẩu.';
 comment on table public.user_roles is 'Vai trò do backend quản lý. Không cấp quyền INSERT/UPDATE/DELETE cho người dùng thông thường.';
