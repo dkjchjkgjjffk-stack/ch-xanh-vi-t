@@ -105,6 +105,27 @@ function AccountPage() {
     }
   };
 
+  const sendReset = async () => {
+    setError("");
+    setNotice("");
+    if (!email.trim()) {
+      setError("Nhập email của bạn vào ô Email rồi bấm lại nút Quên mật khẩu.");
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+      if (resetError) throw resetError;
+      setNotice("Đã gửi email đặt lại mật khẩu. Hãy mở thư và bấm liên kết trong thư.");
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : "Không gửi được email đặt lại mật khẩu. Vui lòng thử lại.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   const signOut = async () => {
     setError("");
     setNotice("");
@@ -171,6 +192,11 @@ function AccountPage() {
               <button type="submit" className="btn-primary w-full" disabled={submitting || loading}>
                 {submitting ? "Đang xử lý…" : mode === "login" ? "Đăng nhập" : "Tạo tài khoản"}
               </button>
+              {mode === "login" && (
+                <button type="button" onClick={() => void sendReset()} disabled={submitting} className="w-full text-center text-sm font-semibold text-primary underline underline-offset-4">
+                  Quên mật khẩu? Gửi email đặt lại
+                </button>
+              )}
             </form>
 
             <p className="text-xs leading-relaxed text-muted-foreground">Không chia sẻ mật khẩu với người khác. Chợ Xanh Việt không yêu cầu bạn gửi mật khẩu qua điện thoại hoặc tin nhắn.</p>
