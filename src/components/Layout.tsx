@@ -8,6 +8,7 @@ const NAV = [
   { to: "/cho", label: "Chợ nông sản", icon: "🌾" },
   { to: "/bang-gia", label: "Bảng giá", icon: "📊" },
   { to: "/gio-hang", label: "Giỏ hàng", icon: "🧺" },
+  { to: "/don-hang", label: "Đơn hàng", icon: "📦" },
   { to: "/tai-khoan", label: "Tài khoản", icon: "👤" },
 ] as const;
 
@@ -37,7 +38,7 @@ export function Header() {
 export function BottomNav() {
   const { count } = useCart();
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-6 border-t bg-card pb-[env(safe-area-inset-bottom)] md:hidden" aria-label="Điều hướng trên điện thoại">
+    <nav className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-7 border-t bg-card pb-[env(safe-area-inset-bottom)] md:hidden" aria-label="Điều hướng trên điện thoại">
       {NAV.map((n) => (
         <Link key={n.to} to={n.to} className="relative flex min-w-0 flex-col items-center py-2 text-[10px] font-medium text-muted-foreground sm:text-xs" activeProps={{ className: "text-primary" }} activeOptions={{ exact: n.to === "/" }}>
           <span className="text-xl sm:text-2xl" aria-hidden="true">{n.icon}</span>
