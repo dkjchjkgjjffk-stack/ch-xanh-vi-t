@@ -1,7 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Search, X } from "lucide-react";
-import { CROPS, LISTINGS, PROVINCES } from "@/data/sample";
+import { CROPS, LISTINGS, PROVINCES, type Listing } from "@/data/sample";
+import { supabase } from "@/integrations/supabase/client";
 import { Page, SampleNotice } from "@/components/Layout";
 import { ListingCard } from "@/components/Cards";
 
@@ -30,6 +31,44 @@ function Market() {
   const s = Route.useSearch();
   const nav = useNavigate({ from: "/cho/" });
   const [query, setQuery] = useState("");
+  const [liveListings, setLiveListings] = useState<Listing[]>([]);
+  const [loadingLive, setLoadingLive] = useState(true);
+  const [liveUnavailable, setLiveUnavailable] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    void supabase
+      .from("listings")
+      .select("id,type,title,crop,icon,quantity,price_text,province,contact_name,phone,description,created_at")
+      .eq("status", "approved")
+      .eq("is_sample", false)
+      .order("created_at", { ascending: false })
+      .then(({ data, error }) => {
+        if (!active) return;
+        if (error) {
+          setLiveUnavailable(true);
+          setLiveListings([]);
+        } else {
+          setLiveListings((data ?? []).map((row) => ({
+            id: row.id,
+            type: row.type === "mua" ? "mua" : "ban",
+            title: row.title,
+            crop: row.crop,
+            icon: row.icon || "🌾",
+            quantity: row.quantity,
+            price: row.price_text,
+            province: row.province,
+            contactName: row.contact_name,
+            phone: row.phone,
+            description: row.description,
+            postedAt: row.created_at,
+          })));
+          setLiveUnavailable(false);
+        }
+        setLoadingLive(false);
+      });
+    return () => { active = false; };
+  }, []);
   const set = (k: keyof S, v: string) => {
     const n: S = { ...s };
     if (v) n[k] = v;
@@ -37,7 +76,8 @@ function Market() {
     nav({ search: n });
   };
   const normalizedQuery = query.trim().toLocaleLowerCase("vi");
-  const items = LISTINGS.filter((l) =>
+  const allListings = [...liveListings, ...LISTINGS];
+  const items = allListings.filter((l) =>
     (!s.loai || l.type === s.loai) &&
     (!s.nongsan || l.crop === s.nongsan) &&
     (!s.tinh || l.province === s.tinh) &&
@@ -51,7 +91,7 @@ function Market() {
 
   return (
     <Page title="Chợ nông sản">
-      <SampleNotice>Các tin đang hiển thị là TIN MẪU để xem thử giao diện, chưa phải tin mua bán thật. Tin đăng mới cần tài khoản và sẽ chờ kiểm duyệt trước khi công khai.</SampleNotice>
+      <SampleNotice>Tin có nhãn “Tin mẫu” chỉ dùng minh họa. Tin thật chỉ xuất hiện sau khi được duyệt; hãy xác minh thông tin người bán trước khi giao dịch.</SampleNotice>
       <a href="/dang-tin" className="btn-primary w-full text-center">＋ Đăng tin bán / thu mua nông sản</a>
       <label htmlFor="market-search" className="font-semibold">Tìm tin bán hoặc thu mua</label>
       <div className="relative">
@@ -73,9 +113,10 @@ function Market() {
         </select>
       </div>
       <div className="flex items-center justify-between gap-3">
-        <p className="text-muted-foreground">Tìm thấy <strong>{items.length}</strong> tin mẫu</p>
+        <p className="text-muted-foreground">Tìm thấy <strong>{items.length}</strong> tin{loadingLive ? " · đang tải tin thật…" : ""}</p>
         {hasFilters && <button type="button" onClick={clearFilters} className="text-sm font-semibold text-primary underline underline-offset-4">Xóa bộ lọc</button>}
       </div>
+      {liveUnavailable && <p className="rounded-lg bg-warning p-3 text-sm text-warning-foreground">Chưa tải được tin thật từ cơ sở dữ liệu. Các tin mẫu bên dưới chỉ để xem giao diện.</p>}
       {items.length === 0 ? (
         <div className="card px-4 py-10 text-center">
           <div className="text-4xl">🔎</div>
@@ -83,7 +124,14 @@ function Market() {
           <p className="mt-1 text-sm text-muted-foreground">Thử từ khóa hoặc địa phương khác nhé.</p>
           <button type="button" onClick={clearFilters} className="btn-outline mt-4">Xem tất cả tin</button>
         </div>
-      ) : <div className="grid gap-3 md:grid-cols-2">{items.map((l) => <ListingCard key={l.id} l={l} />)}</div>}
+      ) : <div className="grid gap-3 md:grid-cols-2">{items.map((l) => (
+        <div key={l.id} className="space-y-1">
+          {liveListings.some((live) => live.id === l.id)
+            ? <p className="px-1 text-xs font-semibold text-success">TIN ĐÃ DUYỆT</p>
+            : <p className="px-1 text-xs font-semibold text-muted-foreground">TIN MẪU</p>}
+          <ListingCard l={l} />
+        </div>
+      ))}</div>}
     </Page>
   );
 }
