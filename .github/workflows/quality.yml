@@ -1,0 +1,31 @@
+name: Kiểm tra chất lượng
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Lint, test và build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lấy mã nguồn
+        uses: actions/checkout@v4
+      - name: Cài Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Cài dependencies
+        run: bun install --frozen-lockfile
+      - name: Kiểm tra lint
+        run: bun run lint
+      - name: Chạy kiểm thử
+        run: bun run test
+      - name: Build production
+        run: bun run build
