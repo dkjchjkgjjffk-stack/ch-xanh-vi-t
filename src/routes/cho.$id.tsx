@@ -1,7 +1,59 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { LISTINGS, type Listing } from "@/data/sample";
 import { supabase } from "@/integrations/supabase/client";
 import { Page, SampleNotice } from "@/components/Layout";
+
+function FavoriteButton({ listingId }: { listingId: string }) {
+  const [userId, setUserId] = useState<string | null>(null);
+  const [saved, setSaved] = useState(false);
+  const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    void supabase.auth.getUser().then(async ({ data }) => {
+      if (!active || !data.user) return;
+      setUserId(data.user.id);
+      const { data: fav } = await supabase
+        .from("favorites")
+        .select("listing_id")
+        .eq("user_id", data.user.id)
+        .eq("listing_id", listingId)
+        .maybeSingle();
+      if (active) setSaved(Boolean(fav));
+    });
+    return () => { active = false; };
+  }, [listingId]);
+
+  if (!userId) {
+    return <Link to="/tai-khoan" className="btn-outline w-full">♡ Đăng nhập để lưu tin yêu thích</Link>;
+  }
+
+  const toggle = async () => {
+    setBusy(true);
+    try {
+      if (saved) {
+        const { error } = await supabase.from("favorites").delete().eq("user_id", userId).eq("listing_id", listingId);
+        if (error) throw error;
+        setSaved(false);
+      } else {
+        const { error } = await supabase.from("favorites").insert({ user_id: userId, listing_id: listingId });
+        if (error) throw error;
+        setSaved(true);
+      }
+    } catch {
+      // giữ nguyên trạng thái nếu lỗi
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <button type="button" onClick={() => void toggle()} disabled={busy} className={saved ? "btn-primary w-full" : "btn-outline w-full"} aria-pressed={saved}>
+      {busy ? "Đang lưu…" : saved ? "♥ Đã lưu vào tin yêu thích" : "♡ Lưu tin yêu thích"}
+    </button>
+  );
+}
 
 export const Route = createFileRoute("/cho/$id")({
   loader: async ({ params }) => {
