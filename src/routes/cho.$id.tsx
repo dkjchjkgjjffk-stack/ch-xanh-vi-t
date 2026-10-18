@@ -10,7 +10,7 @@ export const Route = createFileRoute("/cho/$id")({
   },
   head: ({ loaderData }) => ({
     meta: [
-      { title: `${loaderData?.title ?? "Tin đăng"} — Chợ Nông Sản Việt` },
+      { title: `${loaderData?.title ?? "Tin đăng"} — Chợ Xanh Việt` },
       { name: "description", content: loaderData ? `${loaderData.crop} · ${loaderData.quantity} · ${loaderData.province}` : "Chi tiết tin đăng" },
       { property: "og:title", content: loaderData?.title ?? "Tin đăng" },
       { property: "og:description", content: loaderData ? `${loaderData.crop} tại ${loaderData.province}` : "Chi tiết tin đăng" },
