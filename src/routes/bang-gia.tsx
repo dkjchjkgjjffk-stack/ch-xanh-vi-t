@@ -6,7 +6,7 @@ import { Page, SampleNotice } from "@/components/Layout";
 export const Route = createFileRoute("/bang-gia")({
   head: () => ({
     meta: [
-      { title: "Bảng giá nông sản theo địa phương — Chợ Nông Sản Việt" },
+      { title: "Bảng giá nông sản theo địa phương — Chợ Xanh Việt" },
       { name: "description", content: "Bảng giá nông sản theo ngày và địa phương, cập nhật bởi quản trị viên kèm nguồn." },
       { property: "og:title", content: "Bảng giá nông sản" },
       { property: "og:description", content: "Giá nông sản theo ngày và địa phương." },
