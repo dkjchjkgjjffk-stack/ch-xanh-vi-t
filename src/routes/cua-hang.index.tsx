@@ -12,7 +12,7 @@ export const Route = createFileRoute("/cua-hang/")({
   },
   head: () => ({
     meta: [
-      { title: "Cửa hàng vật tư nông nghiệp — Chợ Nông Sản Việt" },
+      { title: "Cửa hàng vật tư nông nghiệp — Chợ Xanh Việt" },
       { name: "description", content: "Phân bón, thuốc bảo vệ thực vật, dụng cụ và vật tư nông nghiệp." },
       { property: "og:title", content: "Cửa hàng vật tư nông nghiệp" },
       { property: "og:description", content: "Phân bón, thuốc BVTV, dụng cụ và vật tư." },
@@ -23,7 +23,14 @@ export const Route = createFileRoute("/cua-hang/")({
 
 function Shop() {
   const { q, dm } = Route.useSearch();
-  const items = PRODUCTS.filter((p) => (!dm || p.category === dm) && (!q || p.name.toLowerCase().includes(q.toLowerCase())));
+  const normalizedQuery = q?.trim().toLocaleLowerCase("vi");
+  const items = PRODUCTS.filter((p) => {
+    const categoryName = CATEGORIES.find((c) => c.id === p.category)?.name ?? "";
+    const searchable = [p.name, p.description, p.manufacturer, p.registration, p.seller.name, p.seller.address, categoryName]
+      .join(" ")
+      .toLocaleLowerCase("vi");
+    return (!dm || p.category === dm) && (!normalizedQuery || searchable.includes(normalizedQuery));
+  });
   return (
     <Page title="Cửa hàng vật tư">
       <SampleNotice />
