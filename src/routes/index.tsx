@@ -7,9 +7,9 @@ import { ProductCard, ListingCard } from "@/components/Cards";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Chợ Nông Sản Việt — Vật tư & nông sản" },
-      { name: "description", content: "Mua vật tư nông nghiệp, đăng tin bán và thu mua nông sản trên Chợ Nông Sản Việt." },
-      { property: "og:title", content: "Chợ Nông Sản Việt" },
+      { title: "Chợ Xanh Việt — Vật tư & nông sản" },
+      { name: "description", content: "Mua vật tư nông nghiệp, đăng tin bán và thu mua nông sản trên Chợ Xanh Việt." },
+      { property: "og:title", content: "Chợ Xanh Việt" },
       { property: "og:description", content: "Vật tư nông nghiệp, chợ nông sản và bảng giá." },
     ],
   }),
