@@ -92,6 +92,7 @@ function Cart() {
         _phone: phone.trim(),
         _address: address.trim(),
         _items: lines.map(({ p, q }) => ({ id: p.id, qty: q })),
+        _buyer_note: note.trim(),
       });
       if (orderError) throw orderError;
       setOrderId(String(newOrder));
@@ -132,7 +133,7 @@ function Cart() {
             <label className="block space-y-1"><span className="text-sm font-semibold">Số điện thoại *</span><input className="field" required inputMode="tel" autoComplete="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="Số điện thoại liên hệ" /></label>
             <label className="block space-y-1"><span className="text-sm font-semibold">Địa chỉ giao hàng *</span><textarea className="field min-h-24" required minLength={5} maxLength={500} autoComplete="street-address" value={address} onChange={e => setAddress(e.target.value)} placeholder="Số nhà, thôn/xã, huyện, tỉnh" /></label>
             <label className="block space-y-1"><span className="text-sm font-semibold">Ghi chú (không bắt buộc)</span><textarea className="field min-h-20" maxLength={1000} value={note} onChange={e => setNote(e.target.value)} placeholder="Thời gian nhận hàng hoặc yêu cầu khác" /></label>
-            <p className="rounded-lg bg-secondary p-3 text-sm">Phương thức mặc định: thanh toán khi nhận hàng hoặc xác nhận trực tiếp với người bán. Cổng thanh toán trực tuyến chưa được kết nối. {note.trim() ? "Ghi chú của bạn sẽ được giữ ở biểu mẫu này trong bản hiện tại." : ""}</p>
+            <p className="rounded-lg bg-secondary p-3 text-sm">Phương thức mặc định: thanh toán khi nhận hàng hoặc xác nhận trực tiếp với người bán. Cổng thanh toán trực tuyến chưa được kết nối.</p>
             <button type="submit" className="btn-primary w-full" disabled={busy || loading || sampleInCart}>{busy ? "Đang gửi đơn…" : "Gửi đơn đặt hàng"}</button>
           </form>}
         </section>
