@@ -103,12 +103,13 @@ npm run dev
 
 - **Đã có giao diện:** trang chủ, cửa hàng vật tư, chi tiết sản phẩm, giỏ hàng trên trình duyệt, chợ mua/bán, chi tiết tin đăng và bảng giá.
 - **Đã có thao tác phía trình duyệt:** tìm kiếm/lọc tin chợ và lưu giỏ hàng cục bộ trên thiết bị.
-- **Chưa vận hành thật:** đăng ký/đăng nhập người dùng, đăng tin lên máy chủ, quản lý sản phẩm của người bán, đơn hàng, thanh toán, trang quản trị và cập nhật bảng giá từ cơ sở dữ liệu.
+- **Tài khoản:** đã thêm giao diện đăng ký/đăng nhập qua Supabase Auth. Muốn dùng thật, cần cấu hình biến môi trường Supabase và áp dụng migration `supabase/migrations/20261018000000_auth_profiles.sql`; chưa có hồ sơ người bán, quản lý tin, đơn hàng, thanh toán hay trang quản trị hoàn chỉnh.
+- **Chưa vận hành thật:** đăng tin lên máy chủ, quản lý sản phẩm của người bán, đơn hàng, thanh toán, trang quản trị và cập nhật bảng giá từ cơ sở dữ liệu.
 - **Không được xem nhãn “đã xác minh” là có thật** nếu chưa tích hợp nguồn kiểm chứng độc lập và quy trình duyệt.
 - **Kiểm tra tự động:** GitHub Actions chạy lint, test và build khi có commit lên `main` hoặc mở pull request.
 
 ### Điều kiện để đưa vào sử dụng thật
 
-Cần kết nối một dự án Supabase do chủ dự án kiểm soát, thiết lập biến môi trường chỉ chứa khóa công khai ở phía trình duyệt, tạo bảng dữ liệu và chính sách Row Level Security (RLS), rồi triển khai ứng dụng trên một nền tảng hỗ trợ TanStack Start/SSR. Không đưa `service_role`, mật khẩu cơ sở dữ liệu hoặc bí mật máy chủ vào mã nguồn hay biến `VITE_*`.
+Cần kết nối một dự án Supabase do chủ dự án kiểm soát, thiết lập biến môi trường chỉ chứa khóa công khai ở phía trình duyệt, áp dụng các migration trong thư mục `supabase/migrations`, hoàn thiện bảng dữ liệu và chính sách Row Level Security (RLS) cho các nghiệp vụ còn lại, rồi triển khai ứng dụng trên một nền tảng hỗ trợ TanStack Start/SSR. Không đưa `service_role`, mật khẩu cơ sở dữ liệu hoặc bí mật máy chủ vào mã nguồn hay biến `VITE_*`.
 
 Không nhận đơn hàng, thanh toán hoặc thu thập dữ liệu liên hệ thật cho đến khi backend, phân quyền và quy trình bảo vệ dữ liệu được kiểm thử.
