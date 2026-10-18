@@ -2,7 +2,8 @@
 alter table public.listings enable row level security;
 
 revoke all on public.listings from anon;
-grant select, insert, update, delete on public.listings to authenticated;
+grant select on public.listings to anon, authenticated;
+grant insert, update, delete on public.listings to authenticated;
 
 drop policy if exists "Published listings are visible" on public.listings;
 create policy "Published listings are visible"
