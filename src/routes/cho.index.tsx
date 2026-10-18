@@ -17,7 +17,7 @@ export const Route = createFileRoute("/cho/")({
   },
   head: () => ({
     meta: [
-      { title: "Chợ nông sản — Tin bán và thu mua | Chợ Nông Sản Việt" },
+      { title: "Chợ nông sản — Tin bán và thu mua | Chợ Xanh Việt" },
       { name: "description", content: "Tin bán nông sản của nông dân và nhu cầu thu mua, lọc theo loại hàng và tỉnh thành." },
       { property: "og:title", content: "Chợ nông sản" },
       { property: "og:description", content: "Tin bán và thu mua nông sản theo tỉnh thành." },
