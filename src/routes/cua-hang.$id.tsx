@@ -1,36 +1,51 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
-import { CATEGORIES, PRODUCTS, vnd } from "@/data/sample";
+import { CATEGORIES, PRODUCTS, type Product, vnd } from "@/data/sample";
+import { supabase } from "@/integrations/supabase/client";
 import { Page, SampleNotice } from "@/components/Layout";
 import { VerifyBadge } from "@/components/Cards";
 import { useCart } from "@/lib/cart";
 
 export const Route = createFileRoute("/cua-hang/$id")({
-  loader: ({ params }) => {
-    const p = PRODUCTS.find((x) => x.id === params.id);
-    if (!p) throw notFound();
-    return p;
+  loader: async ({ params }) => {
+    const sample = PRODUCTS.find((x) => x.id === params.id);
+    if (sample) return { product: sample, isSample: true };
+
+    const { data, error } = await supabase.from("products")
+      .select("id,name,category,price,unit,description,icon,manufacturer,registration,seller_name,seller_phone,seller_address,verify_status,status,is_sample")
+      .eq("id", params.id).eq("status", "approved").eq("is_sample", false).maybeSingle();
+    if (error || !data) throw notFound();
+
+    const product: Product = {
+      id: data.id, name: data.name, category: data.category as Product["category"],
+      price: Number(data.price), unit: data.unit, icon: data.icon || "📦",
+      description: data.description || "", manufacturer: data.manufacturer || "Người bán chưa cung cấp",
+      registration: data.registration || "Chưa cung cấp",
+      verify: data.verify_status as Product["verify"],
+      seller: { name: data.seller_name, phone: data.seller_phone, address: data.seller_address || "" },
+    };
+    return { product, isSample: false };
   },
   head: ({ loaderData }) => ({
     meta: [
-      { title: `${loaderData?.name ?? "Sản phẩm"} — Chợ Xanh Việt` },
-      { name: "description", content: loaderData?.description ?? "Chi tiết sản phẩm" },
-      { property: "og:title", content: loaderData?.name ?? "Sản phẩm" },
-      { property: "og:description", content: loaderData?.description ?? "Chi tiết sản phẩm" },
+      { title: `${loaderData?.product.name ?? "Sản phẩm"} — Chợ Xanh Việt` },
+      { name: "description", content: loaderData?.product.description ?? "Chi tiết sản phẩm" },
+      { property: "og:title", content: loaderData?.product.name ?? "Sản phẩm" },
+      { property: "og:description", content: loaderData?.product.description ?? "Chi tiết sản phẩm" },
     ],
   }),
   component: Detail,
 });
 
 function Detail() {
-  const p = Route.useLoaderData();
+  const { product: p, isSample } = Route.useLoaderData();
   const { add } = useCart();
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
   return (
     <Page>
       <Link to="/cua-hang" className="font-semibold text-primary">← Cửa hàng</Link>
-      <SampleNotice />
+      {isSample ? <SampleNotice>Sản phẩm này chỉ là dữ liệu mẫu để xem giao diện, không phải hàng bán thật.</SampleNotice> : <p className="rounded-lg bg-success/10 p-3 text-sm text-success">Sản phẩm đã được duyệt đăng. Thông tin do người bán khai chưa được xác minh độc lập.</p>}
       <div className="grid gap-4 md:grid-cols-2">
         <div className="card flex aspect-square items-center justify-center bg-secondary text-9xl">{p.icon}</div>
         <div className="space-y-3">
