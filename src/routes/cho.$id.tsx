@@ -62,7 +62,7 @@ export const Route = createFileRoute("/cho/$id")({
 
     const { data, error } = await supabase
       .from("listings")
-      .select("id,type,title,crop,icon,quantity,price_text,province,contact_name,phone,description,created_at")
+      .select("id,type,title,crop,icon,quantity,price_text,province,contact_name,phone,description,image_url,created_at")
       .eq("id", params.id)
       .eq("status", "approved")
       .eq("is_sample", false)
@@ -70,7 +70,13 @@ export const Route = createFileRoute("/cho/$id")({
 
     if (error || !data) throw notFound();
 
-    const listing: Listing = {
+    let imageUrl: string | null = null;
+    if (data.image_url) {
+      const { data: signed } = await supabase.storage.from("images").createSignedUrl(data.image_url, 3600);
+      imageUrl = signed?.signedUrl ?? null;
+    }
+
+    const listing: Listing & { imageUrl?: string | null } = {
       id: data.id,
       type: data.type === "mua" ? "mua" : "ban",
       title: data.title,
@@ -83,6 +89,7 @@ export const Route = createFileRoute("/cho/$id")({
       phone: data.phone,
       description: data.description,
       postedAt: data.created_at,
+      imageUrl,
     };
     return { listing, isSample: false };
   },
@@ -104,7 +111,9 @@ function Detail() {
     <Page>
       <Link to="/cho" className="font-semibold text-primary">← Chợ nông sản</Link>
       {isSample ? <SampleNotice>Đây là TIN MẪU, số điện thoại không có thật.</SampleNotice> : <p className="rounded-lg bg-success/10 p-3 text-sm text-success">Tin đã được duyệt. Vẫn nên xác minh thông tin và thỏa thuận giao dịch trực tiếp.</p>}
-      <div className="card flex aspect-video items-center justify-center bg-secondary text-8xl">{l.icon}</div>
+      {"imageUrl" in l && l.imageUrl
+        ? <img src={l.imageUrl} alt={`Ảnh minh họa: ${l.title}`} className="card aspect-video w-full object-cover" loading="lazy" />
+        : <div className="card flex aspect-video items-center justify-center bg-secondary text-8xl">{l.icon}</div>}
       <span className={`chip ${l.type === "ban" ? "bg-success text-success-foreground" : "bg-warning text-warning-foreground"}`}>{l.type === "ban" ? "Cần bán" : "Cần mua"}</span>
       <h1 className="text-2xl font-bold">{l.title}</h1>
       <dl className="card divide-y">
@@ -117,6 +126,7 @@ function Detail() {
         <a href={`tel:${l.phone.replace(/\s/g, "")}`} className="btn-primary w-full">📞 Gọi {l.phone}</a>
         <a href={`https://zalo.me/${l.phone.replace(/\s/g, "")}`} target="_blank" rel="noreferrer" className="btn-outline w-full">💬 Nhắn Zalo</a>
       </section>
+      {!isSample && <FavoriteButton listingId={l.id} />}
     </Page>
   );
 }
