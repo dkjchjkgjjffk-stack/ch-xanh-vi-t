@@ -93,7 +93,7 @@ function Prices() {
                 </div>
                 <p className="shrink-0 text-right font-bold text-primary">{vnd(Number(r.price))}<span className="block text-xs font-normal text-muted-foreground">/{r.unit}</span></p>
               </div>
-              <div className="text-xs text-muted-foreground">Ngày giá: {r.price_date} · Nguồn: {(() => { const match = r.source.match(/https?:\\/\\/[^\\s]+/); const sourceName = r.source.split(" — ")[0]; return match ? <a className="break-words underline underline-offset-2" href={match[0]} target="_blank" rel="noreferrer">{sourceName}</a> : <span className="break-words">{r.source}</span>; })()}</div>
+              <div className="text-xs text-muted-foreground">Ngày giá: {r.price_date} · Nguồn: {(() => { const match = r.source.match(/https?:\/\/[^\s]+/); const sourceName = r.source.split(" — ")[0]; return match ? <a className="break-words underline underline-offset-2" href={match[0]} target="_blank" rel="noreferrer">{sourceName}</a> : <span className="break-words">{r.source}</span>; })()}</div>
             </article>
           ))}
         </div>
