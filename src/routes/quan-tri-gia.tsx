@@ -13,6 +13,15 @@ type CropPrice = {
   price_date: string;
   source: string;
 };
+function sourceUrl(source: string): string | null {
+  const match = source.match(/https?:\\/\\/\\S+/);
+  return match?.[0] ?? null;
+}
+
+function sourceLabel(source: string) {
+  return source.split(" — ")[0];
+}
+
 
 export const Route = createFileRoute("/quan-tri-gia")({
   head: () => ({
