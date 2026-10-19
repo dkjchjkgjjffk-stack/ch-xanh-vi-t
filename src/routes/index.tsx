@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import hero from "@/assets/hero.jpg";
 import { CATEGORIES, LISTINGS, PRODUCTS } from "@/data/sample";
-import { Page, SampleNotice } from "@/components/Layout";
+import { Page } from "@/components/Layout";
 import { ProductCard, ListingCard } from "@/components/Cards";
 
 export const Route = createFileRoute("/")({
@@ -28,7 +28,22 @@ function Index() {
         </div>
       </section>
       <Page>
-        <SampleNotice>Phiên bản thử nghiệm: toàn bộ sản phẩm và tin đăng hiện tại là DỮ LIỆU MẪU.</SampleNotice>
+        <section className="overflow-hidden rounded-2xl border border-primary/20 bg-gradient-to-r from-primary/10 via-card to-card p-4 shadow-sm sm:p-5">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-start gap-3">
+              <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary text-2xl text-primary-foreground">📈</div>
+              <div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <h2 className="font-bold">Bảng giá nông sản đang vận hành</h2>
+                  <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-300"><span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />Tự động cập nhật mỗi ngày</span>
+                </div>
+                <p className="mt-1 text-sm text-muted-foreground">Theo dõi giá cà phê, hồ tiêu mới nhất cùng ngày cập nhật và nguồn tham khảo.</p>
+              </div>
+            </div>
+            <Link to="/bang-gia" className="btn-primary shrink-0 text-center">Xem bảng giá →</Link>
+          </div>
+          <p className="mt-3 border-t border-border/70 pt-3 text-xs text-muted-foreground">Lưu ý: sản phẩm và tin mua bán bên dưới hiện là dữ liệu minh họa. Bảng giá hiển thị theo dữ liệu và nguồn đã ghi nhận, không phải giá giao dịch trực tiếp theo từng giây.</p>
+        </section>
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
           <Link to="/cua-hang" className="card p-4 text-center"><div className="text-4xl">🛒</div><div className="mt-1 font-bold">Cửa hàng vật tư</div></Link>
           <Link to="/cho" className="card p-4 text-center"><div className="text-4xl">🌾</div><div className="mt-1 font-bold">Chợ nông sản</div></Link>
