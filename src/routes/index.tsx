@@ -23,7 +23,7 @@ function Index() {
   useEffect(() => {
     let active = true;
     void supabase.from("products")
-      .select("id,name,category,price,unit,description,icon,image_url,manufacturer,registration,seller_name,seller_phone,seller_address,verify_status")
+      .select("id,name,category,price,price_on_request,unit,description,icon,image_url,manufacturer,registration,seller_name,seller_phone,seller_address,verify_status")
       .eq("status", "approved").eq("is_sample", false)
       .order("created_at", { ascending: false }).limit(4)
       .then(async ({ data }) => {
@@ -36,7 +36,7 @@ function Index() {
           }
           return {
             id: row.id, name: row.name, category: row.category as Product["category"],
-            price: Number(row.price), unit: row.unit, icon: row.icon || "📦", imageUrl,
+            price: Number(row.price), priceOnRequest: row.price_on_request, unit: row.unit, icon: row.icon || "📦", imageUrl,
             description: row.description || "", manufacturer: row.manufacturer || "Người bán chưa cung cấp",
             registration: row.registration || "Chưa cung cấp", verify: row.verify_status as Product["verify"],
             seller: { name: row.seller_name, phone: row.seller_phone, address: row.seller_address || "" },
