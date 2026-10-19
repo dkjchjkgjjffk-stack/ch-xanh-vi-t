@@ -140,7 +140,7 @@ function PriceAdmin() {
 
   return (
     <Page title="Quản trị · Bảng giá">
-      <SampleNotice>Chỉ tài khoản quản trị mới được nhập hoặc xóa giá. Mỗi giá bắt buộc có ngày và nguồn tham khảo; không nhập giá ước đoán như thể là giá đã xác minh.</SampleNotice>
+      <SampleNotice>Hệ thống tự đồng bộ giá cà phê và hồ tiêu mỗi ngày lúc 08:00 (giờ Việt Nam) từ Giacaphe.com và Giatieu.com. Quản trị viên vẫn có thể bổ sung mặt hàng khác bằng nguồn và ngày giá đã xác minh; không nhập giá ước đoán.</SampleNotice>
       {checking ? <div className="card p-5 text-center" role="status">Đang kiểm tra quyền truy cập…</div> : !authorized ? (
         <section className="card space-y-3 p-5">
           <h2 className="text-lg font-bold">Không có quyền quản trị</h2>
@@ -170,7 +170,7 @@ function PriceAdmin() {
             <div className="flex items-center justify-between gap-3"><h2 className="text-lg font-bold">Giá đã đăng</h2><button type="button" className="btn-outline" onClick={() => void loadPrices().catch((caught) => setError(caught instanceof Error ? caught.message : "Không tải được giá."))}>Làm mới</button></div>
             {rows.length === 0 ? <div className="card p-5 text-center text-sm text-muted-foreground">Chưa có dòng giá nào.</div> : rows.map((row) => (
               <article key={row.id} className="card flex items-start justify-between gap-3 p-3">
-                <div className="min-w-0 space-y-1"><h3 className="font-semibold">{row.crop} · {row.province}</h3><p className="font-bold text-primary">{Number(row.price).toLocaleString("vi-VN")} đ/{row.unit}</p><p className="text-xs text-muted-foreground">Ngày: {row.price_date} · Nguồn: {row.source}</p></div>
+                <div className="min-w-0 space-y-1"><h3 className="font-semibold">{row.crop} · {row.province}</h3><p className="font-bold text-primary">{Number(row.price).toLocaleString("vi-VN")} đ/{row.unit}</p><p className="text-xs text-muted-foreground">Ngày: {row.price_date} · Nguồn: {(() => { const match = row.source.match(/https?:\\/\\/[^\\s]+/); const sourceName = row.source.split(" — ")[0]; return match ? <a className="underline underline-offset-2" href={match[0]} target="_blank" rel="noreferrer">{sourceName}</a> : row.source; })()}</p></div>
                 <button type="button" className="btn-outline shrink-0" onClick={() => void deletePrice(row.id)}>Xóa</button>
               </article>
             ))}
