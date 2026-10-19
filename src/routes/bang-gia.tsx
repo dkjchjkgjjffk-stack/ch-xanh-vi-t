@@ -62,7 +62,7 @@ function Prices() {
     <Page title="Bảng giá nông sản">
       <div className="card space-y-2 p-4">
         <p className="font-semibold">Giá tham khảo có ngày và nguồn</p>
-        <p className="text-sm text-muted-foreground">Giá do quản trị viên cập nhật kèm nguồn tham khảo; giá giao dịch thực tế có thể khác theo chất lượng, sản lượng và thời điểm. Hãy xác nhận lại với bên mua/bán trước khi giao dịch.</p>
+        <p className="text-sm text-muted-foreground">Giá cà phê và hồ tiêu được tự động đồng bộ mỗi ngày từ các website chuyên ngành, kèm ngày giá và liên kết nguồn. Giá giao dịch thực tế có thể khác theo chất lượng, sản lượng và thời điểm; hãy xác nhận với bên mua/bán trước khi giao dịch.</p>
       </div>
       <label className="block space-y-1">
         <span className="text-sm font-semibold">Lọc theo địa phương</span>
@@ -93,7 +93,7 @@ function Prices() {
                 </div>
                 <p className="shrink-0 text-right font-bold text-primary">{vnd(Number(r.price))}<span className="block text-xs font-normal text-muted-foreground">/{r.unit}</span></p>
               </div>
-              <div className="text-xs text-muted-foreground">Ngày giá: {r.price_date} · Nguồn: <span className="break-words">{r.source}</span></div>
+              <div className="text-xs text-muted-foreground">Ngày giá: {r.price_date} · Nguồn: {(() => { const match = r.source.match(/https?:\\/\\/[^\\s]+/); const sourceName = r.source.split(" — ")[0]; return match ? <a className="break-words underline underline-offset-2" href={match[0]} target="_blank" rel="noreferrer">{sourceName}</a> : <span className="break-words">{r.source}</span>; })()}</div>
             </article>
           ))}
         </div>
