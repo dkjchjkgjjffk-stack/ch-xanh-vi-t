@@ -15,6 +15,7 @@ export interface Product {
   name: string;
   category: Category;
   price: number;
+  priceOnRequest?: boolean;
   unit: string;
   icon: string;
   description: string;
