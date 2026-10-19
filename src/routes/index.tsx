@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import hero from "@/assets/hero.jpg";
-import { CATEGORIES, LISTINGS, PRODUCTS } from "@/data/sample";
+import { CATEGORIES, LISTINGS, PRODUCTS, type Product } from "@/data/sample";
+import { supabase } from "@/integrations/supabase/client";
 import { Page } from "@/components/Layout";
 import { ProductCard, ListingCard } from "@/components/Cards";
 
@@ -17,6 +19,28 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const [liveProducts, setLiveProducts] = useState<Product[]>([]);
+  useEffect(() => {
+    let active = true;
+    void supabase.from("products")
+      .select("id,name,category,price,unit,description,icon,manufacturer,registration,seller_name,seller_phone,seller_address,verify_status")
+      .eq("status", "approved").eq("is_sample", false)
+      .order("created_at", { ascending: false }).limit(4)
+      .then(({ data }) => {
+        if (!active) return;
+        setLiveProducts((data ?? []).map(row => ({
+          id: row.id, name: row.name, category: row.category as Product["category"],
+          price: Number(row.price), unit: row.unit, icon: row.icon || "📦",
+          description: row.description || "", manufacturer: row.manufacturer || "Người bán chưa cung cấp",
+          registration: row.registration || "Chưa cung cấp", verify: row.verify_status as Product["verify"],
+          seller: { name: row.seller_name, phone: row.seller_phone, address: row.seller_address || "" },
+        })));
+      });
+    return () => { active = false; };
+  }, []);
+
+  const featuredProducts = liveProducts.length ? liveProducts : PRODUCTS.slice(0, 4);
+
   return (
     <>
       <section className="relative">
@@ -38,7 +62,7 @@ function Index() {
             </div>
             <Link to="/bang-gia" className="btn-primary shrink-0 text-center">Xem bảng giá →</Link>
           </div>
-          <p className="mt-3 border-t border-border/70 pt-3 text-xs text-muted-foreground">Lưu ý: sản phẩm và tin mua bán bên dưới hiện là dữ liệu minh họa. Bảng giá hiển thị theo dữ liệu và nguồn đã ghi nhận, không phải giá giao dịch trực tiếp theo từng giây.</p>
+          <p className="mt-3 border-t border-border/70 pt-3 text-xs text-muted-foreground">Lưu ý: tin mua bán bên dưới hiện là dữ liệu minh họa. Bảng giá hiển thị theo dữ liệu và nguồn đã ghi nhận, không phải giá giao dịch trực tiếp theo từng giây.</p>
         </section>
 
         <h2 className="pt-2 text-xl font-bold">Danh mục vật tư</h2>
@@ -48,10 +72,11 @@ function Index() {
           ))}
         </div>
 
-        <div className="flex items-center justify-between pt-2"><h2 className="text-xl font-bold">Sản phẩm nổi bật</h2><Link to="/cua-hang" className="font-semibold text-primary">Xem tất cả →</Link></div>
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">{PRODUCTS.slice(0, 4).map((p) => <ProductCard key={p.id} p={p} />)}</div>
+        <div className="flex items-center justify-between pt-2"><h2 className="text-xl font-bold">{liveProducts.length ? "Sản phẩm mới đăng" : "Sản phẩm mẫu xem giao diện"}</h2><Link to="/cua-hang" className="font-semibold text-primary">Xem tất cả →</Link></div>
+        {liveProducts.length === 0 && <p className="text-sm text-muted-foreground">Chưa có sản phẩm thật được xuất bản. Các mặt hàng bên dưới chỉ để xem giao diện.</p>}
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">{featuredProducts.map((p) => <ProductCard key={p.id} p={p} />)}</div>
 
-        <div className="flex items-center justify-between pt-2"><h2 className="text-xl font-bold">Tin mới ở chợ</h2><Link to="/cho" className="font-semibold text-primary">Xem tất cả →</Link></div>
+        <div className="flex items-center justify-between pt-2"><h2 className="text-xl font-bold">Tin mới ở chợ (mẫu)</h2><Link to="/cho" className="font-semibold text-primary">Xem tất cả →</Link></div>
         <div className="grid gap-3 md:grid-cols-2">{LISTINGS.slice(0, 4).map((l) => <ListingCard key={l.id} l={l} />)}</div>
       </Page>
     </>
