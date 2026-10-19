@@ -124,14 +124,13 @@ function parseFuturesSection(html: string, market: "Robusta London" | "Arabica N
   if (!headingMatch || headingMatch.index === undefined) return [];
   const sectionStart = headingMatch.index;
   const rest = html.slice(sectionStart + headingMatch[0].length);
-  const nextHeading = rest.search(/<h[1-6]\\b/i);
+  const nextHeading = rest.search(/<h[1-6]\b/i);
   const section = html.slice(sectionStart, nextHeading >= 0 ? sectionStart + headingMatch[0].length + nextHeading : undefined);
   const rows: PriceRow[] = [];
-  for (const row of section.matchAll(/<tr\\b[^>]*>([\\s\\S]*?)<\\/tr>/gi)) {
-    const cells = [...row[1].matchAll(/<t[dh]\\b[^>]*>([\\s\\S]*?)<\\/t[dh]>/gi)]
-      .map((cell) => stripHtml(cell[1]));
-    if (cells.length < 2 || !/^\\d{2}\\/\\d{2}$/.test(cells[0])) continue;
-    const price = Number(cells[1].replace(/,/g, "").replace(/[^\\d.]/g, ""));
+  for (const row of section.matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/gi)) {
+    const cells = [...row[1].matchAll(/<t[dh]\b[^>]*>([\s\S]*?)<\/t[dh]>/gi)].map((cell) => stripHtml(cell[1]));
+    if (cells.length < 2 || !/^\d{2}\/\d{2}$/.test(cells[0])) continue;
+    const price = Number(cells[1].replace(/,/g, "").replace(/[^\d.]/g, ""));
     const isRobusta = market === "Robusta London";
     if (!Number.isFinite(price) || (isRobusta ? price < 1000 || price > 10000 : price < 100 || price > 1000)) continue;
     const contract = cells[0];
@@ -147,7 +146,6 @@ function parseFuturesSection(html: string, market: "Robusta London" | "Arabica N
   }
   return rows;
 }
-
 async function fetchSource(url: string) {")}[\\s\\S]*?<\\/h[1-6]>`, "i");
   const headingMatch = headingPattern.exec(html);
   if (!headingMatch || headingMatch.index === undefined) return [];
