@@ -12,6 +12,7 @@ type CropPrice = {
   price: number;
   price_date: string;
   source: string;
+  currency: "VND" | "USD" | "USC";
 };
 function sourceUrl(source: string): string | null {
   const separator = source.indexOf(" — ");
@@ -20,6 +21,13 @@ function sourceUrl(source: string): string | null {
 }
 function sourceLabel(source: string) {
   return source.split(" — ")[0];
+}
+
+function formatPrice(price: number, currency: string, unit: string) {
+  const amount = Number(price).toLocaleString(currency === "VND" ? "vi-VN" : "en-US", { maximumFractionDigits: 2 });
+  if (currency === "USD") return `${amount} USD/${unit}`;
+  if (currency === "USC") return `${amount} US cent/${unit}`;
+  return `${vnd(price)}/${unit}`;
 }
 
 
@@ -48,7 +56,7 @@ function Prices() {
       setError("");
       const { data, error: queryError } = await supabase
         .from("prices")
-        .select("id,crop,unit,province,price,price_date,source")
+        .select("id,crop,unit,province,price,price_date,source,currency")
         .order("price_date", { ascending: false })
         .order("province", { ascending: true })
         .order("crop", { ascending: true })
@@ -100,7 +108,7 @@ function Prices() {
                   <h2 className="font-bold">{r.crop}</h2>
                   <p className="text-sm text-muted-foreground">📍 {r.province} · đơn vị: {r.unit}</p>
                 </div>
-                <p className="shrink-0 text-right font-bold text-primary">{vnd(Number(r.price))}<span className="block text-xs font-normal text-muted-foreground">/{r.unit}</span></p>
+                <p className="shrink-0 text-right font-bold text-primary">{formatPrice(Number(r.price), r.currency ?? "VND", r.unit)}</p>
               </div>
               <div className="text-xs text-muted-foreground">Ngày giá: {r.price_date} · Nguồn: {sourceUrl(r.source) ? <a className="break-words underline underline-offset-2" href={sourceUrl(r.source) ?? undefined} target="_blank" rel="noreferrer">{sourceLabel(r.source)}</a> : <span className="break-words">{r.source}</span>}</div>
             </article>
