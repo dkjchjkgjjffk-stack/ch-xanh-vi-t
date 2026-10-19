@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      website_analytics_events: {
+        Row: {
+          id: number; visitor_id: string; session_id: string; event_type: string;
+          page_path: string; page_title: string | null; referrer_host: string | null;
+          device_type: string; browser: string; operating_system: string;
+          screen_width: number | null; screen_height: number | null; language: string | null;
+          timezone: string | null; event_label: string | null; event_data: Json; created_at: string;
+        };
+        Insert: {
+          id?: number; visitor_id: string; session_id: string; event_type: string;
+          page_path: string; page_title?: string | null; referrer_host?: string | null;
+          device_type?: string; browser?: string; operating_system?: string;
+          screen_width?: number | null; screen_height?: number | null; language?: string | null;
+          timezone?: string | null; event_label?: string | null; event_data?: Json; created_at?: string;
+        };
+        Update: {
+          id?: number; visitor_id?: string; session_id?: string; event_type?: string;
+          page_path?: string; page_title?: string | null; referrer_host?: string | null;
+          device_type?: string; browser?: string; operating_system?: string;
+          screen_width?: number | null; screen_height?: number | null; language?: string | null;
+          timezone?: string | null; event_label?: string | null; event_data?: Json; created_at?: string;
+        };
+        Relationships: [];
+      }
       admin_monitoring_events: {
         Row: {
           created_at: string
