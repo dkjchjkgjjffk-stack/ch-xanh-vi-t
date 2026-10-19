@@ -73,7 +73,7 @@ function CreateListing() {
         }
         const ext = (image.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
         imagePath = `${authData.user.id}/${Date.now()}.${ext}`;
-        const { error: uploadError } = await supabase.storage.from("images").upload(imagePath, image, { contentType: image.type || undefined });
+        const { error: uploadError } = await supabase.storage.from("images").upload(imagePath, image, image.type ? { contentType: image.type } : undefined);
         if (uploadError) throw uploadError;
       }
 

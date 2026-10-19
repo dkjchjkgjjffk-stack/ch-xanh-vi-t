@@ -106,13 +106,14 @@ export const Route = createFileRoute("/cho/$id")({
 
 function Detail() {
   const { listing: l, isSample } = Route.useLoaderData();
+  const listingImage = (l as Listing & { imageUrl?: string | null }).imageUrl ?? null;
   const rows: [string, string][] = [["Loại nông sản", l.crop], ["Số lượng", l.quantity], ["Giá dự kiến", l.price], ["Địa phương", l.province], ["Ngày đăng", new Date(l.postedAt).toLocaleDateString("vi-VN")]];
   return (
     <Page>
       <Link to="/cho" className="font-semibold text-primary">← Chợ nông sản</Link>
       {isSample ? <SampleNotice>Đây là TIN MẪU, số điện thoại không có thật.</SampleNotice> : <p className="rounded-lg bg-success/10 p-3 text-sm text-success">Tin đã được duyệt. Vẫn nên xác minh thông tin và thỏa thuận giao dịch trực tiếp.</p>}
-      {"imageUrl" in l && l.imageUrl
-        ? <img src={l.imageUrl} alt={`Ảnh minh họa: ${l.title}`} className="card aspect-video w-full object-cover" loading="lazy" />
+      {listingImage
+        ? <img src={listingImage} alt={`Ảnh minh họa: ${l.title}`} className="card aspect-video w-full object-cover" loading="lazy" />
         : <div className="card flex aspect-video items-center justify-center bg-secondary text-8xl">{l.icon}</div>}
       <span className={`chip ${l.type === "ban" ? "bg-success text-success-foreground" : "bg-warning text-warning-foreground"}`}>{l.type === "ban" ? "Cần bán" : "Cần mua"}</span>
       <h1 className="text-2xl font-bold">{l.title}</h1>

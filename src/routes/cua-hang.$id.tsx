@@ -49,13 +49,14 @@ function Detail() {
   const { add } = useCart();
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
+  const productImage = (p as Product & { imageUrl?: string | null }).imageUrl ?? null;
   return (
     <Page>
       <Link to="/cua-hang" className="font-semibold text-primary">← Cửa hàng</Link>
       {isSample ? <SampleNotice>Sản phẩm này chỉ là dữ liệu mẫu để xem giao diện, không phải hàng bán thật.</SampleNotice> : <p className="rounded-lg bg-success/10 p-3 text-sm text-success">Sản phẩm đã được duyệt đăng. Thông tin do người bán khai chưa được xác minh độc lập.</p>}
       <div className="grid gap-4 md:grid-cols-2">
-        {"imageUrl" in p && p.imageUrl
-          ? <img src={p.imageUrl} alt={`Ảnh sản phẩm: ${p.name}`} className="card aspect-square w-full object-cover" loading="lazy" />
+        {productImage
+          ? <img src={productImage} alt={`Ảnh sản phẩm: ${p.name}`} className="card aspect-square w-full object-cover" loading="lazy" />
           : <div className="card flex aspect-square items-center justify-center bg-secondary text-9xl">{p.icon}</div>}
         <div className="space-y-3">
           <div className="text-muted-foreground">{CATEGORIES.find((c) => c.id === p.category)?.name}</div>

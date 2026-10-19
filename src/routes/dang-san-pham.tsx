@@ -48,7 +48,7 @@ function SubmitProduct() {
         if (image.size > 5 * 1024 * 1024) throw new Error("Ảnh quá lớn. Vui lòng chọn ảnh nhỏ hơn 5MB.");
         const ext = (image.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
         imagePath = `${data.user.id}/${Date.now()}.${ext}`;
-        const { error: uploadError } = await supabase.storage.from("images").upload(imagePath, image, { contentType: image.type || undefined });
+        const { error: uploadError } = await supabase.storage.from("images").upload(imagePath, image, image.type ? { contentType: image.type } : undefined);
         if (uploadError) throw uploadError;
       }
       const { error: insertError } = await supabase.from("products").insert({
