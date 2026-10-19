@@ -48,3 +48,44 @@ create policy "Admins can manage customer interactions" on public.customer_inter
   with check (public.has_role((select auth.uid()), 'admin'::public.app_role));
 grant select, insert, update, delete on public.customers to authenticated;
 grant select, insert, update, delete on public.customer_interactions to authenticated;
+
+
+create schema if not exists private;
+revoke all on schema private from public, anon, authenticated;
+
+create or replace function private.sync_order_customer()
+returns trigger
+language plpgsql
+security definer
+set search_path = pg_catalog, public
+as $$
+begin
+  insert into public.customers (full_name, phone, address, customer_type, source, created_by)
+  values (new.full_name, new.phone, coalesce(new.address, ''), 'retail', 'website', new.buyer_id)
+  on conflict (phone_normalized) do nothing;
+  return new;
+end;
+$$;
+revoke all on function private.sync_order_customer() from public, anon, authenticated;
+
+drop trigger if exists sync_customer_from_order on public.orders;
+create trigger sync_customer_from_order
+after insert on public.orders
+for each row execute function private.sync_order_customer();
+
+insert into public.customers (full_name, phone, address, customer_type, source, created_by)
+select distinct on (
+  case when regexp_replace(o.phone, '[^0-9]', '', 'g') like '84%'
+    then '0' || substr(regexp_replace(o.phone, '[^0-9]', '', 'g'), 3)
+    else regexp_replace(o.phone, '[^0-9]', '', 'g') end
+) o.full_name, o.phone, coalesce(o.address, ''), 'retail', 'website', o.buyer_id
+from public.orders o
+where char_length(case when regexp_replace(o.phone, '[^0-9]', '', 'g') like '84%'
+  then '0' || substr(regexp_replace(o.phone, '[^0-9]', '', 'g'), 3)
+  else regexp_replace(o.phone, '[^0-9]', '', 'g') end) between 9 and 12
+order by
+  case when regexp_replace(o.phone, '[^0-9]', '', 'g') like '84%'
+    then '0' || substr(regexp_replace(o.phone, '[^0-9]', '', 'g'), 3)
+    else regexp_replace(o.phone, '[^0-9]', '', 'g') end,
+  o.created_at desc
+on conflict (phone_normalized) do nothing;
