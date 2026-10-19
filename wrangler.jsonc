@@ -1,5 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   // Production build and deploy commands are managed by Cloudflare Builds.
+  // Nitro generates the production Worker config in .output/server.
   "previews": {}
 }
