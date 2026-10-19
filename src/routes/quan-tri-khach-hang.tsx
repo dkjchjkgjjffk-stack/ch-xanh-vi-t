@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 import { Page } from "@/components/Layout";
 import { supabase } from "@/integrations/supabase/client";
 import { vnd } from "@/data/sample";
@@ -102,7 +102,7 @@ function CustomerAdmin() {
     return matchesQuery && (typeFilter === "all" || c.customer_type === typeFilter);
   }), [customers, query, typeFilter]);
 
-  const saveCustomer = async (event: React.FormEvent<HTMLFormElement>) => {
+  const saveCustomer = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); setBusy(true); setError(""); setNotice("");
     try {
       const cleanPhone = phone.trim();
@@ -124,7 +124,7 @@ function CustomerAdmin() {
     } finally { setBusy(false); }
   };
 
-  const addInteraction = async (event: React.FormEvent<HTMLFormElement>) => {
+  const addInteraction = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!selected) return;
     setBusy(true); setError(""); setNotice("");
