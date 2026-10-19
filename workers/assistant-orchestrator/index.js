@@ -165,14 +165,14 @@ export default {
           not_connected: ["Facebook Graph API", "YouTube Data API"],
         };
         const prompt = "Yêu cầu người quản trị: " + message + "\n\nDữ liệu hiện tại (JSON, chỉ dùng để trả lời dựa trên dữ liệu này):\n" + JSON.stringify(context);
-        const result = await env.AI.run("@cf/zai-org/glm-4.7-flash", {
+        const result = await env.AI.run("@cf/meta/llama-3.1-8b-instruct", {
           messages: [
             { role: "system", content: "Bạn là trợ lý điều phối vận hành Hải Tây Phát, trả lời bằng tiếng Việt, ngắn gọn và cụ thể. Chỉ khẳng định những gì có trong dữ liệu JSON được cung cấp. Giá có nguồn và ngày; luôn phân biệt ngày giá với thời điểm đồng bộ. Không bịa giá, không tuyên bố đã kết nối Facebook/YouTube khi chúng chưa kết nối. Chat chỉ đọc dữ liệu và tư vấn; không thực hiện hành động ghi hoặc đăng nội dung từ câu chat. Khi người dùng muốn đồng bộ giá, hướng dẫn họ dùng nút 'Đồng bộ giá ngay' để xác nhận. Không yêu cầu mật khẩu, mã OTP, API secret hoặc access token." },
             { role: "user", content: prompt },
           ],
           max_tokens: 700,
         });
-        const reply = result && (result.response || result.output_text || result.result);
+        const reply = result && (result.response || result.output_text || result.choices?.[0]?.message?.content || result.result);
         return json({ ok: true, reply: typeof reply === "string" ? reply : JSON.stringify(result) });
       } catch (error) {
         return json({ error: error instanceof Error ? error.message : "AI chưa thể xử lý yêu cầu." }, 502);
