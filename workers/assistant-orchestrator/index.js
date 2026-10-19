@@ -142,7 +142,7 @@ export default {
     if (url.pathname === "/api/workflows/refresh-prices") {
       const result = await fetch(env.SUPABASE_URL + "/functions/v1/sync-agricultural-prices", {
         method: "POST",
-        headers: { "content-type": "application/json", "x-sync-token": env.PRICE_SYNC_TOKEN },
+        headers: { "content-type": "application/json", "authorization": "Bearer " + auth.token },
         body: "{}",
       });
       const body = await result.json().catch(() => ({}));
