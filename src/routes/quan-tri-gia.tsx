@@ -27,7 +27,7 @@ function sourceLabel(source: string) {
 export const Route = createFileRoute("/quan-tri-gia")({
   head: () => ({
     meta: [
-      { title: "Quản lý bảng giá nông sản — Chợ Xanh Việt" },
+      { title: "Quản lý bảng giá nông sản — Hải Tây Phát" },
       { name: "description", content: "Quản trị giá nông sản kèm ngày cập nhật và nguồn tham khảo." },
     ],
   }),
