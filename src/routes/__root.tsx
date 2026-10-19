@@ -14,6 +14,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { CartProvider } from "../lib/cart";
 import { Header, BottomNav } from "../components/Layout";
+import { WebsiteAnalyticsTracker } from "@/lib/website-analytics";
 
 function NotFoundComponent() {
   return (
@@ -123,6 +124,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <CartProvider>
+        <WebsiteAnalyticsTracker />
         <Header />
         <div className="pb-24 md:pb-8"><Outlet /></div>
         <BottomNav />
