@@ -34,7 +34,7 @@ function formatPrice(price: number, currency: string, unit: string) {
 export const Route = createFileRoute("/bang-gia")({
   head: () => ({
     meta: [
-      { title: "Bảng giá nông sản theo địa phương — Chợ Xanh Việt" },
+      { title: "Bảng giá nông sản theo địa phương — Hải Tây Phát" },
       { name: "description", content: "Bảng giá nông sản có ngày cập nhật và nguồn tham khảo, theo địa phương." },
       { property: "og:title", content: "Bảng giá nông sản" },
       { property: "og:description", content: "Giá nông sản theo ngày và địa phương, có nguồn tham khảo." },
