@@ -14,10 +14,10 @@ type CropPrice = {
   source: string;
 };
 function sourceUrl(source: string): string | null {
-  const match = source.match(/https?:\\/\\/\\S+/);
-  return match?.[0] ?? null;
+  const separator = source.indexOf(" — ");
+  const url = separator >= 0 ? source.slice(separator + 3).trim() : "";
+  return url.startsWith("https://") || url.startsWith("http://") ? url : null;
 }
-
 function sourceLabel(source: string) {
   return source.split(" — ")[0];
 }
@@ -102,7 +102,7 @@ function Prices() {
                 </div>
                 <p className="shrink-0 text-right font-bold text-primary">{vnd(Number(r.price))}<span className="block text-xs font-normal text-muted-foreground">/{r.unit}</span></p>
               </div>
-              <div className="text-xs text-muted-foreground">Ngày giá: {r.price_date} · Nguồn: {(() => { const match = r.source.match(/https?:\/\/[^\s]+/); const sourceName = r.source.split(" — ")[0]; return match ? <a className="break-words underline underline-offset-2" href={match[0]} target="_blank" rel="noreferrer">{sourceName}</a> : <span className="break-words">{r.source}</span>; })()}</div>
+              <div className="text-xs text-muted-foreground">Ngày giá: {r.price_date} · Nguồn: {sourceUrl(r.source) ? <a className="break-words underline underline-offset-2" href={sourceUrl(r.source) ?? undefined} target="_blank" rel="noreferrer">{sourceLabel(r.source)}</a> : <span className="break-words">{r.source}</span>}</div>
             </article>
           ))}
         </div>
