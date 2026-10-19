@@ -15,7 +15,7 @@ const sourceLabels: Record<string, string> = { website: "Website", store: "Cửa
 const channelOptions = [{ value: "store", label: "Cửa hàng" }, { value: "phone", label: "Điện thoại" }, { value: "facebook", label: "Facebook" }, { value: "zalo", label: "Zalo" }, { value: "website", label: "Website" }, { value: "other", label: "Khác" }];
 const typeLabels: Record<string, string> = { retail: "Khách lẻ", wholesale: "Khách sỉ" };
 const digits = (value: string) => {
-  const n = value.replace(/\\D/g, "");
+  const n = value.replace(/[^0-9]/g, "");
   return n.startsWith("84") ? "0" + n.slice(2) : n;
 };
 const csvCell = (value: unknown) => '"' + String(value ?? "").replace(/"/g, '""') + '"';
