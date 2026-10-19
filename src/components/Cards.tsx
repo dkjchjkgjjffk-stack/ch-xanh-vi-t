@@ -10,7 +10,7 @@ export function VerifyBadge({ v }: { v: VerifyStatus }) {
 export function ProductCard({ p }: { p: Product }) {
   return (
     <Link to="/cua-hang/$id" params={{ id: p.id }} className="card flex flex-col overflow-hidden">
-      <div className="flex aspect-square items-center justify-center bg-secondary text-6xl">{p.icon}</div>
+      <div className="flex aspect-square items-center justify-center overflow-hidden bg-secondary text-6xl">{p.imageUrl ? <img src={p.imageUrl} alt={p.name} loading="lazy" className="h-full w-full object-cover" /> : p.icon}</div>
       <div className="flex flex-1 flex-col gap-1 p-3">
         <div className="line-clamp-2 font-semibold leading-snug">{p.name}</div>
         <div className="mt-auto text-lg font-bold text-primary">{vnd(p.price)}</div>
