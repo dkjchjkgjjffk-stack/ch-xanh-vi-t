@@ -14,6 +14,131 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_monitoring_events: {
+        Row: {
+          created_at: string
+          email: string
+          event_type: string
+          id: number
+          message: string
+          path: string
+          session_id: string
+          user_agent: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string
+          event_type: string
+          id?: number
+          message?: string
+          path?: string
+          session_id: string
+          user_agent?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          event_type?: string
+          id?: number
+          message?: string
+          path?: string
+          session_id?: string
+          user_agent?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      customer_interactions: {
+        Row: {
+          channel: string
+          created_at: string
+          created_by: string | null
+          customer_id: string
+          follow_up_at: string | null
+          id: string
+          interaction_type: string
+          note: string
+        }
+        Insert: {
+          channel: string
+          created_at?: string
+          created_by?: string | null
+          customer_id: string
+          follow_up_at?: string | null
+          id?: string
+          interaction_type?: string
+          note: string
+        }
+        Update: {
+          channel?: string
+          created_at?: string
+          created_by?: string | null
+          customer_id?: string
+          follow_up_at?: string | null
+          id?: string
+          interaction_type?: string
+          note?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_interactions_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      customers: {
+        Row: {
+          address: string
+          consent_recorded_at: string | null
+          created_at: string
+          created_by: string | null
+          customer_type: string
+          full_name: string
+          id: string
+          marketing_consent: boolean
+          notes: string
+          phone: string
+          phone_normalized: string | null
+          source: string
+          updated_at: string
+        }
+        Insert: {
+          address?: string
+          consent_recorded_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_type?: string
+          full_name: string
+          id?: string
+          marketing_consent?: boolean
+          notes?: string
+          phone: string
+          phone_normalized?: string | null
+          source?: string
+          updated_at?: string
+        }
+        Update: {
+          address?: string
+          consent_recorded_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_type?: string
+          full_name?: string
+          id?: string
+          marketing_consent?: boolean
+          notes?: string
+          phone?: string
+          phone_normalized?: string | null
+          source?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       favorites: {
         Row: {
           created_at: string
@@ -69,7 +194,7 @@ export type Database = {
           image_url?: string | null
           is_sample?: boolean
           phone: string
-          price_text: string
+          price_text?: string
           province: string
           quantity: string
           status?: string
@@ -99,6 +224,7 @@ export type Database = {
       }
       order_items: {
         Row: {
+          created_at: string
           id: string
           name: string
           order_id: string
@@ -108,6 +234,7 @@ export type Database = {
           seller_id: string | null
         }
         Insert: {
+          created_at?: string
           id?: string
           name: string
           order_id: string
@@ -117,6 +244,7 @@ export type Database = {
           seller_id?: string | null
         }
         Update: {
+          created_at?: string
           id?: string
           name?: string
           order_id?: string
@@ -131,6 +259,13 @@ export type Database = {
             columns: ["order_id"]
             isOneToOne: false
             referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
             referencedColumns: ["id"]
           },
         ]
@@ -161,7 +296,7 @@ export type Database = {
           payment_status?: string
           phone: string
           status?: string
-          total: number
+          total?: number
           updated_at?: string
         }
         Update: {
@@ -180,10 +315,41 @@ export type Database = {
         }
         Relationships: []
       }
+      price_sync_runs: {
+        Row: {
+          details: Json
+          finished_at: string | null
+          id: number
+          rows_written: number
+          sources_checked: number
+          started_at: string
+          status: string
+        }
+        Insert: {
+          details?: Json
+          finished_at?: string | null
+          id?: number
+          rows_written?: number
+          sources_checked?: number
+          started_at?: string
+          status: string
+        }
+        Update: {
+          details?: Json
+          finished_at?: string | null
+          id?: number
+          rows_written?: number
+          sources_checked?: number
+          started_at?: string
+          status?: string
+        }
+        Relationships: []
+      }
       prices: {
         Row: {
           created_at: string
           crop: string
+          currency: string
           id: string
           price: number
           price_date: string
@@ -195,17 +361,19 @@ export type Database = {
         Insert: {
           created_at?: string
           crop: string
+          currency?: string
           id?: string
           price: number
           price_date?: string
           province: string
           source: string
-          unit: string
+          unit?: string
           updated_by?: string | null
         }
         Update: {
           created_at?: string
           crop?: string
+          currency?: string
           id?: string
           price?: number
           price_date?: string
@@ -308,16 +476,19 @@ export type Database = {
       }
       user_roles: {
         Row: {
+          created_at: string
           id: string
           role: Database["public"]["Enums"]["app_role"]
           user_id: string
         }
         Insert: {
+          created_at?: string
           id?: string
-          role: Database["public"]["Enums"]["app_role"]
+          role?: Database["public"]["Enums"]["app_role"]
           user_id: string
         }
         Update: {
+          created_at?: string
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
@@ -340,6 +511,7 @@ export type Database = {
         Args: { _order: string; _user: string }
         Returns: boolean
       }
+      is_valid_price_sync_token: { Args: { p_token: string }; Returns: boolean }
       place_order: {
         Args: {
           _address: string
