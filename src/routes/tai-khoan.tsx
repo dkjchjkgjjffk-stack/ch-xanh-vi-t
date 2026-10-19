@@ -151,6 +151,8 @@ function AccountPage() {
             <p className="text-sm text-muted-foreground">Tài khoản: <strong className="break-all text-foreground">{session.user.email}</strong></p>
             <p className="text-sm text-muted-foreground">Bạn có thể quản lý trạng thái tin nông sản đã gửi. Tin mới cần chờ quản trị viên duyệt trước khi công khai.</p>
             <Link to="/tin-cua-toi" className="btn-primary w-full">Tin đăng của tôi</Link>
+            <Link to="/yeu-thich" className="btn-outline w-full">♥ Tin yêu thích</Link>
+            <Link to="/don-hang" className="btn-outline w-full">Đơn hàng của tôi</Link>
             <Link to="/dang-tin" className="btn-outline w-full">＋ Đăng tin nông sản</Link>
             <Link to="/dang-san-pham" className="btn-outline w-full">＋ Đăng sản phẩm vật tư</Link>
             {isAdmin && <Link to="/quan-tri-san-pham" className="btn-outline w-full">Duyệt sản phẩm vật tư</Link>}

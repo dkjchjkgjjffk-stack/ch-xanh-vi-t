@@ -26,6 +26,7 @@ function CreateListing() {
   const [contactName, setContactName] = useState("");
   const [phone, setPhone] = useState("");
   const [description, setDescription] = useState("");
+  const [image, setImage] = useState<File | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -64,7 +65,20 @@ function CreateListing() {
         return;
       }
 
+      let imagePath: string | null = null;
+      if (image) {
+        if (image.size > 5 * 1024 * 1024) {
+          setError("Ảnh quá lớn. Vui lòng chọn ảnh nhỏ hơn 5MB.");
+          return;
+        }
+        const ext = (image.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
+        imagePath = `${authData.user.id}/${Date.now()}.${ext}`;
+        const { error: uploadError } = await supabase.storage.from("images").upload(imagePath, image, image.type ? { contentType: image.type } : undefined);
+        if (uploadError) throw uploadError;
+      }
+
       const { error: insertError } = await supabase.from("listings").insert({
+        image_url: imagePath,
         user_id: authData.user.id,
         type,
         title: title.trim(),
@@ -153,6 +167,11 @@ function CreateListing() {
           <div className="space-y-1.5">
             <label htmlFor="listing-description" className="text-sm font-semibold">Mô tả thêm</label>
             <textarea id="listing-description" className="field min-h-28" maxLength={2000} value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Mùa vụ, chất lượng, hình thức giao nhận, khu vực cụ thể…" />
+          </div>
+          <div className="space-y-1.5">
+            <label htmlFor="listing-image" className="text-sm font-semibold">Ảnh minh họa (không bắt buộc)</label>
+            <input id="listing-image" type="file" accept="image/*" className="field" onChange={(e) => setImage(e.target.files?.[0] ?? null)} />
+            <p className="text-xs text-muted-foreground">Chỉ tải ảnh bạn có quyền sử dụng, tối đa 5MB.</p>
           </div>
           {error && <p role="alert" className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive">{error}</p>}
           {success && <p role="status" className="rounded-lg bg-primary/10 p-3 text-sm">{success}</p>}
