@@ -5,8 +5,8 @@ create table if not exists public.customers (
   phone text not null check (char_length(trim(phone)) between 9 and 30),
   phone_normalized text generated always as (
     case
-      when regexp_replace(phone, '\\D', '', 'g') like '84%' then '0' || substr(regexp_replace(phone, '\\D', '', 'g'), 3)
-      else regexp_replace(phone, '\\D', '', 'g')
+      when regexp_replace(phone, '[^0-9]', '', 'g') like '84%' then '0' || substr(regexp_replace(phone, '[^0-9]', '', 'g'), 3)
+      else regexp_replace(phone, '[^0-9]', '', 'g')
     end
   ) stored,
   customer_type text not null default 'retail' check (customer_type in ('retail','wholesale')),
