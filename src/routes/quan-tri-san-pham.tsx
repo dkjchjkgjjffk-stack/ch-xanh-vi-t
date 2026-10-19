@@ -5,20 +5,20 @@ import { Page, SampleNotice } from "@/components/Layout";
 import { CATEGORIES, type Category } from "@/data/sample";
 
 type ProductRow = {
-  id: string; name: string; category: string; price: number; unit: string;
+  id: string; name: string; category: string; price: number; price_on_request: boolean; unit: string;
   description: string | null; icon: string | null; image_url: string | null;
   manufacturer: string | null; registration: string | null; seller_name: string;
   seller_phone: string; seller_address: string | null; status: string;
   verify_status: string; created_at: string;
 };
 type ProductForm = {
-  name: string; category: Category; price: string; unit: string; description: string;
+  name: string; category: Category; price: string; price_on_request: boolean; unit: string; description: string;
   icon: string; manufacturer: string; registration: string; seller_name: string;
   seller_phone: string; seller_address: string; status: "approved" | "pending" | "rejected";
   verify_status: "none" | "seller" | "verified"; image_url: string | null;
 };
 const emptyForm = (): ProductForm => ({
-  name: "", category: "phan-bon", price: "", unit: "bao", description: "", icon: "🌱",
+  name: "", category: "phan-bon", price: "", price_on_request: false, unit: "bao", description: "", icon: "🌱",
   manufacturer: "", registration: "", seller_name: "Hải Tây Phát", seller_phone: "",
   seller_address: "", status: "approved", verify_status: "none", image_url: null,
 });
@@ -45,7 +45,7 @@ function ProductManagement() {
 
   const loadProducts = useCallback(async () => {
     const { data, error: queryError } = await supabase.from("products")
-      .select("id,name,category,price,unit,description,icon,image_url,manufacturer,registration,seller_name,seller_phone,seller_address,status,verify_status,created_at")
+      .select("id,name,category,price,price_on_request,unit,description,icon,image_url,manufacturer,registration,seller_name,seller_phone,seller_address,status,verify_status,created_at")
       .eq("is_sample", false).order("created_at", { ascending: false }).limit(500);
     if (queryError) throw queryError;
     setRows((data ?? []) as ProductRow[]);
@@ -87,7 +87,7 @@ function ProductManagement() {
     setEditingId(p.id);
     setImage(null);
     setForm({
-      name: p.name, category: p.category as Category, price: String(p.price), unit: p.unit,
+      name: p.name, category: p.category as Category, price: p.price_on_request ? "" : String(p.price), price_on_request: p.price_on_request, unit: p.unit,
       description: p.description ?? "", icon: p.icon ?? "📦", manufacturer: p.manufacturer ?? "",
       registration: p.registration ?? "", seller_name: p.seller_name, seller_phone: p.seller_phone,
       seller_address: p.seller_address ?? "", status: p.status as ProductForm["status"],
@@ -104,8 +104,8 @@ function ProductManagement() {
     try {
       const { data: auth, error: authError } = await supabase.auth.getUser();
       if (authError || !auth.user) throw new Error("Phiên đăng nhập đã hết hạn. Hãy đăng nhập lại.");
-      const amount = Number(form.price.replace(/[^0-9.]/g, ""));
-      if (!Number.isFinite(amount) || amount <= 0) throw new Error("Giá sản phẩm phải lớn hơn 0.");
+      const amount = form.price_on_request ? 0 : Number(form.price.replace(/[^0-9.]/g, ""));
+      if (!form.price_on_request && (!Number.isFinite(amount) || amount <= 0)) throw new Error("Nhập giá bán hoặc chọn “Giá bán: Liên hệ”.");
       let imagePath = form.image_url;
       if (image) {
         if (image.size > 5 * 1024 * 1024) throw new Error("Ảnh tối đa 5MB.");
@@ -118,7 +118,7 @@ function ProductManagement() {
         imagePath = path;
       }
       const payload = {
-        name: form.name.trim(), category: form.category, price: amount, unit: form.unit.trim(),
+        name: form.name.trim(), category: form.category, price: amount, price_on_request: form.price_on_request, unit: form.unit.trim(),
         description: form.description.trim(), icon: form.icon.trim() || "📦", image_url: imagePath,
         manufacturer: form.manufacturer.trim() || "Người bán chưa cung cấp",
         registration: form.registration.trim() || "Chưa cung cấp",
@@ -187,7 +187,7 @@ function ProductManagement() {
           <label className="block space-y-1"><span className="text-sm font-semibold">Tên sản phẩm *</span><input className="field" required minLength={2} maxLength={180} value={form.name} onChange={e=>updateForm("name",e.target.value)} /></label>
           <div className="grid gap-3 sm:grid-cols-2">
             <label className="block space-y-1"><span className="text-sm font-semibold">Danh mục *</span><select className="field" value={form.category} onChange={e=>updateForm("category",e.target.value as Category)}>{CATEGORIES.map(c=><option key={c.id} value={c.id}>{c.name}</option>)}</select></label>
-            <label className="block space-y-1"><span className="text-sm font-semibold">Giá bán (VNĐ) *</span><input className="field" required inputMode="decimal" value={form.price} onChange={e=>updateForm("price",e.target.value)} placeholder="450000" /></label>
+            <div className="space-y-2"><label className="block space-y-1"><span className="text-sm font-semibold">Giá bán (VNĐ)</span><input className="field" required={!form.price_on_request} disabled={form.price_on_request} inputMode="decimal" value={form.price} onChange={e=>updateForm("price",e.target.value)} placeholder="450000" /></label><label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={form.price_on_request} onChange={e=>updateForm("price_on_request",e.target.checked)} /> Giá bán: Liên hệ báo giá</label></div>
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
             <label className="block space-y-1"><span className="text-sm font-semibold">Đơn vị *</span><input className="field" required maxLength={60} value={form.unit} onChange={e=>updateForm("unit",e.target.value)} placeholder="bao 25kg, chai 500ml..." /></label>
@@ -220,7 +220,7 @@ function ProductManagement() {
             <div className="flex size-16 shrink-0 items-center justify-center rounded-xl bg-secondary text-3xl">{p.icon || "📦"}</div>
             <div className="min-w-0 flex-1 space-y-1">
               <h3 className="font-bold">{p.name}</h3>
-              <p className="text-sm text-primary">{Number(p.price).toLocaleString("vi-VN")} đ / {p.unit}</p>
+              <p className="text-sm text-primary">{p.price_on_request ? "Liên hệ báo giá" : `${Number(p.price).toLocaleString("vi-VN")} đ / ${p.unit}`}</p>
               <p className="text-xs text-muted-foreground">{CATEGORIES.find(c=>c.id===p.category)?.name ?? p.category} · {p.seller_name} · {new Date(p.created_at).toLocaleDateString("vi-VN")}</p>
               <span className={`chip ${p.status === "approved" ? "bg-success text-success-foreground" : p.status === "pending" ? "bg-warning text-warning-foreground" : "bg-muted text-muted-foreground"}`}>{p.status === "approved" ? "Đang xuất bản" : p.status === "pending" ? "Chờ duyệt" : "Đang ẩn"}</span>
             </div>
