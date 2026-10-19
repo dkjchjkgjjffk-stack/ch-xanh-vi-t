@@ -22,6 +22,7 @@ export interface Product {
   registration: string; // số đăng ký do người bán khai
   verify: VerifyStatus;
   seller: { name: string; phone: string; address: string };
+  imageUrl?: string | null;
 }
 
 const seller1 = { name: "Cửa hàng mẫu A", phone: "0900 000 001", address: "Địa chỉ mẫu, Cần Thơ" };
