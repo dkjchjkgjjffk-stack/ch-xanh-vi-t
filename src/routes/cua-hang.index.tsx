@@ -32,28 +32,30 @@ function Shop() {
   useEffect(() => {
     let active = true;
     void supabase.from("products")
-      .select("id,name,category,price,unit,description,icon,manufacturer,registration,seller_name,seller_phone,seller_address,verify_status")
+      .select("id,name,category,price,unit,description,icon,image_url,manufacturer,registration,seller_name,seller_phone,seller_address,verify_status")
       .eq("status", "approved").eq("is_sample", false)
       .order("created_at", { ascending: false }).limit(200)
-      .then(({ data, error }) => {
+      .then(async ({ data, error }) => {
         if (!active) return;
         if (error) {
           setUnavailable(true);
           setLiveProducts([]);
         } else {
-          setLiveProducts((data ?? []).map((row) => ({
-            id: row.id,
-            name: row.name,
-            category: row.category as Product["category"],
-            price: Number(row.price),
-            unit: row.unit,
-            icon: row.icon || "📦",
-            description: row.description || "",
-            manufacturer: row.manufacturer || "Người bán chưa cung cấp",
-            registration: row.registration || "Chưa cung cấp",
-            verify: row.verify_status as Product["verify"],
-            seller: { name: row.seller_name, phone: row.seller_phone, address: row.seller_address || "" },
-          })));
+          const mapped = await Promise.all((data ?? []).map(async row => {
+            let imageUrl: string | null = null;
+            if (row.image_url) {
+              const { data: signed } = await supabase.storage.from("images").createSignedUrl(row.image_url, 3600);
+              imageUrl = signed?.signedUrl ?? null;
+            }
+            return {
+              id: row.id, name: row.name, category: row.category as Product["category"],
+              price: Number(row.price), unit: row.unit, icon: row.icon || "📦", imageUrl,
+              description: row.description || "", manufacturer: row.manufacturer || "Người bán chưa cung cấp",
+              registration: row.registration || "Chưa cung cấp", verify: row.verify_status as Product["verify"],
+              seller: { name: row.seller_name, phone: row.seller_phone, address: row.seller_address || "" },
+            };
+          }));
+          if (active) setLiveProducts(mapped);
           setUnavailable(false);
         }
         setLoading(false);
