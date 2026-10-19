@@ -168,8 +168,30 @@ Deno.serve(async (req: Request) => {
   if (req.method !== "POST") return new Response("Method not allowed", { status: 405 });
 
   const token = req.headers.get("x-sync-token");
-  const { data: allowed, error: authError } = await supabase.rpc("is_valid_price_sync_token", { p_token: token });
-  if (authError || allowed !== true) return new Response("Unauthorized", { status: 401 });
+  let allowed = false;
+  if (token) {
+    const { data, error } = await supabase.rpc("is_valid_price_sync_token", { p_token: token });
+    allowed = !error && data === true;
+  }
+  if (!allowed) {
+    const bearer = (req.headers.get("authorization") ?? "").match(/^Bearer\\s+(.+)$/i)?.[1];
+    if (bearer) {
+      const { data: userData, error: userError } = await supabase.auth.getUser(bearer);
+      if (userError || !userData.user) {
+        return new Response("Unauthorized", { status: 401 });
+      }
+      const { data: role, error: roleError } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", userData.user.id)
+        .eq("role", "admin")
+        .maybeSingle();
+      if (roleError) return new Response("Unable to verify admin role", { status: 503 });
+      if (role?.role !== "admin") return new Response("Admin role required", { status: 403 });
+      allowed = true;
+    }
+  }
+  if (!allowed) return new Response("Unauthorized", { status: 401 });
 
   const startedAt = new Date().toISOString();
   const rows: PriceRow[] = [];
