@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Page } from "@/components/Layout";
+import { AnalyticsCharts } from "@/components/admin/AnalyticsCharts";
 
 type EventRow = {
   id: number; visitor_id: string; session_id: string; event_type: string;
@@ -62,6 +63,10 @@ function AnalyticsAdmin() {
   const regions = useMemo(()=>Object.entries(views.reduce<Record<string,number>>((a,e)=>{const k=[e.city,e.region,e.country_name].filter(Boolean).join(", ")||"Chưa xác định";a[k]=(a[k]||0)+1;return a;},{})).sort((a,b)=>b[1]-a[1]).slice(0,20),[views]);
   const countries = useMemo(()=>Object.entries(views.reduce<Record<string,number>>((a,e)=>{const k=e.country_name||"Chưa xác định";a[k]=(a[k]||0)+1;return a;},{})).sort((a,b)=>b[1]-a[1]).slice(0,10),[views]);
   const clicks = useMemo(()=>events.filter(e=>e.event_type==="click").slice(0,30),[events]);
+  const daily = useMemo(()=>{ const days:Record<string,number>={}; for(let i=Number(period)-1;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const k=d.toLocaleDateString("sv-SE");days[k]=0;} for(const e of views){const k=new Date(e.created_at).toLocaleDateString("sv-SE");if(k in days)days[k]++;} return Object.entries(days).map(([date,views])=>({date:date.slice(5),views})); },[views,period]);
+  const deviceChart = useMemo(()=>devices.map(([name,value])=>({name:deviceNames[name]||name,value})),[devices]);
+  const regionChart = useMemo(()=>regions.map(([name,value])=>({name,value})),[regions]);
+  const pageChart = useMemo(()=>pages.map(([name,value])=>({name,value})),[pages]);
   const exportCsv = () => {
     const rows=[["Thời gian","Loại sự kiện","Trang","Thiết bị","Trình duyệt","Hệ điều hành","Quốc gia","Tỉnh/tiểu bang","Thành phố","Nguồn","Nhãn bấm"],...events.map(e=>[new Date(e.created_at).toLocaleString("vi-VN"),e.event_type,e.page_path,deviceNames[e.device_type]||e.device_type,e.browser,e.operating_system,e.country_name||"",e.region||"",e.city||"",e.referrer_host||"",e.event_label||""])];
     const csv="\uFEFF"+rows.map(row=>row.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\r\n");
