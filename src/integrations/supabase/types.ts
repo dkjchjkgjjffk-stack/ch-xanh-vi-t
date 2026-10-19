@@ -420,6 +420,8 @@ export type Database = {
           manufacturer: string
           name: string
           price: number
+          price_on_request: boolean
+          price_on_request: boolean
           registration: string
           seller_address: string
           seller_id: string | null
@@ -441,6 +443,8 @@ export type Database = {
           manufacturer?: string
           name: string
           price: number
+          price_on_request: boolean
+          price_on_request: boolean
           registration?: string
           seller_address?: string
           seller_id?: string | null
@@ -462,6 +466,7 @@ export type Database = {
           manufacturer?: string
           name?: string
           price?: number
+          price_on_request?: boolean
           registration?: string
           seller_address?: string
           seller_id?: string | null
