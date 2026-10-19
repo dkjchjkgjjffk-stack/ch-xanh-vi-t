@@ -1,4 +1,5 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
+  // Production build and deploy commands are managed by Cloudflare Builds.
   "previews": {}
 }
