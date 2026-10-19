@@ -12,7 +12,7 @@ export const Route = createFileRoute("/cua-hang/$id")({
     if (sample) return { product: sample, isSample: true };
 
     const { data, error } = await supabase.from("products")
-      .select("id,name,category,price,unit,description,icon,image_url,manufacturer,registration,seller_name,seller_phone,seller_address,verify_status,status,is_sample")
+      .select("id,name,category,price,price_on_request,unit,description,icon,image_url,manufacturer,registration,seller_name,seller_phone,seller_address,verify_status,status,is_sample")
       .eq("id", params.id).eq("status", "approved").eq("is_sample", false).maybeSingle();
     if (error || !data) throw notFound();
 
@@ -24,7 +24,7 @@ export const Route = createFileRoute("/cua-hang/$id")({
 
     const product: Product & { imageUrl?: string | null } = {
       id: data.id, name: data.name, category: data.category as Product["category"],
-      price: Number(data.price), unit: data.unit, icon: data.icon || "📦",
+      price: Number(data.price), priceOnRequest: data.price_on_request, unit: data.unit, icon: data.icon || "📦",
       description: data.description || "", manufacturer: data.manufacturer || "Người bán chưa cung cấp",
       registration: data.registration || "Chưa cung cấp",
       verify: data.verify_status as Product["verify"],
@@ -61,15 +61,15 @@ function Detail() {
         <div className="space-y-3">
           <div className="text-muted-foreground">{CATEGORIES.find((c) => c.id === p.category)?.name}</div>
           <h1 className="text-2xl font-bold">{p.name}</h1>
-          <div className="text-3xl font-extrabold text-primary">{vnd(p.price)} <span className="text-base font-normal text-muted-foreground">/ {p.unit}</span></div>
+          <div className="text-3xl font-extrabold text-primary">{p.priceOnRequest ? "Liên hệ báo giá" : <>{vnd(p.price)} <span className="text-base font-normal text-muted-foreground">/ {p.unit}</span></>}</div>
           <p>{p.description}</p>
-          <div className="flex items-center gap-3">
+          <div className={`flex items-center gap-3 ${p.priceOnRequest ? "hidden" : ""}`}>
             <button className="btn-outline w-12 px-0" onClick={() => setQty(Math.max(1, qty - 1))} aria-label="Giảm">−</button>
             <span className="w-8 text-center text-xl font-bold">{qty}</span>
             <button className="btn-outline w-12 px-0" onClick={() => setQty(qty + 1)} aria-label="Tăng">+</button>
           </div>
-          <button className="btn-primary w-full" onClick={() => { add(p.id, qty); setAdded(true); }}>🧺 Thêm vào giỏ hàng</button>
-          {added && <Link to="/gio-hang" className="btn-outline w-full">Đã thêm — Xem giỏ hàng</Link>}
+          {!p.priceOnRequest && <><button className="btn-primary w-full" onClick={() => { add(p.id, qty); setAdded(true); }}>🧺 Thêm vào giỏ hàng</button>{added && <Link to="/gio-hang" className="btn-outline w-full">Đã thêm — Xem giỏ hàng</Link>}</>}
+          {p.priceOnRequest && <a href={`tel:${p.seller.phone.replace(/\\s/g, "")}`} className="btn-primary w-full">📞 Liên hệ người bán để báo giá</a>}
         </div>
       </div>
 
