@@ -340,26 +340,16 @@ export type Database = {
         Args: { _order: string; _user: string }
         Returns: boolean
       }
-      place_order:
-        | {
-            Args: {
-              _address: string
-              _buyer_note?: string
-              _full_name: string
-              _items: Json
-              _phone: string
-            }
-            Returns: string
-          }
-        | {
-            Args: {
-              _address: string
-              _full_name: string
-              _items: Json
-              _phone: string
-            }
-            Returns: string
-          }
+      place_order: {
+        Args: {
+          _address: string
+          _buyer_note?: string
+          _full_name: string
+          _items: Json
+          _phone: string
+        }
+        Returns: string
+      }
     }
     Enums: {
       app_role: "admin" | "seller" | "buyer"

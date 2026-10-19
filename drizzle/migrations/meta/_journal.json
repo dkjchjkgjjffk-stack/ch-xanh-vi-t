@@ -15,6 +15,13 @@
       "when": 1792313316480,
       "tag": "0001_orders_buyer_note_and_place_order_update",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792373714134,
+      "tag": "0002_drop_legacy_place_order",
+      "breakpoints": true
     }
   ]
 }
