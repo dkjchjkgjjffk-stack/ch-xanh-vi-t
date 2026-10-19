@@ -7,10 +7,10 @@ import { ProductCard, ListingCard } from "@/components/Cards";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Hải Tây Phát — Vật tư & nông sản" },
-      { name: "description", content: "Mua vật tư nông nghiệp, đăng tin bán và thu mua nông sản trên Hải Tây Phát." },
+      { title: "Hải Tây Phát — Bảng giá nông sản" },
+      { name: "description", content: "Theo dõi bảng giá nông sản và thông tin thị trường trên Hải Tây Phát." },
       { property: "og:title", content: "Hải Tây Phát" },
-      { property: "og:description", content: "Vật tư nông nghiệp, chợ nông sản và bảng giá." },
+      { property: "og:description", content: "Bảng giá nông sản và thông tin thị trường." },
     ],
   }),
   component: Index,
@@ -22,10 +22,6 @@ function Index() {
       <section className="relative">
         <img src={hero} alt="Ruộng bậc thang và nông dân" width={1280} height={768} className="h-64 w-full object-cover md:h-96" />
         <div className="absolute inset-0 bg-hero" />
-        <div className="absolute inset-x-0 bottom-0 mx-auto max-w-6xl p-4 text-primary-foreground">
-          <h1 className="text-3xl font-extrabold md:text-5xl">Mua vật tư, bán nông sản</h1>
-          <p className="mt-1 text-lg">Kết nối bà con nông dân và người thu mua.</p>
-        </div>
       </section>
       <Page>
         <section className="overflow-hidden rounded-2xl border border-primary/20 bg-gradient-to-r from-primary/10 via-card to-card p-4 shadow-sm sm:p-5">
@@ -44,12 +40,6 @@ function Index() {
           </div>
           <p className="mt-3 border-t border-border/70 pt-3 text-xs text-muted-foreground">Lưu ý: sản phẩm và tin mua bán bên dưới hiện là dữ liệu minh họa. Bảng giá hiển thị theo dữ liệu và nguồn đã ghi nhận, không phải giá giao dịch trực tiếp theo từng giây.</p>
         </section>
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-          <Link to="/cua-hang" className="card p-4 text-center"><div className="text-4xl">🛒</div><div className="mt-1 font-bold">Cửa hàng vật tư</div></Link>
-          <Link to="/cho" className="card p-4 text-center"><div className="text-4xl">🌾</div><div className="mt-1 font-bold">Chợ nông sản</div></Link>
-          <Link to="/bang-gia" className="card p-4 text-center"><div className="text-4xl">📊</div><div className="mt-1 font-bold">Bảng giá</div></Link>
-          <Link to="/cho" search={{ loai: "mua" }} className="card p-4 text-center"><div className="text-4xl">🤝</div><div className="mt-1 font-bold">Cần thu mua</div></Link>
-        </div>
 
         <h2 className="pt-2 text-xl font-bold">Danh mục vật tư</h2>
         <div className="flex gap-2 overflow-x-auto pb-1">
