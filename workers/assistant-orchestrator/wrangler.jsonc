@@ -1,0 +1,11 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "hai-tay-phat-assistant",
+  "main": "index.js",
+  "compatibility_date": "2026-10-19",
+  "ai": { "binding": "AI" },
+  "vars": {
+    "SUPABASE_URL": "https://syeivjiceluygqvjeblw.supabase.co",
+    "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_e3sXd5TnSi-X2fBPtjpJ6w_ySeJ_j0B"
+  }
+}
