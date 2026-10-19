@@ -14,10 +14,10 @@ type CropPrice = {
   source: string;
 };
 function sourceUrl(source: string): string | null {
-  const match = source.match(/https?:\\/\\/\\S+/);
-  return match?.[0] ?? null;
+  const separator = source.indexOf(" — ");
+  const url = separator >= 0 ? source.slice(separator + 3).trim() : "";
+  return url.startsWith("https://") || url.startsWith("http://") ? url : null;
 }
-
 function sourceLabel(source: string) {
   return source.split(" — ")[0];
 }
@@ -179,7 +179,7 @@ function PriceAdmin() {
             <div className="flex items-center justify-between gap-3"><h2 className="text-lg font-bold">Giá đã đăng</h2><button type="button" className="btn-outline" onClick={() => void loadPrices().catch((caught) => setError(caught instanceof Error ? caught.message : "Không tải được giá."))}>Làm mới</button></div>
             {rows.length === 0 ? <div className="card p-5 text-center text-sm text-muted-foreground">Chưa có dòng giá nào.</div> : rows.map((row) => (
               <article key={row.id} className="card flex items-start justify-between gap-3 p-3">
-                <div className="min-w-0 space-y-1"><h3 className="font-semibold">{row.crop} · {row.province}</h3><p className="font-bold text-primary">{Number(row.price).toLocaleString("vi-VN")} đ/{row.unit}</p><p className="text-xs text-muted-foreground">Ngày: {row.price_date} · Nguồn: {(() => { const match = row.source.match(/https?:\/\/[^\s]+/); const sourceName = row.source.split(" — ")[0]; return match ? <a className="underline underline-offset-2" href={match[0]} target="_blank" rel="noreferrer">{sourceName}</a> : row.source; })()}</p></div>
+                <div className="min-w-0 space-y-1"><h3 className="font-semibold">{row.crop} · {row.province}</h3><p className="font-bold text-primary">{Number(row.price).toLocaleString("vi-VN")} đ/{row.unit}</p><p className="text-xs text-muted-foreground">Ngày: {row.price_date} · Nguồn: {sourceUrl(row.source) ? <a className="underline underline-offset-2" href={sourceUrl(row.source) ?? undefined} target="_blank" rel="noreferrer">{sourceLabel(row.source)}</a> : row.source}</p></div>
                 <button type="button" className="btn-outline shrink-0" onClick={() => void deletePrice(row.id)}>Xóa</button>
               </article>
             ))}
