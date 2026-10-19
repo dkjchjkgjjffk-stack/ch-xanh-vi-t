@@ -16,9 +16,11 @@ const SERVICE_KEY =
 const supabase = createClient(SUPABASE_URL, SERVICE_KEY, {
   auth: { persistSession: false, autoRefreshToken: false },
 });
-const LIST_URL =
-  "https://asemconnectvietnam.gov.vn/default.aspx?ID1=2&ZID1=8&pagenumber=1";
 const MAX_AGE_DAYS = 3;
+const SOURCES = {
+  coffee: "https://giacaphe.com/gia-ca-phe-noi-dia/",
+  pepper: "https://giatieu.com/gia-tieu-hom-nay/",
+};
 
 type PriceRow = {
   crop: string;
@@ -40,26 +42,27 @@ function decodeHtml(value: string) {
 }
 
 function stripHtml(value: string) {
-  return decodeHtml(value.replace(/<script[\s\S]*?<\/script>/gi, " ")
+  return decodeHtml(value
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
     .replace(/<style[\s\S]*?<\/style>/gi, " ")
     .replace(/<[^>]+>/g, " ")
     .replace(/\s+/g, " ").trim());
 }
 
+function heading(html: string) {
+  const match = html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i);
+  return match ? stripHtml(match[1]) : stripHtml(html).slice(0, 300);
+}
+
 function parseDate(text: string): string | null {
   const monthNames: Record<string, string> = {
-    january: "01", february: "02", march: "03", april: "04",
-    may: "05", june: "06", july: "07", august: "08",
-    september: "09", october: "10", november: "11", december: "12",
+    january: "01", february: "02", march: "03", april: "04", may: "05", june: "06",
+    july: "07", august: "08", september: "09", october: "10", november: "11", december: "12",
   };
   const english = text.match(/\b(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2}),?\s+(20\d{2})\b/i);
-  if (english) {
-    return `${english[3]}-${monthNames[english[1].toLowerCase()]}-${english[2].padStart(2, "0")}`;
-  }
+  if (english) return `${english[3]}-${monthNames[english[1].toLowerCase()]}-${english[2].padStart(2, "0")}`;
   const numeric = text.match(/\b(\d{1,2})[/-](\d{1,2})[/-](20\d{2})\b/);
-  if (numeric) {
-    return `${numeric[3]}-${numeric[2].padStart(2, "0")}-${numeric[1].padStart(2, "0")}`;
-  }
+  if (numeric) return `${numeric[3]}-${numeric[2].padStart(2, "0")}-${numeric[1].padStart(2, "0")}`;
   return null;
 }
 
@@ -71,183 +74,158 @@ function isFresh(date: string) {
   return ageDays >= 0 && ageDays <= MAX_AGE_DAYS;
 }
 
-const locations = [
-  { label: "Gia Lai", province: "Gia Lai", aliases: ["gia lai"] },
-  { label: "Dak Lak", province: "Đắk Lắk", aliases: ["dak lak", "đắk lắk"] },
-  { label: "Lam Dong", province: "Lâm Đồng", aliases: ["lam dong", "lâm đồng"] },
-  { label: "Dak Nong", province: "Đắk Nông", aliases: ["dak nong", "đắk nông"] },
-  { label: "Binh Phuoc", province: "Bình Phước", aliases: ["binh phuoc", "bình phước"] },
-  { label: "Dong Nai", province: "Đồng Nai", aliases: ["dong nai", "đồng nai"] },
-];
-
-function parseNumber(value: string): number | null {
-  const n = Number(value.replace(/[^\d]/g, ""));
-  return Number.isFinite(n) && n > 0 ? n : null;
+function numberFrom(value: string): number | null {
+  const match = value.match(/\b\d{2,3}(?:,\d{3})+\b|\b\d{5,6}\b/);
+  if (!match) return null;
+  const number = Number(match[0].replace(/,/g, ""));
+  return Number.isFinite(number) && number > 0 ? number : null;
 }
 
-function parseRows(html: string, crop: "coffee" | "pepper", articleUrl: string, date: string): PriceRow[] {
+const pepperLocations = [
+  { aliases: ["gia lai"], province: "Gia Lai" },
+  { aliases: ["đắk lắk", "dak lak"], province: "Đắk Lắk" },
+  { aliases: ["đắk nông", "dak nong"], province: "Đắk Nông" },
+  { aliases: ["lâm đồng", "lam dong"], province: "Lâm Đồng" },
+  { aliases: ["bình phước", "binh phuoc"], province: "Bình Phước" },
+  { aliases: ["đồng nai", "dong nai"], province: "Đồng Nai" },
+  { aliases: ["bà rịa - vũng tàu", "bà rịa-vũng tàu", "ba ria"], province: "Bà Rịa - Vũng Tàu" },
+];
+
+function parsePepper(html: string, date: string): PriceRow[] {
   const rows: PriceRow[] = [];
   const seen = new Set<string>();
-  const priceRange = crop === "coffee" ? [20000, 250000] : [20000, 350000];
-
-  const add = (locationText: string, priceText: string) => {
-    const price = parseNumber(priceText);
-    if (!price || price < priceRange[0] || price > priceRange[1]) return;
-    const lower = locationText.toLowerCase();
-    const location = locations.find((entry) => entry.aliases.some((alias) => lower.includes(alias)));
-    if (!location || seen.has(location.province)) return;
+  for (const row of html.matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/gi)) {
+    const cells = [...row[1].matchAll(/<t[dh]\b[^>]*>([\s\S]*?)<\/t[dh]>/gi)]
+      .map((cell) => stripHtml(cell[1]));
+    if (cells.length < 2) continue;
+    const first = cells[0].toLowerCase();
+    const location = pepperLocations.find((entry) => entry.aliases.some((alias) => first.includes(alias)));
+    if (!location || seen.has(location.province)) continue;
+    const price = numberFrom(cells.slice(1).join(" "));
+    if (!price || price < 20000 || price > 350000) continue;
     seen.add(location.province);
     rows.push({
-      crop: crop === "coffee" ? "Cà phê nhân xô" : "Hồ tiêu",
+      crop: "Hồ tiêu",
       province: location.province,
       unit: "kg",
       price,
       price_date: date,
-      source: `Asemconnect / VITIC — ${articleUrl}`,
+      source: `Giatieu.com — ${SOURCES.pepper}`,
     });
-  };
-
-  // Prefer actual market-table rows; the first cell must name a location.
-  for (const match of html.matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/gi)) {
-    const cells = [...match[1].matchAll(/<t[dh]\b[^>]*>([\s\S]*?)<\/t[dh]>/gi)]
-      .map((cell) => stripHtml(cell[1]));
-    if (cells.length < 2) continue;
-    const first = cells[0].toLowerCase();
-    if (!locations.some((entry) => entry.aliases.some((alias) => first.includes(alias)))) continue;
-    for (const cell of cells.slice(1)) {
-      const candidate = cell.match(/\b\d{2,3}(?:,\d{3})+\b|\b\d{5,6}\b/);
-      if (candidate) {
-        add(cells[0], candidate[0]);
-        break;
-      }
-    }
-  }
-
-  // Fallback for prose reports such as "prices in Gia Lai stood at VND98,500 per kg".
-  const text = stripHtml(html);
-  for (const location of locations) {
-    if (seen.has(location.province)) continue;
-    for (const alias of location.aliases) {
-      const escaped = alias.replace(/[.*+?^\${}()|[\]\\]/g, "\\$&");
-      const pattern = new RegExp(
-        `(?:${escaped})[^.\\n]{0,180}?(?:VND\\s*)?(\\d{2,3}(?:,\\d{3})+|\\d{5,6})\\s*(?:VND|dong)?\\s*(?:per\\s*kg|/\\s*kg|\\/kg)`,
-        "i",
-      );
-      const match = text.match(pattern);
-      if (match) {
-        add(alias, match[1]);
-        break;
-      }
-    }
   }
   return rows;
 }
 
-function articleCandidates(html: string) {
-  const results: { title: string; url: string }[] = [];
-  const seen = new Set<string>();
-  for (const match of html.matchAll(/<a\b[^>]*href=["']([^"']*ID8=\d+[^"']*)["'][^>]*>([\s\S]*?)<\/a>/gi)) {
-    const url = new URL(decodeHtml(match[1]), "https://asemconnectvietnam.gov.vn").toString();
-    const title = stripHtml(match[2]);
-    const lower = title.toLowerCase();
-    const isMarketPrice = /(price|prices|market|commodity)/i.test(title);
-    const supportedCrop = /(coffee|pepper|rice|durian|agricultural)/i.test(title);
-    if (!isMarketPrice || !supportedCrop || seen.has(url)) continue;
-    seen.add(url);
-    results.push({ title, url });
-  }
-  return results.slice(0, 24);
+async function fetchSource(url: string) {
+  const response = await fetch(url, {
+    headers: { "user-agent": "HaiTayPhat-PriceBot/1.0 (+public agricultural price references)" },
+    signal: AbortSignal.timeout(12000),
+  });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return await response.text();
 }
 
 Deno.serve(async (req: Request) => {
   if (req.method === "GET") {
-    return Response.json({ ok: true, service: "automatic-agricultural-prices", schedule: "daily 08:00 Asia/Ho_Chi_Minh", supported: ["Cà phê nhân xô", "Hồ tiêu"] });
+    return Response.json({
+      ok: true,
+      service: "automatic-agricultural-prices",
+      schedule: "daily 08:00 Asia/Ho_Chi_Minh",
+      sources: SOURCES,
+      supported: ["Cà phê nhân xô (trung bình Tây Nguyên)", "Hồ tiêu theo địa phương"],
+    });
   }
-  if (req.method !== "POST") {
-    return new Response("Method not allowed", { status: 405 });
-  }
+  if (req.method !== "POST") return new Response("Method not allowed", { status: 405 });
 
   const token = req.headers.get("x-sync-token");
   const { data: allowed, error: authError } = await supabase.rpc("is_valid_price_sync_token", { p_token: token });
-  if (authError || allowed !== true) {
-    return new Response("Unauthorized", { status: 401 });
-  }
+  if (authError || allowed !== true) return new Response("Unauthorized", { status: 401 });
 
   const startedAt = new Date().toISOString();
-  let sourceCount = 0;
-  let writtenCount = 0;
+  const rows: PriceRow[] = [];
   const failures: string[] = [];
-  try {
-    const listingResponse = await fetch(LIST_URL, {
-      headers: { "user-agent": "HaiTayPhat-PriceBot/1.0 (public agricultural price references)" },
-      signal: AbortSignal.timeout(15000),
-    });
-    if (!listingResponse.ok) throw new Error(`Nguồn danh sách trả HTTP ${listingResponse.status}`);
-    const listing = await listingResponse.text();
-    const candidates = articleCandidates(listing);
-    const selected = candidates.filter(({ title }) => /(coffee|pepper|agricultural commodity prices)/i.test(title));
-    const allRows: PriceRow[] = [];
+  let sourcesChecked = 0;
+  let staleSources = 0;
 
-    for (const article of selected.slice(0, 12)) {
-      try {
-        const response = await fetch(article.url, {
-          headers: { "user-agent": "HaiTayPhat-PriceBot/1.0 (public agricultural price references)" },
-          signal: AbortSignal.timeout(12000),
-        });
-        if (!response.ok) continue;
-        const html = await response.text();
-        sourceCount++;
-        const plain = stripHtml(html);
-        const date = parseDate(article.title) ?? parseDate(plain.slice(0, 4000));
-        if (!date || !isFresh(date)) continue;
-        const lower = (article.title + " " + plain.slice(0, 5000)).toLowerCase();
-        if (/(coffee|robusta|arabica|cà phê)/i.test(lower)) {
-          allRows.push(...parseRows(html, "coffee", article.url, date));
+  try {
+    try {
+      const html = await fetchSource(SOURCES.coffee);
+      sourcesChecked++;
+      const title = heading(html);
+      const date = parseDate(title);
+      const plain = stripHtml(html);
+      if (!date || !isFresh(date)) {
+        staleSources++;
+      } else {
+        const averageMatch = plain.match(/(?:Trung bình|trung bình ở mức)\s*([\d,]+)\s*(?:đ|vnđ|vnd)\s*\/\s*kg/i);
+        const price = averageMatch ? Number(averageMatch[1].replace(/,/g, "")) : null;
+        if (price && price >= 20000 && price <= 250000) {
+          rows.push({
+            crop: "Cà phê nhân xô",
+            province: "Trung bình Tây Nguyên",
+            unit: "kg",
+            price,
+            price_date: date,
+            source: `Giacaphe.com — ${SOURCES.coffee}`,
+          });
+        } else {
+          failures.push("Giacaphe.com: không tìm thấy giá trung bình trong định dạng dự kiến");
         }
-        if (/(pepper|hồ tiêu|black pepper)/i.test(lower)) {
-          allRows.push(...parseRows(html, "pepper", article.url, date));
-        }
-      } catch (error) {
-        failures.push(`${article.url}: ${error instanceof Error ? error.message : "fetch failed"}`);
       }
+    } catch (error) {
+      failures.push(`Giacaphe.com: ${error instanceof Error ? error.message : "fetch failed"}`);
     }
 
-    // Newest source wins if multiple reports quote the same commodity/locality/date.
+    try {
+      const html = await fetchSource(SOURCES.pepper);
+      sourcesChecked++;
+      const date = parseDate(heading(html));
+      if (!date || !isFresh(date)) {
+        staleSources++;
+      } else {
+        const parsed = parsePepper(html, date);
+        if (parsed.length) rows.push(...parsed);
+        else failures.push("Giatieu.com: không tìm thấy bảng giá địa phương trong định dạng dự kiến");
+      }
+    } catch (error) {
+      failures.push(`Giatieu.com: ${error instanceof Error ? error.message : "fetch failed"}`);
+    }
+
+    // Only fresh, source-backed values are published. Never replace a newer row with older data.
     const unique = new Map<string, PriceRow>();
-    for (const row of allRows.sort((a, b) => b.price_date.localeCompare(a.price_date))) {
-      const key = `${row.crop}| ${row.province}| ${row.price_date}`;
+    for (const row of rows.sort((a, b) => b.price_date.localeCompare(a.price_date))) {
+      const key = `${row.crop}|${row.province}|${row.price_date}`;
       if (!unique.has(key)) unique.set(key, row);
     }
     const data = [...unique.values()];
     if (data.length) {
       const { error } = await supabase.from("prices").upsert(data, { onConflict: "crop,province,price_date" });
       if (error) throw error;
-      writtenCount = data.length;
     }
 
+    const status = failures.length ? (data.length ? "partial" : "failed") : "success";
     const { error: logError } = await supabase.from("price_sync_runs").insert({
       started_at: startedAt,
       finished_at: new Date().toISOString(),
-      status: failures.length ? (writtenCount ? "partial" : "failed") : "success",
-      sources_checked: sourceCount,
-      rows_written: writtenCount,
-      details: { fresh_articles_found: selected.length, rows_found: allRows.length, failures: failures.slice(0, 10) },
+      status,
+      sources_checked: sourcesChecked,
+      rows_written: data.length,
+      details: { stale_sources_skipped: staleSources, failures: failures.slice(0, 10) },
     });
     if (logError) console.error("Unable to write sync log", logError);
 
     return Response.json({
-      ok: true,
-      sourcesChecked: sourceCount,
-      rowsFound: allRows.length,
-      rowsWritten: writtenCount,
-      skippedStaleArticles: true,
-      failures: failures.slice(0, 5),
+      ok: data.length > 0,
+      sourcesChecked,
+      rowsWritten: data.length,
+      staleSourcesSkipped: staleSources,
+      failures,
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown sync error";
     await supabase.from("price_sync_runs").insert({
       started_at: startedAt, finished_at: new Date().toISOString(), status: "failed",
-      sources_checked: sourceCount, rows_written: writtenCount, details: { error: message, failures: failures.slice(0, 10) },
+      sources_checked: sourcesChecked, rows_written: 0, details: { error: message, failures },
     });
     return Response.json({ ok: false, error: message }, { status: 500 });
   }
