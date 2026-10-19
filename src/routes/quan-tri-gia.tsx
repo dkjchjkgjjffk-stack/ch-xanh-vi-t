@@ -12,12 +12,22 @@ type CropPrice = {
   price: number;
   price_date: string;
   source: string;
+  currency: "VND" | "USD" | "USC";
 };
+function sourceUrl(source: string): string | null {
+  const separator = source.indexOf(" — ");
+  const url = separator >= 0 ? source.slice(separator + 3).trim() : "";
+  return url.startsWith("https://") || url.startsWith("http://") ? url : null;
+}
+function sourceLabel(source: string) {
+  return source.split(" — ")[0];
+}
+
 
 export const Route = createFileRoute("/quan-tri-gia")({
   head: () => ({
     meta: [
-      { title: "Quản lý bảng giá nông sản — Chợ Xanh Việt" },
+      { title: "Quản lý bảng giá nông sản — Hải Tây Phát" },
       { name: "description", content: "Quản trị giá nông sản kèm ngày cập nhật và nguồn tham khảo." },
     ],
   }),
@@ -36,6 +46,7 @@ function PriceAdmin() {
   const [crop, setCrop] = useState("");
   const [province, setProvince] = useState("Gia Lai");
   const [unit, setUnit] = useState("kg");
+  const [currency, setCurrency] = useState<"VND" | "USD" | "USC">("VND");
   const [price, setPrice] = useState("");
   const [priceDate, setPriceDate] = useState(today());
   const [source, setSource] = useState("");
@@ -46,7 +57,7 @@ function PriceAdmin() {
   const loadPrices = useCallback(async () => {
     const { data, error: queryError } = await supabase
       .from("prices")
-      .select("id,crop,unit,province,price,price_date,source")
+      .select("id,crop,unit,province,price,price_date,source,currency")
       .order("price_date", { ascending: false })
       .order("province", { ascending: true })
       .limit(200);
@@ -107,6 +118,7 @@ function PriceAdmin() {
         crop: crop.trim(),
         province,
         unit: unit.trim(),
+        currency,
         price: amount,
         price_date: priceDate,
         source: source.trim(),
@@ -140,7 +152,7 @@ function PriceAdmin() {
 
   return (
     <Page title="Quản trị · Bảng giá">
-      <SampleNotice>Chỉ tài khoản quản trị mới được nhập hoặc xóa giá. Mỗi giá bắt buộc có ngày và nguồn tham khảo; không nhập giá ước đoán như thể là giá đã xác minh.</SampleNotice>
+      <SampleNotice>Hệ thống tự đồng bộ giá cà phê và hồ tiêu mỗi ngày lúc 08:00 (giờ Việt Nam) từ Giacaphe.com và Giatieu.com. Quản trị viên vẫn có thể bổ sung mặt hàng khác bằng nguồn và ngày giá đã xác minh; không nhập giá ước đoán.</SampleNotice>
       {checking ? <div className="card p-5 text-center" role="status">Đang kiểm tra quyền truy cập…</div> : !authorized ? (
         <section className="card space-y-3 p-5">
           <h2 className="text-lg font-bold">Không có quyền quản trị</h2>
@@ -158,8 +170,9 @@ function PriceAdmin() {
               <label className="block space-y-1"><span className="text-sm font-semibold">Địa phương *</span><select className="field" value={province} onChange={(e) => setProvince(e.target.value)}>{Array.from(new Set([...PROVINCES, province])).sort((a, b) => a.localeCompare(b, "vi")).map((p) => <option key={p} value={p}>{p}</option>)}</select></label>
               <label className="block space-y-1"><span className="text-sm font-semibold">Đơn vị *</span><input className="field" required maxLength={30} value={unit} onChange={(e) => setUnit(e.target.value)} placeholder="kg, tấn, trái…" /></label>
             </div>
+            <label className="block space-y-1"><span className="text-sm font-semibold">Đồng tiền *</span><select className="field" value={currency} onChange={(e) => setCurrency(e.target.value as "VND" | "USD" | "USC")}><option value="VND">VNĐ</option><option value="USD">USD</option><option value="USC">USD cent (cents/lb)</option></select></label>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              <label className="block space-y-1"><span className="text-sm font-semibold">Giá (VNĐ) *</span><input className="field" required type="number" min="1" step="any" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="Ví dụ: 125000" /></label>
+              <label className="block space-y-1"><span className="text-sm font-semibold">Giá ({currency === "VND" ? "VNĐ" : currency === "USD" ? "USD" : "USD cent"}) *</span><input className="field" required type="number" min="1" step="any" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="Ví dụ: 125000" /></label>
               <label className="block space-y-1"><span className="text-sm font-semibold">Ngày giá *</span><input className="field" required type="date" max={today()} value={priceDate} onChange={(e) => setPriceDate(e.target.value)} /></label>
             </div>
             <label className="block space-y-1"><span className="text-sm font-semibold">Nguồn tham khảo *</span><textarea className="field min-h-24" required minLength={3} maxLength={500} value={source} onChange={(e) => setSource(e.target.value)} placeholder="Tên đơn vị, website, bản tin hoặc liên hệ xác nhận và thời điểm lấy giá…" /></label>
@@ -170,7 +183,7 @@ function PriceAdmin() {
             <div className="flex items-center justify-between gap-3"><h2 className="text-lg font-bold">Giá đã đăng</h2><button type="button" className="btn-outline" onClick={() => void loadPrices().catch((caught) => setError(caught instanceof Error ? caught.message : "Không tải được giá."))}>Làm mới</button></div>
             {rows.length === 0 ? <div className="card p-5 text-center text-sm text-muted-foreground">Chưa có dòng giá nào.</div> : rows.map((row) => (
               <article key={row.id} className="card flex items-start justify-between gap-3 p-3">
-                <div className="min-w-0 space-y-1"><h3 className="font-semibold">{row.crop} · {row.province}</h3><p className="font-bold text-primary">{Number(row.price).toLocaleString("vi-VN")} đ/{row.unit}</p><p className="text-xs text-muted-foreground">Ngày: {row.price_date} · Nguồn: {row.source}</p></div>
+                <div className="min-w-0 space-y-1"><h3 className="font-semibold">{row.crop} · {row.province}</h3><p className="font-bold text-primary">{row.currency === "USD" ? `${Number(row.price).toLocaleString("en-US", { maximumFractionDigits: 2 })} USD/${row.unit}` : row.currency === "USC" ? `${Number(row.price).toLocaleString("en-US", { maximumFractionDigits: 2 })} US cent/${row.unit}` : `${Number(row.price).toLocaleString("vi-VN")} đ/${row.unit}`}</p><p className="text-xs text-muted-foreground">Ngày: {row.price_date} · Nguồn: {sourceUrl(row.source) ? <a className="underline underline-offset-2" href={sourceUrl(row.source) ?? undefined} target="_blank" rel="noreferrer">{sourceLabel(row.source)}</a> : row.source}</p></div>
                 <button type="button" className="btn-outline shrink-0" onClick={() => void deletePrice(row.id)}>Xóa</button>
               </article>
             ))}
