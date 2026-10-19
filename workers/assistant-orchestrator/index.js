@@ -3,7 +3,7 @@ const rateWindow = new Map();
 const MAX_MESSAGE_LENGTH = 1500;
 
 function json(data, status = 200) {
-  return new Response(JSON.stringify(data), { status, headers: JSON_HEADERS });
+  return new Response(JSON.stringify(data), { status, headers: securityHeaders(JSON_HEADERS) });
 }
 
 function securityHeaders(headers = {}) {
@@ -17,7 +17,7 @@ function securityHeaders(headers = {}) {
 }
 
 function html(env) {
-  const page = String.raw\`<!doctype html>
+  const page = String.raw`<!doctype html>
 <html lang="vi">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -58,7 +58,7 @@ document.getElementById("syncButton").addEventListener("click",async()=>{const b
 document.getElementById("chatForm").addEventListener("submit",async e=>{e.preventDefault();const input=document.getElementById("message"),b=document.getElementById("sendButton"),message=input.value.trim();if(!message)return;appendMessage("user",message);input.value="";b.disabled=true;setNotice(chatNotice,"Đang suy nghĩ…");try{const data=await api("/api/chat",{method:"POST",body:JSON.stringify({message})});appendMessage("assistant",data.reply||"Chưa có câu trả lời.");setNotice(chatNotice,"")}catch(e){setNotice(chatNotice,e.message)}finally{b.disabled=false;input.focus()}});
 if(token()){api("/api/status").then(showApp).catch(()=>{sessionStorage.removeItem(tokenKey);showLogin()})}else showLogin();
 })();
-</script></body></html>\`;
+</script></body></html>`;
   return page.replace("__SUPABASE_URL__", env.SUPABASE_URL).replace("__SUPABASE_KEY__", env.SUPABASE_PUBLISHABLE_KEY);
 }
 
