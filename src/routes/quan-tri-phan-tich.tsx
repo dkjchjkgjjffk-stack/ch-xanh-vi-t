@@ -87,16 +87,7 @@ function AnalyticsAdmin() {
         <div className="card p-4"><p className="text-sm text-muted-foreground">Phiên truy cập</p><p className="mt-1 text-2xl font-bold">{fmt(sessions)}</p></div>
         <div className="card p-4"><p className="text-sm text-muted-foreground">Lượt bấm ghi nhận</p><p className="mt-1 text-2xl font-bold">{fmt(events.filter(e=>e.event_type==="click").length)}</p></div>
       </div>
-      <div className="mb-5 grid gap-4 lg:grid-cols-2">
-        <Panel title="Thiết bị" rows={devices.map(([k,n])=>[deviceNames[k]||k,n,pct(n,views.length)])}/>
-        <Panel title="Trình duyệt" rows={browsers.map(([k,n])=>[k,n,pct(n,views.length)])}/>
-        <Panel title="Hệ điều hành" rows={systems.map(([k,n])=>[k,n,pct(n,views.length)])}/>
-        <Panel title="Trang được xem nhiều" rows={pages.map(([k,n])=>[k,n,pct(n,views.length)])}/>
-        <Panel title="Khu vực / thành phố" rows={regions.map(([k,n])=>[k,n,pct(n,views.length)])}/>
-        <Panel title="Quốc gia" rows={countries.map(([k,n])=>[k,n,pct(n,views.length)])}/>
-        <Panel title="Nguồn truy cập" rows={sources.map(([k,n])=>[k,n,pct(n,views.length)])}/>
-        <Panel title="Độ phân giải màn hình" rows={Object.entries(views.reduce<Record<string,number>>((a,e)=>{const k=e.screen_width&&e.screen_height?`${e.screen_width}×${e.screen_height}`:"Không rõ";a[k]=(a[k]||0)+1;return a;},{})).sort((a,b)=>b[1]-a[1]).slice(0,10).map(([k,n])=>[k,n,pct(n,views.length)])}/>
-      </div>
+      <AnalyticsCharts daily={daily} regions={regionChart} pages={pageChart} devices={deviceChart} />
       <section className="card mb-5 p-4"><h2 className="mb-3 text-lg font-bold">Lượt bấm gần đây</h2>{clicks.length? <div className="overflow-x-auto"><table className="w-full text-left text-sm"><thead><tr><th className="p-2">Thời gian</th><th className="p-2">Trang</th><th className="p-2">Nội dung bấm</th><th className="p-2">Thiết bị</th></tr></thead><tbody>{clicks.map(e=><tr key={e.id} className="border-t border-border"><td className="p-2 whitespace-nowrap">{new Date(e.created_at).toLocaleString("vi-VN")}</td><td className="p-2">{e.page_path}</td><td className="p-2">{e.event_label}</td><td className="p-2">{deviceNames[e.device_type]||e.device_type}</td></tr>)}</tbody></table></div>:<p className="text-sm text-muted-foreground">Chưa có lượt bấm nào được ghi nhận.</p>}</section>
       <p className="text-xs text-muted-foreground">* Một khách được nhận diện bằng mã ngẫu nhiên trên trình duyệt; xóa dữ liệu trình duyệt hoặc dùng thiết bị khác có thể tạo mã mới. Vị trí chỉ là ước lượng theo IP, không phải GPS hay địa chỉ nhà. Dữ liệu chỉ có từ khi chức năng được triển khai.</p>
     </>}
