@@ -22,6 +22,7 @@ function SubmitProduct() {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [description, setDescription] = useState("");
+  const [image, setImage] = useState<File | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -42,7 +43,16 @@ function SubmitProduct() {
       const amount = Number(price.replace(/[^0-9]/g, ""));
       if (!amount) throw new Error("Vui lòng nhập giá bán hợp lệ.");
       if (!/^[+0-9().\s-]{9,20}$/.test(phone.trim())) throw new Error("Số điện thoại chưa hợp lệ.");
+      let imagePath: string | null = null;
+      if (image) {
+        if (image.size > 5 * 1024 * 1024) throw new Error("Ảnh quá lớn. Vui lòng chọn ảnh nhỏ hơn 5MB.");
+        const ext = (image.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
+        imagePath = `${data.user.id}/${Date.now()}.${ext}`;
+        const { error: uploadError } = await supabase.storage.from("images").upload(imagePath, image, { contentType: image.type || undefined });
+        if (uploadError) throw uploadError;
+      }
       const { error: insertError } = await supabase.from("products").insert({
+        image_url: imagePath,
         seller_id: data.user.id, name: name.trim(), category, price: amount, unit: unit.trim(),
         manufacturer: maker.trim() || "Người bán chưa cung cấp",
         registration: registration.trim() || "Chưa cung cấp",
@@ -81,6 +91,7 @@ function SubmitProduct() {
           <label className="block space-y-1"><span className="text-sm font-semibold">Điện thoại *</span><input className="field" type="tel" required value={phone} onChange={e=>setPhone(e.target.value)} /></label>
           <label className="block space-y-1"><span className="text-sm font-semibold">Địa chỉ</span><input className="field" value={address} onChange={e=>setAddress(e.target.value)} /></label>
         </div>
+        <label className="block space-y-1"><span className="text-sm font-semibold">Ảnh sản phẩm (không bắt buộc)</span><input type="file" accept="image/*" className="field" onChange={e=>setImage(e.target.files?.[0] ?? null)} /><span className="block text-xs text-muted-foreground">Chỉ tải ảnh bạn có quyền sử dụng, tối đa 5MB.</span></label>
         {error && <p role="alert" className="rounded-lg bg-destructive/10 p-3 text-sm">{error}</p>}
         {success && <p role="status" className="rounded-lg bg-primary/10 p-3 text-sm">{success}</p>}
         <button className="btn-primary w-full" type="submit" disabled={busy}>{busy ? "Đang gửi…" : "Gửi sản phẩm chờ duyệt"}</button>

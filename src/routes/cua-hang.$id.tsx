@@ -12,17 +12,24 @@ export const Route = createFileRoute("/cua-hang/$id")({
     if (sample) return { product: sample, isSample: true };
 
     const { data, error } = await supabase.from("products")
-      .select("id,name,category,price,unit,description,icon,manufacturer,registration,seller_name,seller_phone,seller_address,verify_status,status,is_sample")
+      .select("id,name,category,price,unit,description,icon,image_url,manufacturer,registration,seller_name,seller_phone,seller_address,verify_status,status,is_sample")
       .eq("id", params.id).eq("status", "approved").eq("is_sample", false).maybeSingle();
     if (error || !data) throw notFound();
 
-    const product: Product = {
+    let imageUrl: string | null = null;
+    if (data.image_url) {
+      const { data: signed } = await supabase.storage.from("images").createSignedUrl(data.image_url, 3600);
+      imageUrl = signed?.signedUrl ?? null;
+    }
+
+    const product: Product & { imageUrl?: string | null } = {
       id: data.id, name: data.name, category: data.category as Product["category"],
       price: Number(data.price), unit: data.unit, icon: data.icon || "📦",
       description: data.description || "", manufacturer: data.manufacturer || "Người bán chưa cung cấp",
       registration: data.registration || "Chưa cung cấp",
       verify: data.verify_status as Product["verify"],
       seller: { name: data.seller_name, phone: data.seller_phone, address: data.seller_address || "" },
+      imageUrl,
     };
     return { product, isSample: false };
   },
@@ -47,7 +54,9 @@ function Detail() {
       <Link to="/cua-hang" className="font-semibold text-primary">← Cửa hàng</Link>
       {isSample ? <SampleNotice>Sản phẩm này chỉ là dữ liệu mẫu để xem giao diện, không phải hàng bán thật.</SampleNotice> : <p className="rounded-lg bg-success/10 p-3 text-sm text-success">Sản phẩm đã được duyệt đăng. Thông tin do người bán khai chưa được xác minh độc lập.</p>}
       <div className="grid gap-4 md:grid-cols-2">
-        <div className="card flex aspect-square items-center justify-center bg-secondary text-9xl">{p.icon}</div>
+        {"imageUrl" in p && p.imageUrl
+          ? <img src={p.imageUrl} alt={`Ảnh sản phẩm: ${p.name}`} className="card aspect-square w-full object-cover" loading="lazy" />
+          : <div className="card flex aspect-square items-center justify-center bg-secondary text-9xl">{p.icon}</div>}
         <div className="space-y-3">
           <div className="text-muted-foreground">{CATEGORIES.find((c) => c.id === p.category)?.name}</div>
           <h1 className="text-2xl font-bold">{p.name}</h1>
