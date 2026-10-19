@@ -106,6 +106,7 @@ function ListingModeration() {
         <>
           <div className="grid gap-2 sm:grid-cols-2">
             <Link to="/quan-tri-gia" className="btn-outline">Quản lý bảng giá nông sản</Link>
+            <Link to="/quan-tri-khach-hang" className="btn-outline">Quản lý khách hàng CRM</Link>
             <Link to="/bang-gia" className="btn-outline">Xem bảng giá công khai</Link>
           </div>
           <div className="flex items-center justify-between gap-3">
