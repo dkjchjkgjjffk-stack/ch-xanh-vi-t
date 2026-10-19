@@ -124,6 +124,17 @@ function CustomerAdmin() {
     } finally { setBusy(false); }
   };
 
+  const updateCustomerType = async (customer: Customer, nextType: "retail" | "wholesale") => {
+    setError(""); setNotice("");
+    const { error: updateError } = await supabase.from("customers").update({ customer_type: nextType }).eq("id", customer.id);
+    if (updateError) {
+      setError(updateError.message);
+      return;
+    }
+    setCustomers(current => current.map(c => c.id === customer.id ? { ...c, customer_type: nextType } : c));
+    setNotice("Đã cập nhật nhóm khách hàng.");
+  };
+
   const addInteraction = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!selected) return;
@@ -196,7 +207,7 @@ function CustomerAdmin() {
           {visibleCustomers.length === 0 ? <div className="card p-6 text-center text-sm text-muted-foreground">Chưa có khách phù hợp. Thêm khách mới ở khung bên trái.</div> : visibleCustomers.map(c => {
             const stat = orderStats.get(c.phone_normalized) ?? { count: 0, total: 0, last: null };
             return <article key={c.id} className={"card space-y-3 p-4 " + (selected === c.id ? "ring-2 ring-primary" : "")}>
-              <div className="flex flex-wrap items-start justify-between gap-2"><div><h3 className="font-bold">{c.full_name}</h3><a className="text-sm text-primary underline" href={"tel:" + c.phone}>{c.phone}</a><p className="text-xs text-muted-foreground">{typeLabels[c.customer_type]} · {sourceLabels[c.source]} · Thêm {new Date(c.created_at).toLocaleDateString("vi-VN")}</p></div><button type="button" className="btn-secondary" onClick={() => setSelected(selected === c.id ? "" : c.id)}>{selected === c.id ? "Đóng" : "Lịch sử chăm sóc"}</button></div>
+              <div className="flex flex-wrap items-start justify-between gap-2"><div><h3 className="font-bold">{c.full_name}</h3><a className="text-sm text-primary underline" href={"tel:" + c.phone}>{c.phone}</a><div className="mt-1 flex flex-wrap items-center gap-2"><select aria-label={"Nhóm khách " + c.full_name} className="field !my-0 !w-auto" value={c.customer_type} onChange={e => void updateCustomerType(c, e.target.value as "retail" | "wholesale")}><option value="retail">Khách lẻ</option><option value="wholesale">Khách sỉ</option></select><span className="text-xs text-muted-foreground">{sourceLabels[c.source]} · Thêm {new Date(c.created_at).toLocaleDateString("vi-VN")}</span></div></div><button type="button" className="btn-secondary" onClick={() => setSelected(selected === c.id ? "" : c.id)}>{selected === c.id ? "Đóng" : "Lịch sử chăm sóc"}</button></div>
               {c.address && <p className="text-sm">{c.address}</p>}
               <div className="grid grid-cols-2 gap-2 rounded-lg bg-muted/40 p-3 text-sm sm:grid-cols-3"><div><p className="text-xs text-muted-foreground">Đơn hàng</p><strong>{stat.count}</strong></div><div><p className="text-xs text-muted-foreground">Tổng giá trị đơn</p><strong>{vnd(stat.total)}</strong></div><div><p className="text-xs text-muted-foreground">Mua gần nhất</p><strong>{stat.last ? new Date(stat.last).toLocaleDateString("vi-VN") : "Chưa có đơn"}</strong></div></div>
               {c.notes && <p className="whitespace-pre-wrap text-sm text-muted-foreground">{c.notes}</p>}
