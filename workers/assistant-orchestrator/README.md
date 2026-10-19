@@ -4,7 +4,7 @@ A separate, admin-authenticated orchestration MVP. It does not replace the publi
 
 ## Current capabilities
 - Admin login verified against Supabase Auth and \`public.user_roles\`.
-- Read-only AI chat using Cloudflare Workers AI model \`@cf/zai-org/glm-4.7-flash\`.
+- Read-only AI chat using Cloudflare Workers AI model \`@cf/meta/llama-3.1-8b-instruct\`.
 - Admin status panel for latest public prices and recent price-sync runs.
 - Explicit, confirmed action to run \`sync-agricultural-prices\`.
 - Per-isolate best-effort rate limit (12 chat requests/minute/user), short-lived browser token in \`sessionStorage\`, and no service-role key in browser code.
