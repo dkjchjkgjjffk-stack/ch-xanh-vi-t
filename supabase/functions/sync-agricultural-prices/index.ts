@@ -29,6 +29,7 @@ type PriceRow = {
   price: number;
   price_date: string;
   source: string;
+  currency: "VND" | "USD" | "USC";
 };
 
 function decodeHtml(value: string) {
@@ -111,6 +112,37 @@ function parsePepper(html: string, date: string): PriceRow[] {
       price,
       price_date: date,
       source: `Giatieu.com — ${SOURCES.pepper}`,
+      currency: "VND",
+    });
+  }
+  return rows;
+}
+
+function parseFuturesSection(html: string, market: "Robusta London" | "Arabica New York", date: string): PriceRow[] {
+  const headingPattern = new RegExp(`<h[1-6]\\b[^>]*>[\\s\\S]*?${market.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\\\async function fetchSource(url: string) {")}[\\s\\S]*?<\\/h[1-6]>`, "i");
+  const headingMatch = headingPattern.exec(html);
+  if (!headingMatch || headingMatch.index === undefined) return [];
+  const sectionStart = headingMatch.index;
+  const rest = html.slice(sectionStart + headingMatch[0].length);
+  const nextHeading = rest.search(/<h[1-6]\\b/i);
+  const section = html.slice(sectionStart, nextHeading >= 0 ? sectionStart + headingMatch[0].length + nextHeading : undefined);
+  const rows: PriceRow[] = [];
+  for (const row of section.matchAll(/<tr\\b[^>]*>([\\s\\S]*?)<\\/tr>/gi)) {
+    const cells = [...row[1].matchAll(/<t[dh]\\b[^>]*>([\\s\\S]*?)<\\/t[dh]>/gi)]
+      .map((cell) => stripHtml(cell[1]));
+    if (cells.length < 2 || !/^\\d{2}\\/\\d{2}$/.test(cells[0])) continue;
+    const price = Number(cells[1].replace(/,/g, "").replace(/[^\\d.]/g, ""));
+    const isRobusta = market === "Robusta London";
+    if (!Number.isFinite(price) || (isRobusta ? price < 1000 || price > 10000 : price < 100 || price > 1000)) continue;
+    const contract = cells[0];
+    rows.push({
+      crop: isRobusta ? `Cà phê Robusta London ${contract}` : `Cà phê Arabica New York ${contract}`,
+      province: isRobusta ? "Sàn London" : "Sàn New York",
+      unit: isRobusta ? "tấn" : "lb",
+      price,
+      price_date: date,
+      source: `Giacaphe.com — ${SOURCES.coffee}`,
+      currency: isRobusta ? "USD" : "USC",
     });
   }
   return rows;
@@ -167,6 +199,7 @@ Deno.serve(async (req: Request) => {
             price,
             price_date: date,
             source: `Giacaphe.com — ${SOURCES.coffee}`,
+            currency: "VND",
           });
         } else {
           failures.push("Giacaphe.com: không tìm thấy giá trung bình trong định dạng dự kiến");
