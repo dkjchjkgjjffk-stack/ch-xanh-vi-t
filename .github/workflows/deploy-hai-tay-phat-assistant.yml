@@ -37,11 +37,7 @@ jobs:
         with:
           bun-version: latest
 
-      - name: Install Wrangler
-        if: steps.credential.outputs.available == 'true'
-        run: bun add --global wrangler
-
       - name: Deploy Worker to Cloudflare
         if: steps.credential.outputs.available == 'true'
         working-directory: workers/assistant-orchestrator
-        run: wrangler deploy --config wrangler.jsonc
+        run: bunx wrangler deploy --config wrangler.jsonc
