@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Search, X } from "lucide-react";
-import { CROPS, LISTINGS, PROVINCES, type Listing } from "@/data/sample";
+import { CROPS, PROVINCES, type Listing } from "@/data/sample";
 import { supabase } from "@/integrations/supabase/client";
 import { Page, SampleNotice } from "@/components/Layout";
 import { ListingCard } from "@/components/Cards";
@@ -76,7 +76,7 @@ function Market() {
     nav({ search: n });
   };
   const normalizedQuery = query.trim().toLocaleLowerCase("vi");
-  const allListings = [...liveListings, ...LISTINGS];
+  const allListings = liveListings;
   const items = allListings.filter((l) =>
     (!s.loai || l.type === s.loai) &&
     (!s.nongsan || l.crop === s.nongsan) &&
@@ -91,7 +91,7 @@ function Market() {
 
   return (
     <Page title="Chợ nông sản">
-      <SampleNotice>Tin có nhãn “Tin mẫu” chỉ dùng minh họa. Tin thật chỉ xuất hiện sau khi được duyệt; hãy xác minh thông tin người bán trước khi giao dịch.</SampleNotice>
+      <SampleNotice>Chỉ hiển thị tin đã được duyệt. Hãy xác minh thông tin người bán và thỏa thuận điều kiện giao dịch trước khi giao hàng.</SampleNotice>
       <a href="/dang-tin" className="btn-primary w-full text-center">＋ Đăng tin bán / thu mua nông sản</a>
       <label htmlFor="market-search" className="font-semibold">Tìm tin bán hoặc thu mua</label>
       <div className="relative">
@@ -116,7 +116,7 @@ function Market() {
         <p className="text-muted-foreground">Tìm thấy <strong>{items.length}</strong> tin{loadingLive ? " · đang tải tin thật…" : ""}</p>
         {hasFilters && <button type="button" onClick={clearFilters} className="text-sm font-semibold text-primary underline underline-offset-4">Xóa bộ lọc</button>}
       </div>
-      {liveUnavailable && <p className="rounded-lg bg-warning p-3 text-sm text-warning-foreground">Chưa tải được tin thật từ cơ sở dữ liệu. Các tin mẫu bên dưới chỉ để xem giao diện.</p>}
+      {liveUnavailable && <p className="rounded-lg bg-warning p-3 text-sm text-warning-foreground">Chưa tải được tin từ Supabase. Vui lòng thử lại sau.</p>}
       {items.length === 0 ? (
         <div className="card px-4 py-10 text-center">
           <div className="text-4xl">🔎</div>
@@ -126,9 +126,7 @@ function Market() {
         </div>
       ) : <div className="grid gap-3 md:grid-cols-2">{items.map((l) => (
         <div key={l.id} className="space-y-1">
-          {liveListings.some((live) => live.id === l.id)
-            ? <p className="px-1 text-xs font-semibold text-success">TIN ĐÃ DUYỆT</p>
-            : <p className="px-1 text-xs font-semibold text-muted-foreground">TIN MẪU</p>}
+          <p className="px-1 text-xs font-semibold text-success">TIN ĐÃ DUYỆT</p>
           <ListingCard l={l} />
         </div>
       ))}</div>}
