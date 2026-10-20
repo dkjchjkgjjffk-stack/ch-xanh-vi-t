@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
-import { Search, ShoppingCart, UserRound, Menu, Sprout, Wheat, ChartNoAxesCombined, Package, ClipboardList } from "lucide-react";
+import { Search, ShoppingCart, UserRound, Menu, Sprout, Wheat, ChartNoAxesCombined, Package } from "lucide-react";
 import { useCart } from "@/lib/cart";
 
 const NAV = [
