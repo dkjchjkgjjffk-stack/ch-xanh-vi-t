@@ -97,7 +97,7 @@ export const FERTILIZER_CATALOG: ReferenceProduct[] = [
     "Điền Trang", "https://trichoderma.vn/san-pham/pg095-phan-huu-co-vi-sinh-trichomixdt-lan-vi-sinh-pro-40kg-566.html", "🦠"),
   item("ref-npk-15515s", "NPK 15-5-15 + 5S", "Lân",
     "Công thức N 15%, P₂O₅ 5%, K₂O 15%, S 5% theo danh mục sản phẩm. Đây là NPK có lân, không phải phân lân đơn; dùng khi công thức phù hợp với nhu cầu dinh dưỡng và khuyến cáo của nhà sản xuất.",
-    "Vinachem — thông tin sản phẩm", "https://www.vinachem.com.vn/old-products/npk-vnc/npk_15-5-155s-npk_15-5-155s.html", "🌱"),
+    "Vinachem — thông tin sản phẩm", "https://www.vinachem.com.vn/old-products/npk-vnc/npk_15-5-155s-npk_15-5-155s.html", "🌱", "https://fs.vinachem.com.vn/thumbnailwebps/5e247704724346d98f5efb6caa22f6eb/0/0/0/461a7a670eea443f9bf7d187d9143e23/1/2015/0005610040207/npk-15-5-155s.webp"),
 
   item("ref-kali-mop", "Kali Phú Mỹ MOP — K₂O 61%", "Kali",
     "Hãng công bố K₂O hữu hiệu 61%, độ ẩm 0,5%. Kali hỗ trợ điều tiết nước, vận chuyển đường và chất lượng trái/nhân. Cân đối với đạm, lân, magie và lưu huỳnh; tránh bón quá mức gây mất cân đối dinh dưỡng.",
