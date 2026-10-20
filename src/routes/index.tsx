@@ -7,7 +7,7 @@ import { Page } from "@/components/Layout";
 import { ProductCard } from "@/components/Cards";
 
 const categoryVisuals = [
-  { id: "nongsan", title: "Nông sản", desc: "Cà phê, hồ tiêu, sầu riêng…", image: "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=900&q=85", search: "Cà phê" },
+  { id: "nongsan", title: "Nông sản", desc: "Cà phê, hồ tiêu, sầu riêng…", image: "https://images.unsplash.com/photo-1559525839-b184a4d698c7?auto=format&fit=crop&w=900&q=85", search: "Cà phê" },
   { id: "phan-bon", title: "Phân bón", desc: "NPK, hữu cơ, vi sinh…", image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=900&q=85", search: "phan-bon" },
   { id: "thuoc-bvtv", title: "Thuốc BVTV", desc: "Thông tin sản phẩm rõ ràng", image: "https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=900&q=85", search: "thuoc-bvtv" },
   { id: "vat-tu", title: "Vật tư nông nghiệp", desc: "Ống tưới, dụng cụ, phụ kiện…", image: "https://images.unsplash.com/photo-1558904541-efa843a96f01?auto=format&fit=crop&w=900&q=85", search: "vat-tu" },
@@ -91,16 +91,16 @@ function Index() {
   return (
     <div className="bg-[#f7faf7]">
       <section className="relative isolate overflow-hidden bg-[#e9f5eb]">
-        <div className="absolute inset-0 -z-20 bg-cover bg-center" style={{ backgroundImage: `url('${["https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1800&q=90","https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1800&q=90","https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=1800&q=90"][heroSlide]}')` }} />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-white/95 via-white/80 to-white/20"/>
-        <div className="mx-auto grid min-h-[280px] max-w-[1400px] items-center gap-3 px-4 py-7 sm:min-h-[380px] sm:gap-4 sm:px-8 sm:py-8 md:grid-cols-[1fr_.9fr]">
+        <div className="absolute inset-0 -z-20 bg-cover bg-center" style={{ backgroundImage: `url('${["https://images.unsplash.com/photo-1445116572660-236099ec97a0?auto=format&fit=crop&w=1800&q=90","https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1800&q=90","https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=1800&q=90"][heroSlide]}')` }} />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#f7fff5]/95 via-[#f7fff5]/75 to-white/10"/>
+        <div className="mx-auto grid min-h-[300px] max-w-[1400px] items-center gap-3 px-4 py-7 sm:min-h-[380px] sm:gap-4 sm:px-8 sm:py-8 md:grid-cols-[1fr_.9fr]">
           <div className="max-w-xl pb-12 md:pb-0">
             <span className="inline-flex rounded-full bg-[#075b38] px-2 py-1 text-[8px] font-bold tracking-wide text-white sm:px-4 sm:py-2 sm:text-xs">NÔNG NGHIỆP BỀN VỮNG · GIÁ TRỊ DÀI LÂU</span>
             <h1 className="mt-2 text-[1.8rem] font-extrabold leading-[1.08] tracking-tight text-[#102b23] sm:mt-3 sm:text-5xl">Kết nối nhà nông<br/><span className="text-[#087343]">Giá trị bền vững</span></h1>
             <p className="mt-3 max-w-lg text-xs leading-relaxed text-slate-700 sm:mt-4 sm:text-base sm:leading-6">Hải Tây Phát cung cấp nông sản, phân bón, thuốc BVTV, vật tư nông nghiệp chính hãng, chất lượng, giá tốt.</p>
             <Link to="/cua-hang" className="mt-4 inline-flex min-h-10 items-center gap-2 rounded-full bg-[#ffc629] px-3 text-[10px] font-bold text-[#19352a] shadow-sm sm:mt-5 sm:min-h-10 sm:gap-2 sm:px-5 sm:text-sm">Khám phá ngay <ArrowRight size={16}/></Link>
           </div>
-          <div className="absolute bottom-2 right-2 flex items-end gap-1.5 md:hidden"><img className="h-[48px] w-[40px] rounded-md border-2 border-white object-cover shadow-md" src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=160&q=85" alt="Hạt cà phê" /><img className="h-[60px] w-[45px] rounded-md border-2 border-white object-cover shadow-md" src="https://image.made-in-china.com/2f0j00frdqbQuPIpzg/Hebei-Hontai-Agricultural-Chemicals-and-Pesticides.jpg" alt="Sản phẩm bảo vệ cây trồng" /><img className="h-[48px] w-[40px] rounded-md border-2 border-white object-cover shadow-md" src="https://vedantpolyagro.com/images/drip.png" alt="Dụng cụ tưới nông nghiệp" /></div>
+          <div className="absolute bottom-8 right-3 flex items-end gap-1.5 md:hidden"><img className="h-[64px] w-[52px] rounded-lg border-2 border-white object-cover shadow-lg" src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=160&q=85" alt="Hạt cà phê" /><img className="h-[76px] w-[58px] rounded-lg border-2 border-white object-cover shadow-lg" src="https://image.made-in-china.com/2f0j00frdqbQuPIpzg/Hebei-Hontai-Agricultural-Chemicals-and-Pesticides.jpg" alt="Sản phẩm bảo vệ cây trồng" /><img className="h-[64px] w-[52px] rounded-lg border-2 border-white object-cover shadow-lg" src="https://vedantpolyagro.com/images/drip.png" alt="Dụng cụ tưới nông nghiệp" /></div>
           <div className="hidden items-center justify-end gap-3 md:flex">
             <img className="mt-10 h-44 w-40 rounded-xl object-cover shadow-lg" src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=500&q=85" alt="Hạt cà phê" />
             <img className="h-52 w-44 rounded-xl object-cover shadow-lg" src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=500&q=85" alt="Cây trồng xanh tốt" />
@@ -112,17 +112,17 @@ function Index() {
       </section>
 
       <Page>
-        <section className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+        <section className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-4">
           {categoryVisuals.map((c) => (
             <Link key={c.id} to={c.id === "nongsan" ? "/cho" : "/cua-hang"} search={c.id === "nongsan" ? undefined : { dm: c.search as never }} className="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
-              <div className="h-28 overflow-hidden sm:h-40"><img src={c.image} alt={c.title} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105"/></div>
-              <div className="flex min-h-[64px] items-center justify-between gap-2 px-3 py-3 sm:p-4"><div className="min-w-0"><h2 className="truncate text-sm font-bold leading-tight text-slate-900 sm:text-base">{c.title}</h2><p className="mt-1 hidden line-clamp-2 text-xs text-slate-500 sm:block">{c.desc}</p></div><ArrowRight size={12} className="shrink-0 text-[#087343] sm:h-[17px] sm:w-[17px]"/></div>
+              <div className="h-[104px] overflow-hidden sm:h-40"><img src={c.image} alt={c.title} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105"/></div>
+              <div className="flex min-h-[58px] items-center justify-between gap-2 px-2.5 py-2.5 sm:p-4"><div className="min-w-0"><h2 className="truncate text-sm font-bold leading-tight text-slate-900 sm:text-base">{c.title}</h2><p className="mt-1 hidden line-clamp-2 text-xs text-slate-500 sm:block">{c.desc}</p></div><ArrowRight size={12} className="shrink-0 text-[#087343] sm:h-[17px] sm:w-[17px]"/></div>
             </Link>
           ))}
         </section>
 
         <section className="grid gap-6 lg:grid-cols-[1.05fr_1.4fr]">
-          <div className="rounded-2xl border border-[#dce9df] bg-gradient-to-br from-white to-[#edf8f0] p-4 shadow-sm sm:p-6">
+          <div className="rounded-2xl border border-[#cfe9dc] bg-gradient-to-br from-[#f8fffb] to-[#eaf7f0] p-3.5 shadow-sm sm:p-6">
             <div className="flex items-center justify-between gap-3"><h2 className="flex items-center gap-2 text-lg font-extrabold text-[#075b38]"><ChartNoAxesCombined size={21}/> Giá nông sản mới nhất</h2><Link to="/bang-gia" className="text-sm font-semibold text-[#087343]">Xem tất cả <ArrowRight size={14} className="inline"/></Link></div>
             <p className="mt-1 text-xs text-slate-500">Giá tham khảo theo vùng, có ngày ghi nhận và liên kết nguồn.</p>
             <div className="mt-4 divide-y divide-slate-100">
@@ -133,16 +133,16 @@ function Index() {
           </div>
 
           <div>
-            <div className="mb-4 flex items-center justify-between"><h2 className="text-xl font-extrabold text-[#075b38]">Sản phẩm nổi bật</h2><Link to="/cua-hang" className="text-sm font-semibold text-[#087343]">Xem tất cả <ArrowRight size={14} className="inline"/></Link></div>
+            <div className="mb-3 flex items-center justify-between"><h2 className="flex items-center gap-2 text-lg font-extrabold text-[#087343] sm:text-xl">☆ Sản phẩm nổi bật</h2><Link to="/cua-hang" className="text-sm font-semibold text-[#087343]">Xem tất cả <ArrowRight size={14} className="inline"/></Link></div>
             
             <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-2 sm:overflow-visible xl:grid-cols-4">{featuredProducts.length ? featuredProducts.map((p) => <div key={p.id} className="min-w-[148px] snap-start sm:min-w-0"><ProductCard p={p}/></div>) : <div className="w-full rounded-xl border border-dashed border-emerald-200 bg-white/80 p-5 text-sm text-slate-600 sm:col-span-2 xl:col-span-4">Chưa có sản phẩm thật được người bán đăng và duyệt. Hải Tây Phát sẽ hiển thị sản phẩm tại đây khi có dữ liệu hợp lệ.</div>}</div>
           </div>
         </section>
 
-        <Link to="/cua-hang" search={{ dm: "vat-tu" as never }} className="group relative mb-5 block overflow-hidden rounded-2xl bg-[#075b38] shadow-sm">
+        <Link to="/cua-hang" search={{ dm: "vat-tu" as never }} className="group relative mb-5 block overflow-hidden rounded-2xl bg-[#075b38] shadow-sm ring-1 ring-emerald-900/10">
           <img src="https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=1600&q=85" alt="Vật tư nông nghiệp và chăm sóc cây trồng" loading="lazy" className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]"/>
           <div className="absolute inset-0 bg-gradient-to-r from-[#06452e]/95 via-[#075b38]/75 to-transparent"/>
-          <div className="relative max-w-lg px-5 py-7 text-white sm:px-8 sm:py-9"><p className="text-xs font-bold uppercase tracking-widest text-[#ffd35c]">Dành cho nhà vườn</p><h2 className="mt-2 text-2xl font-extrabold sm:text-3xl">Dụng cụ nông nghiệp</h2><p className="mt-1 text-sm text-white/90">Chất lượng · Bền bỉ · Hiệu quả</p><span className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#ffc629] px-4 py-2 text-sm font-bold text-[#173a2a]">Khám phá vật tư <ArrowRight size={16}/></span></div>
+          <div className="relative max-w-lg px-5 py-6 text-white sm:px-8 sm:py-9"><p className="text-xs font-bold uppercase tracking-widest text-[#ffd35c]">Dành cho nhà vườn</p><h2 className="mt-2 text-2xl font-extrabold sm:text-3xl">Dụng cụ nông nghiệp</h2><p className="mt-1 text-sm text-white/90">Chất lượng · Bền bỉ · Hiệu quả</p><span className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#ffc629] px-4 py-2 text-sm font-bold text-[#173a2a]">Khám phá vật tư <ArrowRight size={16}/></span></div>
         </Link>
 
         <section className="overflow-hidden rounded-xl bg-gradient-to-r from-[#075b38] via-[#0b7045] to-[#eaf4ec] p-5 text-white shadow-sm sm:p-6">
