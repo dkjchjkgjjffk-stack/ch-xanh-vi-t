@@ -27,7 +27,7 @@ export const FERTILIZER_CATALOG: ReferenceProduct[] = [
     "Baconco — Con Cò", "https://baconco.com.vn/san-pham/phan-bon-goc/phan-bon-npk/npk-con-co-20-10-10", "🌿", "https://baconco.com.vn/media/com_reditem/images/customfield/item/835/39fc0fcc6a3490742a3a97370870ae23543d367d.jpg"),
   item("ref-npk-2255", "NPK Con Cò 22-5-5 + 6S + B + Zn", "NPK cà phê – hồ tiêu",
     "Hãng công bố: N 22%, P₂O₅ 5%, K₂O 5%, S 6%, Zn 1.000 ppm, B 500 ppm, độ ẩm 2%. Hãng giới thiệu cho giai đoạn cây công nghiệp cần đạm, gồm cà phê và hồ tiêu theo hướng dẫn nhãn. Không dùng riêng công thức giàu đạm thay cho nhu cầu kali của cả vụ.",
-    "Baconco — Con Cò", "https://baconco.com.vn/san-pham/phan-bon-goc/phan-bon-npk/npk-con-co-2255-6s-005b-01zn", "🌿"),
+    "Baconco — Con Cò", "https://baconco.com.vn/san-pham/phan-bon-goc/phan-bon-npk/npk-con-co-2255-6s-005b-01zn", "🌿", "https://baconco.com.vn/media/com_reditem/images/customfield/item/229/1561457441_22-5-5.webp"),
   item("ref-dautrau-1977", "NPK Đầu Trâu BĐ-MK 19-7-7 + TE", "NPK cà phê – hồ tiêu",
     "Hãng công bố: N 19%, P₂O₅ 7%, K₂O 7%, có B, Cu, Zn theo thông tin sản phẩm. Hãng giới thiệu dùng cho cà phê/hồ tiêu mùa khô. Tỷ lệ đạm cao hơn kali; cần cân đối với giai đoạn cây, năng suất mục tiêu và các lần bón khác.",
     "Bình Điền Mekong — Đầu Trâu", "https://binhdienmekong.vn/san-pham/dau-trau-bd-mk-19-7-7te/", "🌳"),
