@@ -1,6 +1,16 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  // Production build and deploy commands are managed by Cloudflare Builds.
-  // Nitro generates the production Worker config in .output/server.
+  "name": "hai-tay-phat",
+  "account_id": "3724ab9be081e7e42c70577f5117519e",
+  "compatibility_date": "2026-10-20",
+  "compatibility_flags": ["nodejs_compat"],
+  "main": ".output/server/index.mjs",
+  "assets": {
+    "directory": ".output/public",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
+  },
   "previews": {}
 }
