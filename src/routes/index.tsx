@@ -1,16 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight, BadgeCheck, ChartNoAxesCombined, Headset, PackageCheck, ShieldCheck, Sprout, Truck } from "lucide-react";
-import { PRICES, PRODUCTS, type Product, vnd } from "@/data/sample";
+import { type Product, vnd } from "@/data/sample";
 import { supabase } from "@/integrations/supabase/client";
 import { Page } from "@/components/Layout";
 import { ProductCard } from "@/components/Cards";
 
 const categoryVisuals = [
   { id: "nongsan", title: "Nông sản", desc: "Cà phê, hồ tiêu, sầu riêng…", image: "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=900&q=85", search: "Cà phê" },
-  { id: "phan-bon", title: "Phân bón", desc: "NPK, hữu cơ, vi sinh…", image: "https://boca.com.br/_next/image?q=75&url=https%3A%2F%2Fimages.boca.com.br%2Fupload%2Fimagens-resizes%2Fad628ac807f394049008189000317aaa_858x483.png&w=3840", search: "phan-bon" },
-  { id: "thuoc-bvtv", title: "Thuốc BVTV", desc: "Thông tin sản phẩm rõ ràng", image: "https://image.made-in-china.com/2f0j00frdqbQuPIpzg/Hebei-Hontai-Agricultural-Chemicals-and-Pesticides.jpg", search: "thuoc-bvtv" },
-  { id: "vat-tu", title: "Vật tư nông nghiệp", desc: "Ống tưới, dụng cụ, phụ kiện…", image: "https://vedantpolyagro.com/images/drip.png", search: "vat-tu" },
+  { id: "phan-bon", title: "Phân bón", desc: "NPK, hữu cơ, vi sinh…", image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=900&q=85", search: "phan-bon" },
+  { id: "thuoc-bvtv", title: "Thuốc BVTV", desc: "Thông tin sản phẩm rõ ràng", image: "https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=900&q=85", search: "thuoc-bvtv" },
+  { id: "vat-tu", title: "Vật tư nông nghiệp", desc: "Ống tưới, dụng cụ, phụ kiện…", image: "https://images.unsplash.com/photo-1558904541-efa843a96f01?auto=format&fit=crop&w=900&q=85", search: "vat-tu" },
 ];
 
 export const Route = createFileRoute("/")({
@@ -78,9 +78,9 @@ function Index() {
     return () => { active = false; };
   }, []);
 
-  const featuredProducts = liveProducts.length ? liveProducts : PRODUCTS.slice(0, 4);
+  const featuredProducts = liveProducts;
   const displayPrices = (() => {
-    const sourceRows = livePrices.length ? livePrices : PRICES.filter((row) => row.price != null).map((row, i) => ({ id: "snapshot-" + i, crop: row.crop, unit: row.unit, province: row.province, price: Number(row.price), price_date: "2026-10-20", source: row.source ?? "", currency: "VND" }));
+    const sourceRows = livePrices;
     const patterns = [/cà phê nhân xô/i, /^hồ tiêu$/i, /sầu riêng ri6 loại a/i, /lúa om5451/i, /cao su mủ đông/i];
     const chosen = patterns.map((pattern) => sourceRows.find((row) => pattern.test(row.crop))).filter(Boolean);
     const unique = new Map<string, (typeof sourceRows)[number]>();
@@ -133,8 +133,8 @@ function Index() {
 
           <div>
             <div className="mb-3 flex items-center justify-between"><h2 className="text-xl font-extrabold text-[#075b38]">Sản phẩm nổi bật</h2><Link to="/cua-hang" className="text-sm font-semibold text-[#087343]">Xem tất cả <ArrowRight size={14} className="inline"/></Link></div>
-            {liveProducts.length === 0 && <p className="mb-3 text-xs text-slate-500">Sản phẩm bên dưới là dữ liệu mẫu để xem giao diện.</p>}
-            <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-2 sm:overflow-visible xl:grid-cols-4">{featuredProducts.map((p) => <div key={p.id} className="min-w-[148px] snap-start sm:min-w-0"><ProductCard p={p}/></div>)}</div>
+            
+            <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-2 sm:overflow-visible xl:grid-cols-4">{featuredProducts.length ? featuredProducts.map((p) => <div key={p.id} className="min-w-[148px] snap-start sm:min-w-0"><ProductCard p={p}/></div>) : <div className="w-full rounded-xl border border-dashed border-emerald-200 bg-white/80 p-5 text-sm text-slate-600 sm:col-span-2 xl:col-span-4">Chưa có sản phẩm thật được người bán đăng và duyệt. Hải Tây Phát sẽ hiển thị sản phẩm tại đây khi có dữ liệu hợp lệ.</div>}</div>
           </div>
         </section>
 
