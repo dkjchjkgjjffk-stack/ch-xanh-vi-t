@@ -46,7 +46,8 @@ function BrandMark() {
 }
 
 function Index() {
-  const [liveProducts, setLiveProducts] = useState<Product[]>([]);\n  const [heroSlide, setHeroSlide] = useState(0);
+  const [liveProducts, setLiveProducts] = useState<Product[]>([]);
+  const [heroSlide, setHeroSlide] = useState(0);
   useEffect(() => {
     let active = true;
     void supabase.from("products")
