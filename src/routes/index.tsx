@@ -116,11 +116,11 @@ function Index() {
         <section className="grid gap-5 lg:grid-cols-[.85fr_1.65fr]">
           <div className="rounded-xl border border-[#dce9df] bg-white p-4 shadow-sm">
             <div className="flex items-center justify-between gap-3"><h2 className="flex items-center gap-2 text-lg font-extrabold text-[#075b38]"><ChartNoAxesCombined size={21}/> Giá nông sản</h2><Link to="/bang-gia" className="text-sm font-semibold text-[#087343]">Xem tất cả <ArrowRight size={14} className="inline"/></Link></div>
-            <p className="mt-1 text-xs text-slate-500">Bảng giá theo nguồn và ngày ghi nhận.</p>
+            <p className="mt-1 text-xs text-slate-500">Giá tham khảo theo vùng, có ngày ghi nhận và liên kết nguồn.</p>
             <div className="mt-4 divide-y divide-slate-100">
-              {PRICES.slice(0, 4).map((row) => <div key={row.crop} className="grid grid-cols-[1fr_auto] items-center gap-2 py-3 text-sm"><div><div className="font-semibold text-slate-800">{row.crop}</div><div className="text-xs text-slate-500">{row.province} · /{row.unit}</div></div><div className="text-right text-sm font-semibold text-slate-500">{row.price == null ? "Chưa cập nhật" : vnd(row.price)}{row.updatedAt && <div className="text-[11px] font-normal">{row.updatedAt}</div>}</div></div>)}
+              {PRICES.slice(0, 8).map((row) => <div key={row.crop} className="grid grid-cols-[1fr_auto] items-center gap-2 py-3 text-sm"><div><div className="font-semibold text-slate-800">{row.crop}</div><div className="text-xs text-slate-500">{row.province} · /{row.unit}</div></div><div className="text-right text-sm font-semibold text-slate-600">{row.price == null ? "Chưa cập nhật" : vnd(row.price)}{row.updatedAt && <div className="text-[11px] font-normal">{row.updatedAt}</div>}{row.source && <a className="block text-[10px] font-medium text-[#087343] underline underline-offset-2" href={row.source.split(" — ").slice(1).join(" — ")} target="_blank" rel="noreferrer">Nguồn</a>}</div></div>)}
             </div>
-            <p className="mt-3 border-t border-slate-100 pt-3 text-[11px] leading-5 text-slate-500">Giá chỉ hiển thị khi có dữ liệu được ghi nhận. Vui lòng kiểm tra nguồn và thời điểm cập nhật trước khi giao dịch.</p>
+            <p className="mt-3 border-t border-slate-100 pt-3 text-[11px] leading-5 text-slate-500">Giá tham khảo ngày 20/10/2026 từ nguồn công khai; có thể khác theo phẩm cấp, thời điểm và điểm thu mua. Hãy mở nguồn để kiểm tra trước khi giao dịch.</p>
           </div>
 
           <div>
