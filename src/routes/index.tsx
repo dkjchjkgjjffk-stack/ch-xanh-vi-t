@@ -47,9 +47,12 @@ function BrandMark() {
 
 function Index() {
   const [liveProducts, setLiveProducts] = useState<Product[]>([]);
+  const [livePrices, setLivePrices] = useState<Array<{ id: string; crop: string; unit: string; province: string; price: number; price_date: string; source: string; currency: string }>>([]);
   const [heroSlide, setHeroSlide] = useState(0);
   useEffect(() => {
     let active = true;
+    void supabase.from("prices").select("id,crop,unit,province,price,price_date,source,currency").order("price_date", { ascending: false }).limit(100)
+      .then(({ data }) => { if (active && data?.length) setLivePrices(data as typeof livePrices); });
     void supabase.from("products")
       .select("id,name,category,price,price_on_request,unit,description,icon,image_url,manufacturer,registration,seller_name,seller_phone,seller_address,verify_status")
       .eq("status", "approved").eq("is_sample", false)
@@ -76,6 +79,14 @@ function Index() {
   }, []);
 
   const featuredProducts = liveProducts.length ? liveProducts : PRODUCTS.slice(0, 4);
+  const displayPrices = (() => {
+    const sourceRows = livePrices.length ? livePrices : PRICES.filter((row) => row.price != null).map((row, i) => ({ id: "snapshot-" + i, crop: row.crop, unit: row.unit, province: row.province, price: Number(row.price), price_date: "2026-10-20", source: row.source ?? "", currency: "VND" }));
+    const patterns = [/cà phê nhân xô/i, /^hồ tiêu$/i, /sầu riêng ri6 loại a/i, /lúa om5451/i, /cao su mủ đông/i];
+    const chosen = patterns.map((pattern) => sourceRows.find((row) => pattern.test(row.crop))).filter(Boolean);
+    const unique = new Map<string, (typeof sourceRows)[number]>();
+    for (const row of chosen) if (row) unique.set(row.crop, row);
+    return [...unique.values()].slice(0, 5);
+  })();
 
   return (
     <div className="bg-[#f7faf7]">
@@ -89,6 +100,7 @@ function Index() {
             <p className="mt-2 max-w-lg text-[10px] leading-[1.35] text-slate-700 sm:mt-4 sm:text-base sm:leading-6">Hải Tây Phát cung cấp nông sản, phân bón, thuốc BVTV, vật tư nông nghiệp chính hãng, chất lượng, giá tốt.</p>
             <Link to="/cua-hang" className="mt-3 inline-flex min-h-7 items-center gap-1 rounded-full bg-[#ffc629] px-3 text-[10px] font-bold text-[#19352a] shadow-sm sm:mt-5 sm:min-h-10 sm:gap-2 sm:px-5 sm:text-sm">Khám phá ngay <ArrowRight size={16}/></Link>
           </div>
+          <div className="absolute bottom-2 right-2 flex items-end gap-1.5 md:hidden"><img className="h-[48px] w-[40px] rounded-md border-2 border-white object-cover shadow-md" src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=160&q=85" alt="Hạt cà phê" /><img className="h-[60px] w-[45px] rounded-md border-2 border-white object-cover shadow-md" src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=160&q=85" alt="Cây trồng xanh tốt" /><img className="h-[48px] w-[40px] rounded-md border-2 border-white object-cover shadow-md" src="https://vedantpolyagro.com/images/drip.png" alt="Dụng cụ tưới nông nghiệp" /></div>
           <div className="hidden items-center justify-end gap-3 md:flex">
             <img className="mt-10 h-44 w-40 rounded-xl object-cover shadow-lg" src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=500&q=85" alt="Hạt cà phê" />
             <img className="h-52 w-44 rounded-xl object-cover shadow-lg" src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=500&q=85" alt="Cây trồng xanh tốt" />
@@ -114,9 +126,9 @@ function Index() {
             <div className="flex items-center justify-between gap-3"><h2 className="flex items-center gap-2 text-lg font-extrabold text-[#075b38]"><ChartNoAxesCombined size={21}/> Giá nông sản hôm nay</h2><Link to="/bang-gia" className="text-sm font-semibold text-[#087343]">Xem tất cả <ArrowRight size={14} className="inline"/></Link></div>
             <p className="mt-1 text-xs text-slate-500">Giá tham khảo theo vùng, có ngày ghi nhận và liên kết nguồn.</p>
             <div className="mt-4 divide-y divide-slate-100">
-              {PRICES.filter((row, index, all) => all.findIndex((item) => item.crop === row.crop) === index).slice(0, 5).map((row) => <div key={row.crop} className="grid grid-cols-[40px_1fr_auto] items-center gap-3 py-3 text-sm"><img className="size-10 rounded-full border border-emerald-100 object-cover" src={row.crop.toLowerCase().includes("cà phê") ? "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=120&q=80" : row.crop.toLowerCase().includes("tiêu") ? "https://images.unsplash.com/photo-1599909533730-f9d4c9c1f7f5?auto=format&fit=crop&w=120&q=80" : "https://images.unsplash.com/photo-1547514701-42782101795e?auto=format&fit=crop&w=120&q=80"} alt={row.crop} loading="lazy"/><div><div className="font-semibold text-slate-800">{row.crop}</div><div className="text-xs text-slate-500">{row.province} · /{row.unit}</div></div><div className="text-right text-sm font-bold text-emerald-700">{row.price == null ? "Chưa cập nhật" : vnd(row.price)}{row.updatedAt && <div className="text-[10px] font-normal text-slate-500">{row.updatedAt}</div>}{row.source && <a className="block text-[10px] font-medium text-[#087343] underline underline-offset-2" href={row.source.split(" — ").slice(1).join(" — ")} target="_blank" rel="noreferrer">Nguồn</a>}</div></div>)}
+              {displayPrices.map((row) => <div key={row.id} className="grid grid-cols-[30px_1fr_auto] items-center gap-2 py-2.5 text-xs sm:grid-cols-[40px_1fr_auto] sm:gap-3 sm:py-3 sm:text-sm"><img className="size-8 rounded-full border border-emerald-100 object-cover sm:size-10" src={row.crop.toLowerCase().includes("cà phê") ? "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=120&q=80" : row.crop.toLowerCase().includes("tiêu") ? "https://images.unsplash.com/photo-1599909533730-f9d4c9c1f7f5?auto=format&fit=crop&w=120&q=80" : row.crop.toLowerCase().includes("lúa") ? "https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?auto=format&fit=crop&w=120&q=80" : row.crop.toLowerCase().includes("cao su") ? "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=120&q=80" : "https://images.unsplash.com/photo-1547514701-42782101795e?auto=format&fit=crop&w=120&q=80"} alt={row.crop} loading="lazy"/><div className="min-w-0"><div className="font-semibold text-slate-800">{row.crop}</div><div className="truncate text-[10px] text-slate-500 sm:text-xs">{row.province} · /{row.unit}</div></div><div className="text-right font-bold text-emerald-700">{row.currency === "VND" ? vnd(Number(row.price)) : Number(row.price).toLocaleString("en-US") + " " + row.currency}<div className="text-[9px] font-normal text-slate-500 sm:text-[10px]">{row.price_date}</div>{row.source && <a className="block text-[10px] font-medium text-[#087343] underline underline-offset-2" href={row.source.split(" — ").slice(1).join(" — ")} target="_blank" rel="noreferrer">Nguồn</a>}</div></div>)}}
             </div>
-            <p className="mt-3 border-t border-slate-100 pt-3 text-[11px] leading-5 text-slate-500">Giá tham khảo ngày 20/10/2026 từ nguồn công khai; có thể khác theo phẩm cấp, thời điểm và điểm thu mua. Hãy mở nguồn để kiểm tra trước khi giao dịch.</p>
+            <p className="mt-3 border-t border-slate-100 pt-3 text-[11px] leading-5 text-slate-500">Giá hiển thị theo ngày ghi nhận từ cơ sở dữ liệu đồng bộ; mặt hàng chưa có nguồn cập nhật trực tiếp sẽ không được gắn nhãn giá hôm nay. Giá thực tế có thể khác theo phẩm cấp và điểm thu mua.</p>
           </div>
 
           <div>
