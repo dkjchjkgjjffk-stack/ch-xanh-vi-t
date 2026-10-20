@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowRight, BadgeCheck, ChartNoAxesCombined, Headset, Leaf, PackageCheck, ShieldCheck, ShoppingCart, Sprout, Truck, Wheat } from "lucide-react";
+import { ArrowRight, BadgeCheck, ChartNoAxesCombined, Headset, PackageCheck, ShieldCheck, Sprout, Truck } from "lucide-react";
 import { PRICES, PRODUCTS, type Product, vnd } from "@/data/sample";
 import { supabase } from "@/integrations/supabase/client";
 import { Page } from "@/components/Layout";
@@ -79,18 +79,18 @@ function Index() {
   return (
     <div className="bg-[#f7faf7]">
       <section className="relative isolate overflow-hidden">
-        <div className="absolute inset-0 -z-20 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=2200&q=90')" }} />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-white via-white/90 to-white/10" />
-        <div className="mx-auto grid min-h-[410px] max-w-[1400px] items-center gap-6 px-5 py-10 sm:px-8 md:grid-cols-[.95fr_1.05fr] md:py-14">
+        <div className="absolute inset-0 -z-20 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=2200&q=90')" }} />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-white/95 via-white/80 to-white/20" />
+        <div className="mx-auto grid min-h-[350px] max-w-[1400px] items-center gap-4 px-5 py-7 sm:min-h-[410px] sm:px-8 sm:py-10 md:grid-cols-[.95fr_1.05fr] md:py-14">
           <div className="max-w-xl">
-            <span className="inline-flex rounded-full bg-[#075b38] px-4 py-2 text-xs font-bold tracking-wide text-white">NÔNG SẢN · PHÂN BÓN · VẬT TƯ</span>
-            <h1 className="mt-4 text-4xl font-extrabold leading-[1.12] tracking-tight text-[#102b23] sm:text-5xl">Kết nối nhà nông<br/><span className="text-[#087343]">Giá trị bền vững</span></h1>
-            <p className="mt-4 max-w-lg text-base leading-7 text-slate-700">Hải Tây Phát đồng hành cùng nhà nông với thông tin sản phẩm rõ ràng, kết nối thu mua và dữ liệu giá cả minh bạch.</p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link to="/cua-hang" className="inline-flex min-h-12 items-center gap-2 rounded-full bg-[#ffc629] px-6 font-bold text-[#19352a] shadow-sm transition hover:bg-[#f3b914]">Khám phá sản phẩm <ArrowRight size={18}/></Link>
-              <Link to="/bang-gia" className="inline-flex min-h-12 items-center gap-2 rounded-full border border-[#0b6942] bg-white/80 px-6 font-semibold text-[#075b38] hover:bg-white">Xem bảng giá</Link>
+            <span className="inline-flex rounded-full bg-[#075b38] px-3 py-1.5 text-[10px] font-bold tracking-wide text-white sm:px-4 sm:py-2 sm:text-xs">NÔNG SẢN · PHÂN BÓN · VẬT TƯ</span>
+            <h1 className="mt-3 text-[2rem] font-extrabold leading-[1.08] tracking-tight text-[#102b23] sm:mt-4 sm:text-5xl">Kết nối nhà nông<br/><span className="text-[#087343]">Giá trị bền vững</span></h1>
+            <p className="mt-3 max-w-lg text-sm leading-6 text-slate-700 sm:mt-4 sm:text-base sm:leading-7">Hải Tây Phát đồng hành cùng nhà nông với thông tin sản phẩm rõ ràng, kết nối thu mua và dữ liệu giá cả minh bạch.</p>
+            <div className="mt-4 flex flex-wrap gap-2 sm:mt-6 sm:gap-3">
+              <Link to="/cua-hang" className="inline-flex min-h-11 items-center gap-2 rounded-full bg-[#ffc629] px-4 text-sm font-bold text-[#19352a] sm:min-h-12 sm:px-6 sm:text-base shadow-sm transition hover:bg-[#f3b914]">Khám phá sản phẩm <ArrowRight size={18}/></Link>
+              <Link to="/bang-gia" className="inline-flex min-h-11 items-center gap-2 rounded-full border border-[#0b6942] bg-white/80 px-4 text-sm font-semibold text-[#075b38] sm:min-h-12 sm:px-6 sm:text-base hover:bg-white">Xem bảng giá</Link>
             </div>
-            <div className="mt-7 grid max-w-lg grid-cols-2 gap-3 sm:grid-cols-4">
+            <div className="mt-4 hidden max-w-lg grid-cols-2 gap-3 sm:mt-7 sm:grid sm:grid-cols-4">
               {[{ icon: ShieldCheck, title: "Thông tin rõ ràng" }, { icon: Truck, title: "Kết nối giao hàng" }, { icon: Headset, title: "Hỗ trợ tận tâm" }, { icon: BadgeCheck, title: "Minh bạch nguồn tin" }].map(({ icon: Icon, title }) => <div key={title} className="flex items-center gap-2 rounded-xl border border-white/70 bg-white/75 p-2 text-xs font-semibold text-slate-700 shadow-sm"><Icon size={21} className="shrink-0 text-[#087343]"/><span>{title}</span></div>)}
             </div>
           </div>
@@ -107,8 +107,8 @@ function Index() {
         <section className="grid grid-cols-2 gap-3 lg:grid-cols-4">
           {categoryVisuals.map((c) => (
             <Link key={c.id} to={c.id === "nongsan" ? "/cho" : "/cua-hang"} search={c.id === "nongsan" ? undefined : { dm: c.search as never }} className="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
-              <div className="h-24 overflow-hidden sm:h-28"><img src={c.image} alt={c.title} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105"/></div>
-              <div className="flex items-center justify-between gap-2 p-3"><div><h2 className="font-bold text-slate-900">{c.title}</h2><p className="mt-1 text-xs text-slate-500">{c.desc}</p></div><ArrowRight size={17} className="shrink-0 text-[#087343]"/></div>
+              <div className="h-28 overflow-hidden sm:h-32"><img src={c.image} alt={c.title} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105"/></div>
+              <div className="flex items-center justify-between gap-2 p-3"><div><h2 className="font-bold text-slate-900">{c.title}</h2><p className="mt-1 line-clamp-2 text-xs text-slate-500">{c.desc}</p></div><ArrowRight size={17} className="shrink-0 text-[#087343]"/></div>
             </Link>
           ))}
         </section>
