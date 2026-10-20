@@ -15,12 +15,12 @@ type CropPrice = {
   currency: "VND" | "USD" | "USC";
 };
 function sourceUrl(source: string): string | null {
-  const separator = source.indexOf(" — ");
-  const url = separator >= 0 ? source.slice(separator + 3).trim() : "";
-  return url.startsWith("https://") || url.startsWith("http://") ? url : null;
+  const match = source.match(/https?:\/\/[^\s]+/i);
+  return match?.[0] ?? null;
 }
 function sourceLabel(source: string) {
-  return source.split(" — ")[0];
+  const cleaned = source.replace(/^Dữ liệu tham khảo ngày \d{2}\/\d{2}\/\d{4} — /, "");
+  return cleaned.split(" — ")[0];
 }
 
 function formatPrice(price: number, currency: string, unit: string) {
