@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { PROVINCES, vnd } from "@/data/sample";
+import { PRICES, PROVINCES, vnd } from "@/data/sample";
 import { Page } from "@/components/Layout";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -45,6 +45,9 @@ export const Route = createFileRoute("/bang-gia")({
 
 function Prices() {
   const [tinh, setTinh] = useState("");
+  const [query, setQuery] = useState("");
+  const [group, setGroup] = useState("Tất cả");
+  const [usingSnapshot, setUsingSnapshot] = useState(false);
   const [rows, setRows] = useState<CropPrice[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -66,7 +69,17 @@ function Prices() {
         setError("Chưa đọc được bảng giá từ cơ sở dữ liệu. Quản trị viên cần áp dụng migration bảng giá trong thư mục supabase/migrations.");
         setRows([]);
       } else {
-        setRows((data ?? []) as CropPrice[]);
+        const liveRows = (data ?? []) as CropPrice[];
+        if (liveRows.length) {
+          setRows(liveRows);
+          setUsingSnapshot(false);
+        } else {
+          setRows(PRICES.filter((row) => row.price != null).map((row, index) => ({
+            id: "snapshot-" + index, crop: row.crop, unit: row.unit, province: row.province,
+            price: Number(row.price), price_date: "2026-10-20", source: row.source ?? "Nguồn chưa rõ", currency: "VND" as const,
+          })));
+          setUsingSnapshot(true);
+        }
       }
       setLoading(false);
     };
@@ -74,13 +87,31 @@ function Prices() {
     return () => { active = false; };
   }, []);
 
-  const filtered = rows.filter((row) => !tinh || row.province === tinh);
+  const groups = ["Tất cả", "Cà phê", "Hồ tiêu", "Sầu riêng", "Lúa gạo", "Cao su"];
+  const filtered = rows.filter((row) => {
+    const matchesProvince = !tinh || row.province === tinh;
+    const matchesQuery = !query || (row.crop + " " + row.province).toLocaleLowerCase("vi").includes(query.toLocaleLowerCase("vi"));
+    const matchesGroup = group === "Tất cả" || (group === "Hồ tiêu" ? /tiêu/i.test(row.crop) : group === "Lúa gạo" ? /lúa|gạo/i.test(row.crop) : row.crop.toLocaleLowerCase("vi").includes(group.toLocaleLowerCase("vi")));
+    return matchesProvince && matchesQuery && matchesGroup;
+  });
   return (
     <Page title="Bảng giá nông sản">
       <div className="card space-y-2 p-4">
         <p className="font-semibold">Giá tham khảo có ngày và nguồn</p>
         <p className="text-sm text-muted-foreground">Giá cà phê và hồ tiêu được tự động đồng bộ mỗi ngày từ các website chuyên ngành, kèm ngày giá và liên kết nguồn. Giá giao dịch thực tế có thể khác theo chất lượng, sản lượng và thời điểm; hãy xác nhận với bên mua/bán trước khi giao dịch.</p>
       </div>
+      {usingSnapshot && <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">Đang hiển thị dữ liệu tham khảo thu thập ngày 20/10/2026 từ các nguồn công khai, vì cơ sở dữ liệu chưa có bảng giá. Đây chưa phải đồng bộ tự động; mỗi dòng có liên kết nguồn để kiểm tra.</div>}
+      <div className="grid gap-3 sm:grid-cols-2">
+      <label className="block space-y-1">
+        <span className="text-sm font-semibold">Tìm mặt hàng hoặc địa phương</span>
+        <input className="field" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Ví dụ: cà phê, Ri6, Gia Lai..." aria-label="Tìm mặt hàng hoặc địa phương" />
+      </label>
+      <label className="block space-y-1">
+        <span className="text-sm font-semibold">Nhóm nông sản</span>
+        <select className="field" value={group} onChange={(e) => setGroup(e.target.value)} aria-label="Nhóm nông sản">
+          {groups.map((item) => <option key={item} value={item}>{item}</option>)}
+        </select>
+      </label>
       <label className="block space-y-1">
         <span className="text-sm font-semibold">Lọc theo địa phương</span>
         <select className="field" value={tinh} onChange={(e) => setTinh(e.target.value)} aria-label="Địa phương">
@@ -88,6 +119,7 @@ function Prices() {
           {Array.from(new Set([...PROVINCES, ...rows.map((row) => row.province)])).sort((a, b) => a.localeCompare(b, "vi")).map((p) => <option key={p} value={p}>{p}</option>)}
         </select>
       </label>
+      </div>
       {loading ? <div className="card p-6 text-center text-muted-foreground" role="status">Đang tải bảng giá…</div> : error ? (
         <div className="card space-y-2 p-4" role="alert">
           <p className="font-semibold">Chưa kết nối được dữ liệu giá</p>
@@ -101,6 +133,7 @@ function Prices() {
         </div>
       ) : (
         <div className="card divide-y">
+          <div className="border-b bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-900">Tìm thấy {filtered.length} mức giá · {usingSnapshot ? "Dữ liệu tham khảo" : "Dữ liệu từ hệ thống"}</div>
           {filtered.map((r) => (
             <article key={r.id} className="space-y-2 p-4">
               <div className="flex items-start justify-between gap-3">
