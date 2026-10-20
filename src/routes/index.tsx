@@ -79,8 +79,8 @@ function Index() {
   return (
     <div className="bg-[#f7faf7]">
       <section className="relative isolate overflow-hidden">
-        <div className="absolute inset-0 -z-20 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=2200&q=90')" }} />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-white/95 via-white/80 to-white/20" />
+        <div className="absolute inset-0 -z-20 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=2200&q=90')" }} />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-white/95 via-white/85 to-white/35" />
         <div className="mx-auto grid min-h-[350px] max-w-[1400px] items-center gap-4 px-5 py-7 sm:min-h-[410px] sm:px-8 sm:py-10 md:grid-cols-[.95fr_1.05fr] md:py-14">
           <div className="max-w-xl">
             <span className="inline-flex rounded-full bg-[#075b38] px-3 py-1.5 text-[10px] font-bold tracking-wide text-white sm:px-4 sm:py-2 sm:text-xs">NÔNG SẢN · PHÂN BÓN · VẬT TƯ</span>
@@ -118,7 +118,7 @@ function Index() {
             <div className="flex items-center justify-between gap-3"><h2 className="flex items-center gap-2 text-lg font-extrabold text-[#075b38]"><ChartNoAxesCombined size={21}/> Giá nông sản</h2><Link to="/bang-gia" className="text-sm font-semibold text-[#087343]">Xem tất cả <ArrowRight size={14} className="inline"/></Link></div>
             <p className="mt-1 text-xs text-slate-500">Giá tham khảo theo vùng, có ngày ghi nhận và liên kết nguồn.</p>
             <div className="mt-4 divide-y divide-slate-100">
-              {PRICES.slice(0, 8).map((row) => <div key={row.crop} className="grid grid-cols-[1fr_auto] items-center gap-2 py-3 text-sm"><div><div className="font-semibold text-slate-800">{row.crop}</div><div className="text-xs text-slate-500">{row.province} · /{row.unit}</div></div><div className="text-right text-sm font-semibold text-slate-600">{row.price == null ? "Chưa cập nhật" : vnd(row.price)}{row.updatedAt && <div className="text-[11px] font-normal">{row.updatedAt}</div>}{row.source && <a className="block text-[10px] font-medium text-[#087343] underline underline-offset-2" href={row.source.split(" — ").slice(1).join(" — ")} target="_blank" rel="noreferrer">Nguồn</a>}</div></div>)}
+              {PRICES.filter((row, index, all) => all.findIndex((item) => item.crop === row.crop) === index).slice(0, 5).map((row) => <div key={row.crop} className="grid grid-cols-[40px_1fr_auto] items-center gap-3 py-3 text-sm"><img className="size-10 rounded-full border border-emerald-100 object-cover" src={row.crop.toLowerCase().includes("cà phê") ? "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=120&q=80" : row.crop.toLowerCase().includes("tiêu") ? "https://images.unsplash.com/photo-1599909533730-f9d4c9c1f7f5?auto=format&fit=crop&w=120&q=80" : "https://images.unsplash.com/photo-1547514701-42782101795e?auto=format&fit=crop&w=120&q=80"} alt={row.crop} loading="lazy"/><div><div className="font-semibold text-slate-800">{row.crop}</div><div className="text-xs text-slate-500">{row.province} · /{row.unit}</div></div><div className="text-right text-sm font-bold text-emerald-700">{row.price == null ? "Chưa cập nhật" : vnd(row.price)}{row.updatedAt && <div className="text-[10px] font-normal text-slate-500">{row.updatedAt}</div>}{row.source && <a className="block text-[10px] font-medium text-[#087343] underline underline-offset-2" href={row.source.split(" — ").slice(1).join(" — ")} target="_blank" rel="noreferrer">Nguồn</a>}</div></div>)}
             </div>
             <p className="mt-3 border-t border-slate-100 pt-3 text-[11px] leading-5 text-slate-500">Giá tham khảo ngày 20/10/2026 từ nguồn công khai; có thể khác theo phẩm cấp, thời điểm và điểm thu mua. Hãy mở nguồn để kiểm tra trước khi giao dịch.</p>
           </div>
@@ -129,6 +129,12 @@ function Index() {
             <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">{featuredProducts.map((p) => <ProductCard key={p.id} p={p}/>)}</div>
           </div>
         </section>
+
+        <Link to="/cua-hang" search={{ dm: "vat-tu" as never }} className="group relative mb-5 block overflow-hidden rounded-2xl bg-[#075b38] shadow-sm">
+          <img src="https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=1600&q=85" alt="Vật tư nông nghiệp và chăm sóc cây trồng" loading="lazy" className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]"/>
+          <div className="absolute inset-0 bg-gradient-to-r from-[#06452e]/95 via-[#075b38]/75 to-transparent"/>
+          <div className="relative max-w-lg px-5 py-7 text-white sm:px-8 sm:py-9"><p className="text-xs font-bold uppercase tracking-widest text-[#ffd35c]">Dành cho nhà vườn</p><h2 className="mt-2 text-2xl font-extrabold sm:text-3xl">Dụng cụ nông nghiệp</h2><p className="mt-1 text-sm text-white/90">Chất lượng · Bền bỉ · Hiệu quả</p><span className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#ffc629] px-4 py-2 text-sm font-bold text-[#173a2a]">Khám phá vật tư <ArrowRight size={16}/></span></div>
+        </Link>
 
         <section className="overflow-hidden rounded-xl bg-gradient-to-r from-[#075b38] via-[#0b7045] to-[#eaf4ec] p-5 text-white shadow-sm sm:p-6">
           <div className="grid gap-5 md:grid-cols-[1.1fr_2fr] md:items-center">
