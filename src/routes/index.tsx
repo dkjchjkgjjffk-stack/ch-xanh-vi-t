@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowRight, BadgeCheck, ChartNoAxesCombined, Headset, PackageCheck, ShieldCheck, Sprout, Truck } from "lucide-react";
+import { ArrowLeft, ArrowRight, BadgeCheck, ChartNoAxesCombined, Headset, PackageCheck, ShieldCheck, Sprout, Truck } from "lucide-react";
 import { PRICES, PRODUCTS, type Product, vnd } from "@/data/sample";
 import { supabase } from "@/integrations/supabase/client";
 import { Page } from "@/components/Layout";
@@ -46,7 +46,7 @@ function BrandMark() {
 }
 
 function Index() {
-  const [liveProducts, setLiveProducts] = useState<Product[]>([]);
+  const [liveProducts, setLiveProducts] = useState<Product[]>([]);\n  const [heroSlide, setHeroSlide] = useState(0);
   useEffect(() => {
     let active = true;
     void supabase.from("products")
@@ -78,28 +78,23 @@ function Index() {
 
   return (
     <div className="bg-[#f7faf7]">
-      <section className="relative isolate overflow-hidden">
-        <div className="absolute inset-0 -z-20 bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=2200&q=90')" }} />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-white/95 via-white/85 to-white/35" />
-        <div className="mx-auto grid min-h-[350px] max-w-[1400px] items-center gap-4 px-5 py-7 sm:min-h-[410px] sm:px-8 sm:py-10 md:grid-cols-[.95fr_1.05fr] md:py-14">
+      <section className="relative isolate overflow-hidden bg-[#e9f5eb]">
+        <div className="absolute inset-0 -z-20 bg-cover bg-center" style={{ backgroundImage: `url('${["https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1800&q=90","https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1800&q=90","https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=1800&q=90"][heroSlide]}')` }} />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-white/95 via-white/80 to-white/20"/>
+        <div className="mx-auto grid min-h-[330px] max-w-[1400px] items-center gap-4 px-5 py-7 sm:min-h-[410px] sm:px-8 sm:py-10 md:grid-cols-[1fr_.9fr]">
           <div className="max-w-xl">
-            <span className="inline-flex rounded-full bg-[#075b38] px-3 py-1.5 text-[10px] font-bold tracking-wide text-white sm:px-4 sm:py-2 sm:text-xs">NÔNG SẢN · PHÂN BÓN · VẬT TƯ</span>
-            <h1 className="mt-3 text-[2rem] font-extrabold leading-[1.08] tracking-tight text-[#102b23] sm:mt-4 sm:text-5xl">Kết nối nhà nông<br/><span className="text-[#087343]">Giá trị bền vững</span></h1>
-            <p className="mt-3 max-w-lg text-sm leading-6 text-slate-700 sm:mt-4 sm:text-base sm:leading-7">Hải Tây Phát đồng hành cùng nhà nông với thông tin sản phẩm rõ ràng, kết nối thu mua và dữ liệu giá cả minh bạch.</p>
-            <div className="mt-4 flex flex-wrap gap-2 sm:mt-6 sm:gap-3">
-              <Link to="/cua-hang" className="inline-flex min-h-11 items-center gap-2 rounded-full bg-[#ffc629] px-4 text-sm font-bold text-[#19352a] sm:min-h-12 sm:px-6 sm:text-base shadow-sm transition hover:bg-[#f3b914]">Khám phá sản phẩm <ArrowRight size={18}/></Link>
-              <Link to="/bang-gia" className="inline-flex min-h-11 items-center gap-2 rounded-full border border-[#0b6942] bg-white/80 px-4 text-sm font-semibold text-[#075b38] sm:min-h-12 sm:px-6 sm:text-base hover:bg-white">Xem bảng giá</Link>
-            </div>
-            <div className="mt-4 hidden max-w-lg grid-cols-2 gap-3 sm:mt-7 sm:grid sm:grid-cols-4">
-              {[{ icon: ShieldCheck, title: "Thông tin rõ ràng" }, { icon: Truck, title: "Kết nối giao hàng" }, { icon: Headset, title: "Hỗ trợ tận tâm" }, { icon: BadgeCheck, title: "Minh bạch nguồn tin" }].map(({ icon: Icon, title }) => <div key={title} className="flex items-center gap-2 rounded-xl border border-white/70 bg-white/75 p-2 text-xs font-semibold text-slate-700 shadow-sm"><Icon size={21} className="shrink-0 text-[#087343]"/><span>{title}</span></div>)}
-            </div>
+            <span className="inline-flex rounded-full bg-[#075b38] px-3 py-1.5 text-[10px] font-bold tracking-wide text-white sm:px-4 sm:py-2 sm:text-xs">NÔNG NGHIỆP BỀN VỮNG · GIÁ TRỊ DÀI LÂU</span>
+            <h1 className="mt-3 text-[2rem] font-extrabold leading-[1.08] tracking-tight text-[#102b23] sm:text-5xl">Kết nối nhà nông<br/><span className="text-[#087343]">Giá trị bền vững</span></h1>
+            <p className="mt-3 max-w-lg text-sm leading-5 text-slate-700 sm:mt-4 sm:text-base sm:leading-6">Hải Tây Phát cung cấp nông sản, phân bón, thuốc BVTV, vật tư nông nghiệp chính hãng, chất lượng, giá tốt.</p>
+            <Link to="/cua-hang" className="mt-4 inline-flex min-h-10 items-center gap-2 rounded-full bg-[#ffc629] px-4 text-sm font-bold text-[#19352a] shadow-sm sm:mt-5 sm:px-5">Khám phá ngay <ArrowRight size={16}/></Link>
           </div>
-          <div className="hidden md:block">
-            <div className="ml-auto grid max-w-[570px] grid-cols-2 gap-3">
-              <img className="mt-12 h-48 w-full rounded-2xl object-cover shadow-xl" src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=900&q=85" alt="Hạt cà phê" />
-              <img className="h-60 w-full rounded-2xl object-cover shadow-xl" src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=900&q=85" alt="Cây trồng xanh tốt" />
-            </div>
+          <div className="hidden items-center justify-end gap-3 md:flex">
+            <img className="mt-10 h-44 w-40 rounded-xl object-cover shadow-lg" src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=500&q=85" alt="Hạt cà phê" />
+            <img className="h-52 w-44 rounded-xl object-cover shadow-lg" src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=500&q=85" alt="Cây trồng xanh tốt" />
           </div>
+          <button type="button" aria-label="Banner trước" onClick={() => setHeroSlide((heroSlide + 2) % 3)} className="absolute left-2 top-1/2 hidden -translate-y-1/2 rounded-full bg-white/90 p-2 text-[#075b38] shadow md:block"><ArrowLeft size={18}/></button>
+          <button type="button" aria-label="Banner tiếp theo" onClick={() => setHeroSlide((heroSlide + 1) % 3)} className="absolute right-2 top-1/2 hidden -translate-y-1/2 rounded-full bg-white/90 p-2 text-[#075b38] shadow md:block"><ArrowRight size={18}/></button>
+          <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-2">{[0,1,2].map(i=><button key={i} aria-label={`Chọn banner ${i+1}`} onClick={()=>setHeroSlide(i)} className={`h-2 rounded-full transition-all ${heroSlide===i?"w-6 bg-[#075b38]":"w-2 bg-white/90"}`}/>)}</div>
         </div>
       </section>
 
@@ -113,9 +108,9 @@ function Index() {
           ))}
         </section>
 
-        <section className="grid gap-5 lg:grid-cols-[.85fr_1.65fr]">
+        <section className="grid gap-5 lg:grid-cols-[1.05fr_1.4fr]">
           <div className="rounded-xl border border-[#dce9df] bg-white p-4 shadow-sm">
-            <div className="flex items-center justify-between gap-3"><h2 className="flex items-center gap-2 text-lg font-extrabold text-[#075b38]"><ChartNoAxesCombined size={21}/> Giá nông sản</h2><Link to="/bang-gia" className="text-sm font-semibold text-[#087343]">Xem tất cả <ArrowRight size={14} className="inline"/></Link></div>
+            <div className="flex items-center justify-between gap-3"><h2 className="flex items-center gap-2 text-lg font-extrabold text-[#075b38]"><ChartNoAxesCombined size={21}/> Giá nông sản hôm nay</h2><Link to="/bang-gia" className="text-sm font-semibold text-[#087343]">Xem tất cả <ArrowRight size={14} className="inline"/></Link></div>
             <p className="mt-1 text-xs text-slate-500">Giá tham khảo theo vùng, có ngày ghi nhận và liên kết nguồn.</p>
             <div className="mt-4 divide-y divide-slate-100">
               {PRICES.filter((row, index, all) => all.findIndex((item) => item.crop === row.crop) === index).slice(0, 5).map((row) => <div key={row.crop} className="grid grid-cols-[40px_1fr_auto] items-center gap-3 py-3 text-sm"><img className="size-10 rounded-full border border-emerald-100 object-cover" src={row.crop.toLowerCase().includes("cà phê") ? "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=120&q=80" : row.crop.toLowerCase().includes("tiêu") ? "https://images.unsplash.com/photo-1599909533730-f9d4c9c1f7f5?auto=format&fit=crop&w=120&q=80" : "https://images.unsplash.com/photo-1547514701-42782101795e?auto=format&fit=crop&w=120&q=80"} alt={row.crop} loading="lazy"/><div><div className="font-semibold text-slate-800">{row.crop}</div><div className="text-xs text-slate-500">{row.province} · /{row.unit}</div></div><div className="text-right text-sm font-bold text-emerald-700">{row.price == null ? "Chưa cập nhật" : vnd(row.price)}{row.updatedAt && <div className="text-[10px] font-normal text-slate-500">{row.updatedAt}</div>}{row.source && <a className="block text-[10px] font-medium text-[#087343] underline underline-offset-2" href={row.source.split(" — ").slice(1).join(" — ")} target="_blank" rel="noreferrer">Nguồn</a>}</div></div>)}
