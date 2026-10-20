@@ -79,9 +79,9 @@ export const FERTILIZER_CATALOG: ReferenceProduct[] = [
   item("ref-npkvi-sinh", "NPK Phú Mỹ 16-16-8 + 13S vi sinh + TE", "Vi sinh",
     "Danh mục nhà phân phối giới thiệu công thức N 16%, P₂O₅ 16%, K₂O 8%, S 13%, kèm vi sinh Bacillus và TE theo thông tin sản phẩm. Đây là NPK có thành phần vi sinh, không phải chế phẩm vi sinh thuần. Kiểm tra nhãn của đúng lô hàng.",
     "Phú Mỹ — thông tin danh mục sản phẩm", "https://dpm.vn/public/vi/san-pham/npk-phu-my-16-16-813ste-vi-sinh-44", "🌱", "https://dpm.vn/public_folder/files_upload/202412/221-npk-16-16-813ste-vi-sinh-mat-truoc-2022png-1735614077.webp"),
-  item("ref-trichoderma-general", "Chế phẩm Trichoderma cho ủ hữu cơ", "Vi sinh",
-    "Nhóm chế phẩm có vi sinh vật Trichoderma thường được dùng hỗ trợ phân hủy phụ phẩm hữu cơ. Chủng, mật độ và công dụng cụ thể khác nhau theo sản phẩm; chọn chế phẩm có nhãn rõ, hạn dùng còn và điều kiện bảo quản phù hợp.",
-    "Nhiều nhà sản xuất — kiểm tra nhãn", "https://trichoderma.vn/", "🦠"),
+  item("ref-bima-trichoderma", "Chế phẩm sinh học BIMA (Trichoderma)", "Vi sinh",
+    "Nguồn phân phối mô tả chế phẩm Trichoderma với mật độ khoảng 5×10⁶ bào tử/g, chất hữu cơ 50% và độ ẩm dưới 30%. Nhóm chế phẩm này hỗ trợ phân hủy chất hữu cơ/ủ phân; cần kiểm tra đúng nhãn, mật độ vi sinh, hạn dùng và hướng dẫn của lô hàng thực tế.",
+    "BIMA — thông tin tham khảo từ trang phân phối", "https://www.toamxanh.com/products/che-pham-sinh-hoc-bima-trichoderma-cai-tao-dat-phan-huy-chat-huu-co", "🦠", "https://product.hstatic.net/200000722083/product/upload_be958d97793a40629546acb68bea9984_1024x1024.jpg"),
 
   item("ref-supelamthao", "Supe lân Lâm Thao", "Lân",
     "Nguồn lân dùng bón lót và bổ sung dinh dưỡng lân. Lân tham gia phát triển rễ và chuyển hóa năng lượng; hàm lượng lân hữu hiệu phụ thuộc loại sản phẩm cụ thể. Chọn liều theo nhãn, loại đất và nhu cầu của vườn.",
