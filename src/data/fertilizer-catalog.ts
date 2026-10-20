@@ -33,7 +33,7 @@ export const FERTILIZER_CATALOG: ReferenceProduct[] = [
     "Bình Điền Mekong — Đầu Trâu", "https://binhdienmekong.vn/san-pham/dau-trau-bd-mk-19-7-7te/", "🌳"),
   item("ref-tiennong-201010", "Tiến Nông Cà phê số 2 — NPK 20-10-10 + MNC", "NPK cà phê – hồ tiêu",
     "Hãng công bố: N 20%, P₂O₅ 10%, K₂O 10%, Zn 250 ppm, Mn 100 ppm, Cu 150 ppm, B 100 ppm, độ ẩm 5%. Hãng giới thiệu cho cây cà phê. Các thành phần trung/vi lượng chỉ nên diễn giải theo đúng nhãn; liều bón tùy tuổi cây và điều kiện vườn.",
-    "Tiến Nông", "https://tiennong.vn/product/ca-phe-so-2/", "☕"),
+    "Tiến Nông", "https://tiennong.vn/product/ca-phe-so-2/", "☕", "https://tiennong.vn/wp-content/uploads/2025/02/ca-phe-so-2-1-600x601.jpg"),
 
   item("ref-urea-phumy", "Đạm Urê Phú Mỹ 46,3% N", "Phân đơn",
     "Hãng công bố hàm lượng đạm tổng số tối thiểu 46,3%. Đạm giúp phát triển thân lá và tổng hợp protein; bón thừa có thể làm cây xanh rậm, tăng thất thoát đạm và ảnh hưởng ra hoa/đậu trái. Nên chia lần bón, tránh bón sát gốc và bón trước mưa lớn.",
@@ -72,7 +72,7 @@ export const FERTILIZER_CATALOG: ReferenceProduct[] = [
     "BIO DS", "https://phanbonbiods.com/trichoderma-ds", "🦠", "https://phanbonbiods.com/thumbs/700x700x2/upload/product/6-1589.png"),
   item("ref-trichoderma-green", "Trichoderma Green — phân hữu cơ vi sinh", "Vi sinh",
     "Trang nhà sản xuất công bố Trichoderma sp., Nitrosomonas sp., Bacillus sp.; chất hữu cơ 15%, P₂O₅ hữu hiệu 3%, pH nước 5, độ ẩm 30%. Hãng mô tả hỗ trợ rễ và phân giải lân khó tan. Kiểm tra đúng mã hàng và nhãn trước khi dùng.",
-    "Phân bón Đại Hùng", "https://www.phanbondaihung.com/products/phan-vi-sinh-trichoderma-green", "🦠"),
+    "Phân bón Đại Hùng", "https://www.phanbondaihung.com/products/phan-vi-sinh-trichoderma-green", "🦠", "https://cdn.hstatic.net/products/200000410129/thi_t_k__ch_a_c__t_n__46__6d0f133846714b1aa736b4d22e648280_master.png"),
   item("ref-trichomix-lan", "Trichomix-DT Lân Vi Sinh PRO", "Vi sinh",
     "Trang Điền Trang mô tả các nhóm vi sinh Trichoderma spp., Bacillus subtilis và Streptomyces spp.; hỗ trợ chuyển hóa lân và góp phần quản lý một số nấm bệnh. Tác dụng phụ thuộc chủng, điều kiện đất và hướng dẫn sử dụng; cần xem nhãn chính xác.",
     "Điền Trang", "https://phanbondientrang.vn/san-pham/pg095-phan-huu-co-vi-sinh-trichomixdt-lan-vi-sinh-pro-40kg-566.html", "🦠", "https://phanbondientrang.vn/upload/product/180754462046.jpg"),
