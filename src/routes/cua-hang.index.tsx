@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { CATEGORIES, PRODUCTS, type Product } from "@/data/sample";
+import { CATEGORIES, type Product } from "@/data/sample";
 import { CATALOG_GROUPS, FERTILIZER_CATALOG, type CatalogGroup, type ReferenceProduct } from "@/data/fertilizer-catalog";
 import { supabase } from "@/integrations/supabase/client";
 import { Page, SampleNotice } from "@/components/Layout";
@@ -95,7 +95,6 @@ function Shop() {
     return (!dm || p.category === dm) && (!normalizedQuery || searchable.includes(normalizedQuery));
   };
   const liveItems = liveProducts.filter(filter);
-  const sampleItems = PRODUCTS.filter(filter);
   const catalogData = liveCatalog ?? FERTILIZER_CATALOG;
   const catalogItems = catalogData.filter((p) =>
     (!dm || dm === "phan-bon") &&
@@ -106,14 +105,14 @@ function Shop() {
 
   return (
     <Page title="Cửa hàng vật tư">
-      <SampleNotice>Sản phẩm do người bán đăng chỉ hiển thị công khai sau khi được duyệt. Danh mục phân bón tham khảo lấy thông tin từ nguồn công khai của nhà sản xuất; không phải xác nhận tồn kho, người bán hay hàng thật.</SampleNotice>
+      <SampleNotice>Sản phẩm bán hàng chỉ hiển thị sau khi được duyệt. Danh mục phân bón tham khảo là thông tin tra cứu, không xác nhận tồn kho, người bán hoặc tính xác thực của từng lô hàng.</SampleNotice>
       <div className="flex gap-2 overflow-x-auto pb-1">
         <Link to="/cua-hang" search={q ? { q } : {}} className={`chip shrink-0 py-2 text-base ${!dm ? "bg-primary text-primary-foreground" : "bg-secondary"}`}>Tất cả</Link>
         {CATEGORIES.map((c) => (
           <Link key={c.id} to="/cua-hang" search={{ ...(q ? { q } : {}), dm: c.id }} className={`chip shrink-0 py-2 text-base ${dm === c.id ? "bg-primary text-primary-foreground" : "bg-secondary"}`}>{c.icon} {c.name}</Link>
         ))}
       </div>
-      {unavailable && <p className="rounded-lg bg-warning p-3 text-sm text-warning-foreground">Chưa tải được sản phẩm bán thật từ cơ sở dữ liệu. Danh mục tham khảo bên dưới vẫn có thể dùng để tra cứu.</p>}
+      {unavailable && <p className="rounded-lg bg-warning p-3 text-sm text-warning-foreground">Chưa tải được sản phẩm từ Supabase. Danh mục tham khảo không phải hàng tồn kho hoặc tin bán.</p>}
       <p className="text-sm text-muted-foreground">{loading ? "Đang tải sản phẩm thật…" : `Sản phẩm người bán đã duyệt: ${liveItems.length}`}{q ? ` · Từ khóa “${q}”` : ""}</p>
 
       {liveItems.length > 0 && <>
@@ -137,12 +136,6 @@ function Shop() {
         </section>
       </>}
 
-      <section className="space-y-2">
-        <h2 className="font-bold">Sản phẩm mẫu để xem giao diện</h2>
-        <p className="text-sm text-muted-foreground">Các mục có nhãn “Tin mẫu” chỉ minh họa, không phải sản phẩm bán thật.</p>
-        {sampleItems.length === 0 ? <div className="card p-5 text-center text-sm text-muted-foreground">Không có sản phẩm mẫu phù hợp bộ lọc.</div> :
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">{sampleItems.map((p) => <div key={p.id} className="space-y-1"><p className="px-1 text-xs font-semibold text-muted-foreground">TIN MẪU · KHÔNG PHẢI HÀNG BÁN THẬT</p><ProductCard p={p} /></div>)}</div>}
-      </section>
     </Page>
   );
 }
