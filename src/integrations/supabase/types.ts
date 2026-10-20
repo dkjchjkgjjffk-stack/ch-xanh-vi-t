@@ -38,6 +38,24 @@ export type Database = {
         };
         Relationships: [];
       }
+      reference_products: {
+        Row: {
+          id: string; name: string; category: string; catalog_group: string; description: string;
+          manufacturer: string; source_url: string; icon: string; image_url: string | null;
+          price_on_request: boolean; unit: string; verify_status: string; is_reference: boolean; updated_at: string;
+        };
+        Insert: {
+          id: string; name: string; category?: string; catalog_group: string; description?: string;
+          manufacturer?: string; source_url: string; icon?: string; image_url?: string | null;
+          price_on_request?: boolean; unit?: string; verify_status?: string; is_reference?: boolean; updated_at?: string;
+        };
+        Update: {
+          id?: string; name?: string; category?: string; catalog_group?: string; description?: string;
+          manufacturer?: string; source_url?: string; icon?: string; image_url?: string | null;
+          price_on_request?: boolean; unit?: string; verify_status?: string; is_reference?: boolean; updated_at?: string;
+        };
+        Relationships: [];
+      }
       admin_monitoring_events: {
         Row: {
           created_at: string
