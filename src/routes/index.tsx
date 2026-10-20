@@ -82,12 +82,12 @@ function Index() {
       <section className="relative isolate overflow-hidden bg-[#e9f5eb]">
         <div className="absolute inset-0 -z-20 bg-cover bg-center" style={{ backgroundImage: `url('${["https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1800&q=90","https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1800&q=90","https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=1800&q=90"][heroSlide]}')` }} />
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-white/95 via-white/80 to-white/20"/>
-        <div className="mx-auto grid min-h-[330px] max-w-[1400px] items-center gap-4 px-5 py-7 sm:min-h-[410px] sm:px-8 sm:py-10 md:grid-cols-[1fr_.9fr]">
+        <div className="mx-auto grid min-h-[190px] max-w-[1400px] items-center gap-3 px-4 py-5 sm:min-h-[300px] sm:gap-4 sm:px-8 sm:py-8 md:grid-cols-[1fr_.9fr]">
           <div className="max-w-xl">
-            <span className="inline-flex rounded-full bg-[#075b38] px-3 py-1.5 text-[10px] font-bold tracking-wide text-white sm:px-4 sm:py-2 sm:text-xs">NÔNG NGHIỆP BỀN VỮNG · GIÁ TRỊ DÀI LÂU</span>
-            <h1 className="mt-3 text-[2rem] font-extrabold leading-[1.08] tracking-tight text-[#102b23] sm:text-5xl">Kết nối nhà nông<br/><span className="text-[#087343]">Giá trị bền vững</span></h1>
-            <p className="mt-3 max-w-lg text-sm leading-5 text-slate-700 sm:mt-4 sm:text-base sm:leading-6">Hải Tây Phát cung cấp nông sản, phân bón, thuốc BVTV, vật tư nông nghiệp chính hãng, chất lượng, giá tốt.</p>
-            <Link to="/cua-hang" className="mt-4 inline-flex min-h-10 items-center gap-2 rounded-full bg-[#ffc629] px-4 text-sm font-bold text-[#19352a] shadow-sm sm:mt-5 sm:px-5">Khám phá ngay <ArrowRight size={16}/></Link>
+            <span className="inline-flex rounded-full bg-[#075b38] px-2 py-1 text-[8px] font-bold tracking-wide text-white sm:px-4 sm:py-2 sm:text-xs">NÔNG NGHIỆP BỀN VỮNG · GIÁ TRỊ DÀI LÂU</span>
+            <h1 className="mt-2 text-[1.45rem] font-extrabold leading-[1.05] tracking-tight text-[#102b23] sm:mt-3 sm:text-5xl">Kết nối nhà nông<br/><span className="text-[#087343]">Giá trị bền vững</span></h1>
+            <p className="mt-2 max-w-lg text-[10px] leading-[1.35] text-slate-700 sm:mt-4 sm:text-base sm:leading-6">Hải Tây Phát cung cấp nông sản, phân bón, thuốc BVTV, vật tư nông nghiệp chính hãng, chất lượng, giá tốt.</p>
+            <Link to="/cua-hang" className="mt-3 inline-flex min-h-7 items-center gap-1 rounded-full bg-[#ffc629] px-3 text-[10px] font-bold text-[#19352a] shadow-sm sm:mt-5 sm:min-h-10 sm:gap-2 sm:px-5 sm:text-sm">Khám phá ngay <ArrowRight size={16}/></Link>
           </div>
           <div className="hidden items-center justify-end gap-3 md:flex">
             <img className="mt-10 h-44 w-40 rounded-xl object-cover shadow-lg" src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=500&q=85" alt="Hạt cà phê" />
@@ -100,17 +100,17 @@ function Index() {
       </section>
 
       <Page>
-        <section className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <section className="grid grid-cols-4 gap-1.5 sm:gap-3">
           {categoryVisuals.map((c) => (
             <Link key={c.id} to={c.id === "nongsan" ? "/cho" : "/cua-hang"} search={c.id === "nongsan" ? undefined : { dm: c.search as never }} className="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
-              <div className="h-28 overflow-hidden sm:h-32"><img src={c.image} alt={c.title} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105"/></div>
-              <div className="flex items-center justify-between gap-2 p-3"><div><h2 className="font-bold text-slate-900">{c.title}</h2><p className="mt-1 line-clamp-2 text-xs text-slate-500">{c.desc}</p></div><ArrowRight size={17} className="shrink-0 text-[#087343]"/></div>
+              <div className="h-[58px] overflow-hidden sm:h-32"><img src={c.image} alt={c.title} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105"/></div>
+              <div className="flex min-h-[43px] items-center justify-between gap-0.5 px-1.5 py-2 sm:gap-2 sm:p-3"><div className="min-w-0"><h2 className="truncate text-[9px] font-bold leading-tight text-slate-900 sm:text-base">{c.title}</h2><p className="mt-1 hidden line-clamp-2 text-xs text-slate-500 sm:block">{c.desc}</p></div><ArrowRight size={12} className="shrink-0 text-[#087343] sm:h-[17px] sm:w-[17px]"/></div>
             </Link>
           ))}
         </section>
 
         <section className="grid gap-5 lg:grid-cols-[1.05fr_1.4fr]">
-          <div className="rounded-xl border border-[#dce9df] bg-white p-4 shadow-sm">
+          <div className="rounded-xl border border-[#dce9df] bg-gradient-to-br from-white to-[#edf8f0] p-3 shadow-sm sm:p-4">
             <div className="flex items-center justify-between gap-3"><h2 className="flex items-center gap-2 text-lg font-extrabold text-[#075b38]"><ChartNoAxesCombined size={21}/> Giá nông sản hôm nay</h2><Link to="/bang-gia" className="text-sm font-semibold text-[#087343]">Xem tất cả <ArrowRight size={14} className="inline"/></Link></div>
             <p className="mt-1 text-xs text-slate-500">Giá tham khảo theo vùng, có ngày ghi nhận và liên kết nguồn.</p>
             <div className="mt-4 divide-y divide-slate-100">
@@ -122,7 +122,7 @@ function Index() {
           <div>
             <div className="mb-3 flex items-center justify-between"><h2 className="text-xl font-extrabold text-[#075b38]">Sản phẩm nổi bật</h2><Link to="/cua-hang" className="text-sm font-semibold text-[#087343]">Xem tất cả <ArrowRight size={14} className="inline"/></Link></div>
             {liveProducts.length === 0 && <p className="mb-3 text-xs text-slate-500">Sản phẩm bên dưới là dữ liệu mẫu để xem giao diện.</p>}
-            <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">{featuredProducts.map((p) => <ProductCard key={p.id} p={p}/>)}</div>
+            <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-2 sm:overflow-visible xl:grid-cols-4">{featuredProducts.map((p) => <div key={p.id} className="min-w-[148px] snap-start sm:min-w-0"><ProductCard p={p}/></div>)}</div>
           </div>
         </section>
 
