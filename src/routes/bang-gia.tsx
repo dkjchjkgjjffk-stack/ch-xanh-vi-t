@@ -65,21 +65,17 @@ function Prices() {
         .order("crop", { ascending: true })
         .limit(300);
       if (!active) return;
-      if (queryError) {
-        setError("Chưa đọc được bảng giá từ cơ sở dữ liệu. Quản trị viên cần áp dụng migration bảng giá trong thư mục supabase/migrations.");
-        setRows([]);
+      const liveRows = (data ?? []) as CropPrice[];
+      if (!queryError && liveRows.length) {
+        setRows(liveRows);
+        setUsingSnapshot(false);
       } else {
-        const liveRows = (data ?? []) as CropPrice[];
-        if (liveRows.length) {
-          setRows(liveRows);
-          setUsingSnapshot(false);
-        } else {
-          setRows(PRICES.filter((row) => row.price != null).map((row, index) => ({
-            id: "snapshot-" + index, crop: row.crop, unit: row.unit, province: row.province,
-            price: Number(row.price), price_date: "2026-10-20", source: row.source ?? "Nguồn chưa rõ", currency: "VND" as const,
-          })));
-          setUsingSnapshot(true);
-        }
+        setRows(PRICES.filter((row) => row.price != null).map((row, index) => ({
+          id: "snapshot-" + index, crop: row.crop, unit: row.unit, province: row.province,
+          price: Number(row.price), price_date: "2026-10-20", source: row.source ?? "Nguồn chưa rõ", currency: "VND" as const,
+        })));
+        setUsingSnapshot(true);
+        setError("");
       }
       setLoading(false);
     };
@@ -100,7 +96,7 @@ function Prices() {
         <p className="font-semibold">Giá tham khảo có ngày và nguồn</p>
         <p className="text-sm text-muted-foreground">Giá cà phê và hồ tiêu được tự động đồng bộ mỗi ngày từ các website chuyên ngành, kèm ngày giá và liên kết nguồn. Giá giao dịch thực tế có thể khác theo chất lượng, sản lượng và thời điểm; hãy xác nhận với bên mua/bán trước khi giao dịch.</p>
       </div>
-      {usingSnapshot && <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">Đang hiển thị dữ liệu tham khảo thu thập ngày 20/10/2026 từ các nguồn công khai, vì cơ sở dữ liệu chưa có bảng giá. Đây chưa phải đồng bộ tự động; mỗi dòng có liên kết nguồn để kiểm tra.</div>}
+      {usingSnapshot && <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">Đang hiển thị dữ liệu tham khảo thu thập ngày 20/10/2026 từ các nguồn công khai, vì dữ liệu giá trực tiếp chưa khả dụng. Đây chưa phải đồng bộ tự động; mỗi dòng có liên kết nguồn để kiểm tra.</div>}
       <div className="grid gap-3 sm:grid-cols-2">
       <label className="block space-y-1">
         <span className="text-sm font-semibold">Tìm mặt hàng hoặc địa phương</span>
