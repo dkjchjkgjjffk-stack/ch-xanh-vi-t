@@ -30,7 +30,7 @@ export const FERTILIZER_CATALOG: ReferenceProduct[] = [
     "Baconco — Con Cò", "https://baconco.com.vn/san-pham/phan-bon-goc/phan-bon-npk/npk-con-co-2255-6s-005b-01zn", "🌿", "https://baconco.com.vn/media/com_reditem/images/customfield/item/229/1561457441_22-5-5.webp"),
   item("ref-dautrau-1977", "NPK Đầu Trâu BĐ-MK 19-7-7 + TE", "NPK cà phê – hồ tiêu",
     "Hãng công bố: N 19%, P₂O₅ 7%, K₂O 7%, có B, Cu, Zn theo thông tin sản phẩm. Hãng giới thiệu dùng cho cà phê/hồ tiêu mùa khô. Tỷ lệ đạm cao hơn kali; cần cân đối với giai đoạn cây, năng suất mục tiêu và các lần bón khác.",
-    "Bình Điền Mekong — Đầu Trâu", "https://binhdienmekong.vn/san-pham/dau-trau-bd-mk-19-7-7te/", "🌳"),
+    "Bình Điền Mekong — Đầu Trâu", "https://binhdienmekong.vn/san-pham/dau-trau-bd-mk-19-7-7te/", "🌳", "https://binhdienmekong.vn/wp-content/uploads/19-7-7_MT_Thuong.jpg"),
   item("ref-tiennong-201010", "Tiến Nông Cà phê số 2 — NPK 20-10-10 + MNC", "NPK cà phê – hồ tiêu",
     "Hãng công bố: N 20%, P₂O₅ 10%, K₂O 10%, Zn 250 ppm, Mn 100 ppm, Cu 150 ppm, B 100 ppm, độ ẩm 5%. Hãng giới thiệu cho cây cà phê. Các thành phần trung/vi lượng chỉ nên diễn giải theo đúng nhãn; liều bón tùy tuổi cây và điều kiện vườn.",
     "Tiến Nông", "https://tiennong.vn/product/ca-phe-so-2/", "☕", "https://tiennong.vn/wp-content/uploads/2025/02/ca-phe-so-2-1-600x601.jpg"),
@@ -65,7 +65,7 @@ export const FERTILIZER_CATALOG: ReferenceProduct[] = [
     "Điền Trang", "https://trichoderma.vn/", "🌱"),
   item("ref-trichomixdt", "Điền Trang TRICHOMIX-DT viên nở", "Hữu cơ – viên nở",
     "Sản phẩm thuộc danh mục Điền Trang. Nhóm hữu cơ/vi sinh có thể hỗ trợ cải thiện môi trường đất; không coi là thuốc trị bệnh cây. Xem thành phần, mật độ vi sinh, cây trồng khuyến cáo và liều dùng trên nhãn thực tế.",
-    "Điền Trang", "https://trichoderma.vn/", "🍂"),
+    "Điền Trang", "https://phanbondientrang.vn/san-pham/pg075-phan-huu-co-vi-sinh-trichomixdt-vien-tricho-no-25kg-536.html", "🍂", "https://phanbondientrang.vn/upload/product/878780973098.jpg"),
 
   item("ref-trichoderma-superds", "Trichoderma SUPER DS", "Vi sinh",
     "Trang sản phẩm mô tả chế phẩm Trichoderma dùng hỗ trợ phân hủy hữu cơ/ủ phân và hỗ trợ quản lý một số nấm hại vùng rễ. Hiệu quả phụ thuộc chủng vi sinh, mật độ sống, bảo quản và điều kiện đất; không thay thế chẩn đoán bệnh hoặc thuốc được phép sử dụng.",
