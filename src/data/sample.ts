@@ -68,15 +68,41 @@ export const LISTINGS: Listing[] = [
   { id: "l6", type: "ban", title: "Bán tiêu đen phơi khô (tin mẫu)", crop: "Tiêu", icon: "⚫", quantity: "2 tấn", price: "Liên hệ", province: "Gia Lai", contactName: "Nông dân mẫu 4", phone: "0900 000 106", description: "Tin đăng mẫu.", postedAt: "2026-10-12" },
 ];
 
-// Bảng giá: CHƯA CÓ NGUỒN XÁC MINH — để trống giá, chỉ làm khung.
+// Bảng giá tham khảo công khai được thu thập ngày 20/10/2026.
+// Giá gắn ngày, vùng và nguồn; đây chưa phải luồng tự động đồng bộ liên tục.
 export interface PriceRow { crop: string; unit: string; province: string; price: number | null; updatedAt: string | null; source: string | null }
 export const PRICES: PriceRow[] = [
-  { crop: "Lúa tươi", unit: "kg", province: "An Giang", price: null, updatedAt: null, source: null },
-  { crop: "Cà phê nhân", unit: "kg", province: "Đắk Lắk", price: null, updatedAt: null, source: null },
-  { crop: "Tiêu đen", unit: "kg", province: "Gia Lai", price: null, updatedAt: null, source: null },
-  { crop: "Sầu riêng", unit: "kg", province: "Tiền Giang", price: null, updatedAt: null, source: null },
-  { crop: "Thanh long", unit: "kg", province: "Bình Thuận", price: null, updatedAt: null, source: null },
-  { crop: "Rau cải", unit: "kg", province: "Lâm Đồng", price: null, updatedAt: null, source: null },
+  { crop: "Cà phê Robusta", unit: "kg", province: "Đắk Lắk", price: 93000, updatedAt: "20/10/2026", source: "Báo Hà Tĩnh — https://baohatinh.vn/cong-cu/gia-ca-phe-hom-nay" },
+  { crop: "Cà phê Robusta", unit: "kg", province: "Đắk Nông", price: 93200, updatedAt: "20/10/2026", source: "Báo Hà Tĩnh — https://baohatinh.vn/cong-cu/gia-ca-phe-hom-nay" },
+  { crop: "Cà phê Robusta", unit: "kg", province: "Gia Lai", price: 93000, updatedAt: "20/10/2026", source: "Báo Hà Tĩnh — https://baohatinh.vn/cong-cu/gia-ca-phe-hom-nay" },
+  { crop: "Cà phê Robusta", unit: "kg", province: "Lâm Đồng", price: 92300, updatedAt: "20/10/2026", source: "Báo Hà Tĩnh — https://baohatinh.vn/cong-cu/gia-ca-phe-hom-nay" },
+  { crop: "Tiêu đen", unit: "kg", province: "Gia Lai", price: 137500, updatedAt: "20/10/2026", source: "Báo Hà Tĩnh — https://baohatinh.vn/cong-cu/gia-tieu-hom-nay" },
+  { crop: "Tiêu đen", unit: "kg", province: "Đắk Lắk", price: 139000, updatedAt: "20/10/2026", source: "Báo Hà Tĩnh — https://baohatinh.vn/cong-cu/gia-tieu-hom-nay" },
+  { crop: "Tiêu đen", unit: "kg", province: "Bình Phước", price: 137500, updatedAt: "20/10/2026", source: "Báo Hà Tĩnh — https://baohatinh.vn/cong-cu/gia-tieu-hom-nay" },
+  { crop: "Tiêu đen", unit: "kg", province: "Bà Rịa – Vũng Tàu", price: 138000, updatedAt: "20/10/2026", source: "Báo Hà Tĩnh — https://baohatinh.vn/cong-cu/gia-tieu-hom-nay" },
+  { crop: "Tiêu đen", unit: "kg", province: "Đắk Nông", price: 140000, updatedAt: "20/10/2026", source: "Báo Hà Tĩnh — https://baohatinh.vn/cong-cu/gia-tieu-hom-nay" },
+  { crop: "Tiêu đen", unit: "kg", province: "Đồng Nai", price: 137500, updatedAt: "20/10/2026", source: "Báo Hà Tĩnh — https://baohatinh.vn/cong-cu/gia-tieu-hom-nay" },
+  { crop: "Tiêu đen", unit: "kg", province: "Tây Nguyên", price: 139000, updatedAt: "20/10/2026", source: "Báo Hà Tĩnh — https://baohatinh.vn/cong-cu/gia-tieu-hom-nay" },
+  { crop: "Sầu Thái hàng lỗi", unit: "kg", province: "Gia Lai", price: 81000, updatedAt: "20/10/2026", source: "Giá Nông Sản 24/7 — https://www.gianongsan247.com/" },
+  { crop: "Sầu riêng Ri6 loại A", unit: "kg", province: "Gia Lai", price: 35000, updatedAt: "20/10/2026", source: "Giá Nông Sản 24/7 — https://www.gianongsan247.com/" },
+  { crop: "Sầu riêng Ri6 loại B", unit: "kg", province: "Gia Lai", price: 20000, updatedAt: "20/10/2026", source: "Giá Nông Sản 24/7 — https://www.gianongsan247.com/" },
+  { crop: "Sầu Thái loại A", unit: "kg", province: "Gia Lai", price: 88000, updatedAt: "20/10/2026", source: "Giá Nông Sản 24/7 — https://www.gianongsan247.com/" },
+  { crop: "Sầu Thái loại B", unit: "kg", province: "Gia Lai", price: 75000, updatedAt: "20/10/2026", source: "Giá Nông Sản 24/7 — https://www.gianongsan247.com/" },
+  { crop: "Sầu Thái hàng lỗi loại A", unit: "kg", province: "Lâm Đồng", price: 62500, updatedAt: "20/10/2026", source: "Giá Nông Sản 24/7 — https://www.gianongsan247.com/" },
+  { crop: "Sầu Thái loại A", unit: "kg", province: "Lâm Đồng", price: 79000, updatedAt: "20/10/2026", source: "Giá Nông Sản 24/7 — https://www.gianongsan247.com/" },
+  { crop: "Sầu Thái loại B", unit: "kg", province: "Lâm Đồng", price: 59000, updatedAt: "20/10/2026", source: "Giá Nông Sản 24/7 — https://www.gianongsan247.com/" },
+  { crop: "Sầu Thái dạt", unit: "kg", province: "Miền Tây Nam Bộ", price: 32500, updatedAt: "20/10/2026", source: "Giá Nông Sản 24/7 — https://www.gianongsan247.com/" },
+  { crop: "Sầu riêng Ri6 loại A", unit: "kg", province: "Miền Tây Nam Bộ", price: 75000, updatedAt: "20/10/2026", source: "Giá Nông Sản 24/7 — https://www.gianongsan247.com/" },
+  { crop: "Sầu riêng Ri6 loại B", unit: "kg", province: "Miền Tây Nam Bộ", price: 61500, updatedAt: "20/10/2026", source: "Giá Nông Sản 24/7 — https://www.gianongsan247.com/" },
+  { crop: "Sầu Thái loại A", unit: "kg", province: "Miền Tây Nam Bộ", price: 84500, updatedAt: "20/10/2026", source: "Giá Nông Sản 24/7 — https://www.gianongsan247.com/" },
+  { crop: "Sầu Thái loại B", unit: "kg", province: "Miền Tây Nam Bộ", price: 63500, updatedAt: "20/10/2026", source: "Giá Nông Sản 24/7 — https://www.gianongsan247.com/" },
+  { crop: "Sầu riêng Musang King loại B", unit: "kg", province: "Đắk Lắk", price: 56000, updatedAt: "20/10/2026", source: "Giá Nông Sản 24/7 — https://www.gianongsan247.com/" },
+  { crop: "Cao su mủ đông tạp loại 1", unit: "kg", province: "Gia Lai", price: 459, updatedAt: "20/10/2026", source: "Giá Nông Sản 24/7 — https://www.gianongsan247.com/" },
+  { crop: "Lúa OM5451", unit: "kg", province: "Miền Tây Nam Bộ", price: 6100, updatedAt: "20/10/2026", source: "Giá Nông Sản 24/7 — https://www.gianongsan247.com/" },
+  { crop: "Lúa Đài Thơm 8", unit: "kg", province: "Miền Tây Nam Bộ", price: 6300, updatedAt: "20/10/2026", source: "Giá Nông Sản 24/7 — https://www.gianongsan247.com/" },
+  { crop: "Lúa OM18", unit: "kg", province: "Miền Tây Nam Bộ", price: 6250, updatedAt: "20/10/2026", source: "Giá Nông Sản 24/7 — https://www.gianongsan247.com/" },
+  { crop: "Lúa IR50404", unit: "kg", province: "Miền Tây Nam Bộ", price: 5950, updatedAt: "20/10/2026", source: "Giá Nông Sản 24/7 — https://www.gianongsan247.com/" },
 ];
 
 export const vnd = (n: number) => n.toLocaleString("vi-VN") + " đ";
+
