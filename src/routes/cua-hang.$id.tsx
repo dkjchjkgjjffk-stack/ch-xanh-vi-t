@@ -11,8 +11,24 @@ export const Route = createFileRoute("/cua-hang/$id")({
   loader: async ({ params }) => {
     const sample = PRODUCTS.find((x) => x.id === params.id);
     if (sample) return { product: sample, isSample: true, isReference: false, sourceUrl: null as string | null };
-    const reference = FERTILIZER_CATALOG.find((x) => x.id === params.id);
-    if (reference) return { product: reference, isSample: false, isReference: true, sourceUrl: reference.sourceUrl };
+    const { data: referenceRow } = await supabase.from("reference_products")
+      .select("id,name,category,catalog_group,description,manufacturer,source_url,icon,image_url,price_on_request,unit,verify_status")
+      .eq("id", params.id).maybeSingle();
+    if (referenceRow) {
+      const reference: Product & { sourceUrl: string } = {
+        id: referenceRow.id, name: referenceRow.name, category: referenceRow.category as Product["category"],
+        price: 0, priceOnRequest: true, unit: referenceRow.unit, icon: referenceRow.icon || "🌱",
+        imageUrl: referenceRow.image_url, description: referenceRow.description || "",
+        manufacturer: referenceRow.manufacturer || "Chưa cung cấp",
+        registration: "Đối chiếu nhãn của đúng lô hàng",
+        verify: referenceRow.verify_status as Product["verify"],
+        seller: { name: "Danh mục tham khảo — chưa phải tin bán hàng", phone: "", address: "" },
+        sourceUrl: referenceRow.source_url,
+      };
+      return { product: reference, isSample: false, isReference: true, sourceUrl: referenceRow.source_url as string | null };
+    }
+    const fallbackReference = FERTILIZER_CATALOG.find((x) => x.id === params.id);
+    if (fallbackReference) return { product: fallbackReference, isSample: false, isReference: true, sourceUrl: fallbackReference.sourceUrl };
 
     const { data, error } = await supabase.from("products")
       .select("id,name,category,price,price_on_request,unit,description,icon,image_url,manufacturer,registration,seller_name,seller_phone,seller_address,verify_status,status,is_sample")
