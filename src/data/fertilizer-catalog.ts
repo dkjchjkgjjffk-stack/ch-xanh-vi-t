@@ -43,7 +43,7 @@ export const FERTILIZER_CATALOG: ReferenceProduct[] = [
     "PVFCCo — Phú Mỹ", "https://dpm.vn/san-pham/dap-phu-my-32", "🪨", "https://pic.yellowpages.com.vn/190831/DAP.jpg"),
   item("ref-kali-phumy", "Kali Phú Mỹ MOP — K₂O 61%", "Phân đơn",
     "Hãng công bố K₂O hữu hiệu 61%, độ ẩm 0,5%. Kali hỗ trợ điều tiết nước, vận chuyển đường và chất lượng trái/nhân. Cần cân đối với đạm, lân, magie và lưu huỳnh; không bón vượt khuyến cáo.",
-    "PVFCCo — Phú Mỹ", "https://pmb.vn/", "🍇"),
+    "PVFCCo — Phú Mỹ", "https://dpm.vn/san-pham/kali-phu-my-33", "🍇", "https://dpm.vn/public_folder/files_upload/202412/kali-mieng-phu-my-2023-mat-truocpng-1735563102.webp"),
   item("ref-sa", "Phân SA (amoni sunfat)", "Phân đơn",
     "Nguồn đạm amoni và lưu huỳnh. Đạm hỗ trợ sinh trưởng; lưu huỳnh tham gia tổng hợp protein và enzyme. Hàm lượng cụ thể tùy nhà sản xuất nên phải đọc nhãn đúng bao, không lấy một tỷ lệ chung cho mọi sản phẩm.",
     "Nhiều nhà sản xuất — kiểm tra nhãn", "https://pmb.vn/", "🧪"),
