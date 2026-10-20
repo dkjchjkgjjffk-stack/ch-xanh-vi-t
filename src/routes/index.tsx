@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ArrowRight, BadgeCheck, ChartNoAxesCombined, Headset, Leaf, PackageCheck, ShieldCheck, ShoppingCart, Sprout, Truck, Wheat } from "lucide-react";
-import { CATEGORIES, PRICES, PRODUCTS, type Product, vnd } from "@/data/sample";
+import { PRICES, PRODUCTS, type Product, vnd } from "@/data/sample";
 import { supabase } from "@/integrations/supabase/client";
 import { Page } from "@/components/Layout";
 import { ProductCard } from "@/components/Cards";
