@@ -91,8 +91,8 @@ function Index() {
   return (
     <div className="bg-[#f7faf7]">
       <section className="relative isolate overflow-hidden bg-[#e9f5eb]">
-        <div className="absolute inset-0 -z-20 bg-cover bg-center" style={{ backgroundImage: `url('${["https://images.unsplash.com/photo-1445116572660-236099ec97a0?auto=format&fit=crop&w=1800&q=90","https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1800&q=90","https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=1800&q=90"][heroSlide]}')` }} />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#f7fff5]/95 via-[#f7fff5]/75 to-white/10"/>
+        <div className="absolute inset-0 -z-20 bg-cover bg-center" style={{ backgroundImage: `url('${["https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1800&q=90","https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1800&q=90","https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1800&q=90"][heroSlide]}')` }} />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#f7fff5]/95 via-[#f7fff5]/85 to-[#f7fff5]/35"/>
         <div className="mx-auto grid min-h-[300px] max-w-[1400px] items-center gap-3 px-4 py-7 sm:min-h-[380px] sm:gap-4 sm:px-8 sm:py-8 md:grid-cols-[1fr_.9fr]">
           <div className="max-w-xl pb-12 md:pb-0">
             <span className="inline-flex rounded-full bg-[#075b38] px-2 py-1 text-[8px] font-bold tracking-wide text-white sm:px-4 sm:py-2 sm:text-xs">NÔNG NGHIỆP BỀN VỮNG · GIÁ TRỊ DÀI LÂU</span>
@@ -100,7 +100,7 @@ function Index() {
             <p className="mt-3 max-w-lg text-xs leading-relaxed text-slate-700 sm:mt-4 sm:text-base sm:leading-6">Hải Tây Phát cung cấp nông sản, phân bón, thuốc BVTV, vật tư nông nghiệp chính hãng, chất lượng, giá tốt.</p>
             <Link to="/cua-hang" className="mt-4 inline-flex min-h-10 items-center gap-2 rounded-full bg-[#ffc629] px-3 text-[10px] font-bold text-[#19352a] shadow-sm sm:mt-5 sm:min-h-10 sm:gap-2 sm:px-5 sm:text-sm">Khám phá ngay <ArrowRight size={16}/></Link>
           </div>
-          <div className="absolute bottom-8 right-3 flex items-end gap-1.5 md:hidden"><img className="h-[64px] w-[52px] rounded-lg border-2 border-white object-cover shadow-lg" src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=160&q=85" alt="Hạt cà phê" /><img className="h-[76px] w-[58px] rounded-lg border-2 border-white object-cover shadow-lg" src="https://image.made-in-china.com/2f0j00frdqbQuPIpzg/Hebei-Hontai-Agricultural-Chemicals-and-Pesticides.jpg" alt="Sản phẩm bảo vệ cây trồng" /><img className="h-[64px] w-[52px] rounded-lg border-2 border-white object-cover shadow-lg" src="https://vedantpolyagro.com/images/drip.png" alt="Dụng cụ tưới nông nghiệp" /></div>
+          <div className="absolute bottom-8 right-3 flex items-end gap-1.5 md:hidden"><img className="h-[64px] w-[52px] rounded-lg border-2 border-white object-cover shadow-lg" src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=160&q=85" alt="Hạt cà phê" /><img className="h-[76px] w-[58px] rounded-lg border-2 border-white object-cover shadow-lg" src="https://image.made-in-china.com/2f0j00frdqbQuPIpzg/Hebei-Hontai-Agricultural-Chemicals-and-Pesticides.jpg" alt="Sản phẩm bảo vệ cây trồng" /></div>
           <div className="hidden items-center justify-end gap-3 md:flex">
             <img className="mt-10 h-44 w-40 rounded-xl object-cover shadow-lg" src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=500&q=85" alt="Hạt cà phê" />
             <img className="h-52 w-44 rounded-xl object-cover shadow-lg" src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=500&q=85" alt="Cây trồng xanh tốt" />
@@ -114,9 +114,9 @@ function Index() {
       <Page>
         <section className="grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-4">
           {categoryVisuals.map((c) => (
-            <Link key={c.id} to={c.id === "nongsan" ? "/cho" : "/cua-hang"} search={c.id === "nongsan" ? undefined : { dm: c.search as never }} className="group overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
-              <div className="h-[104px] overflow-hidden sm:h-40"><img src={c.image} alt={c.title} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105"/></div>
-              <div className="flex min-h-[58px] items-center justify-between gap-2 px-2.5 py-2.5 sm:p-4"><div className="min-w-0"><h2 className="truncate text-sm font-bold leading-tight text-slate-900 sm:text-base">{c.title}</h2><p className="mt-1 hidden line-clamp-2 text-xs text-slate-500 sm:block">{c.desc}</p></div><ArrowRight size={12} className="shrink-0 text-[#087343] sm:h-[17px] sm:w-[17px]"/></div>
+            <Link key={c.id} to={c.id === "nongsan" ? "/cho" : "/cua-hang"} search={c.id === "nongsan" ? undefined : { dm: c.search as never }} className="group overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-[0_3px_10px_rgba(15,45,30,0.08)] transition hover:-translate-y-0.5 hover:shadow-md">
+              <div className="h-[116px] overflow-hidden sm:h-40"><img src={c.image} alt={c.title} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105"/></div>
+              <div className="flex min-h-[62px] items-center justify-between gap-2 px-3 py-3 sm:p-4"><div className="min-w-0"><h2 className="truncate text-sm font-bold leading-tight text-slate-900 sm:text-base">{c.title}</h2><p className="mt-1 hidden line-clamp-2 text-xs text-slate-500 sm:block">{c.desc}</p></div><ArrowRight size={12} className="shrink-0 text-[#087343] sm:h-[17px] sm:w-[17px]"/></div>
             </Link>
           ))}
         </section>
