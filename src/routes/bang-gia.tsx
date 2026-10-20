@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { PRICES, PROVINCES, vnd } from "@/data/sample";
+import { PROVINCES, vnd } from "@/data/sample";
 import { Page } from "@/components/Layout";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -66,44 +66,9 @@ function Prices() {
         .limit(300);
       if (!active) return;
       const liveRows = (data ?? []) as CropPrice[];
-      const snapshotRows: CropPrice[] = PRICES.filter((row) => row.price != null).map((row, index) => ({
-        id: "snapshot-" + index,
-        crop: row.crop,
-        unit: row.unit,
-        province: row.province,
-        price: Number(row.price),
-        price_date: "2026-10-20",
-        source: `Dữ liệu tham khảo ngày 20/10/2026 — ${row.source ?? "Nguồn chưa rõ"}`,
-        currency: "VND" as const,
-      }));
-      if (!queryError && liveRows.length) {
-        // Keep live data for crop groups already covered by the database; only use the
-        // dated snapshot to fill crop groups that currently have no live rows.
-        const liveGroups = new Set(liveRows.map((row) => {
-          const crop = row.crop.toLocaleLowerCase("vi");
-          if (/tiêu/.test(crop)) return "pepper";
-          if (/cà phê/.test(crop)) return "coffee";
-          if (/sầu riêng/.test(crop)) return "durian";
-          if (/lúa|gạo/.test(crop)) return "rice";
-          if (/cao su/.test(crop)) return "rubber";
-          return crop;
-        }));
-        const snapshotOnlyForMissingGroups = snapshotRows.filter((row) => {
-          const crop = row.crop.toLocaleLowerCase("vi");
-          const group = /tiêu/.test(crop) ? "pepper"
-            : /cà phê/.test(crop) ? "coffee"
-            : /sầu riêng/.test(crop) ? "durian"
-            : /lúa|gạo/.test(crop) ? "rice"
-            : /cao su/.test(crop) ? "rubber" : crop;
-          return !liveGroups.has(group);
-        });
-        setRows([...liveRows, ...snapshotOnlyForMissingGroups]);
-        setUsingSnapshot(snapshotOnlyForMissingGroups.length > 0);
-      } else {
-        setRows(snapshotRows);
-        setUsingSnapshot(true);
-        setError("");
-      }
+      setRows(liveRows);
+      setUsingSnapshot(false);
+      setError(queryError ? "Không thể tải dữ liệu giá từ Supabase. Vui lòng thử lại sau." : "");
       setLoading(false);
     };
     void load();
@@ -121,9 +86,9 @@ function Prices() {
     <Page title="Bảng giá nông sản">
       <div className="card space-y-2 p-4">
         <p className="font-semibold">Giá tham khảo có ngày và nguồn</p>
-        <p className="text-sm text-muted-foreground">Giá cà phê và hồ tiêu được tự động đồng bộ mỗi ngày từ các website chuyên ngành. Nhóm chưa có dữ liệu trực tiếp có thể hiển thị dữ liệu tham khảo có ngày và nguồn riêng. Giá giao dịch thực tế có thể khác theo chất lượng, sản lượng và thời điểm; hãy xác nhận với bên mua/bán trước khi giao dịch.</p>
+        <p className="text-sm text-muted-foreground">Chỉ hiển thị mức giá đã lưu trong hệ thống, kèm ngày cập nhật và nguồn. Giá giao dịch thực tế có thể khác theo chất lượng, sản lượng và thời điểm; hãy xác nhận với bên mua/bán trước khi giao dịch.</p>
       </div>
-      {usingSnapshot && <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">Một số mặt hàng đang dùng dữ liệu tham khảo ngày 20/10/2026 do chưa có nguồn đồng bộ trực tiếp. Hãy xem ngày giá và mở liên kết nguồn trước khi giao dịch; dữ liệu tham khảo không phải giá trực tiếp hôm nay.</div>}
+      
       <div className="grid gap-3 sm:grid-cols-2">
       <label className="block space-y-1">
         <span className="text-sm font-semibold">Tìm mặt hàng hoặc địa phương</span>
