@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { CATEGORIES, PRODUCTS, type Product } from "@/data/sample";
+import { CATALOG_GROUPS, FERTILIZER_CATALOG, type CatalogGroup } from "@/data/fertilizer-catalog";
 import { supabase } from "@/integrations/supabase/client";
 import { Page, SampleNotice } from "@/components/Layout";
 import { ProductCard } from "@/components/Cards";
@@ -15,9 +16,9 @@ export const Route = createFileRoute("/cua-hang/")({
   head: () => ({
     meta: [
       { title: "Cửa hàng vật tư nông nghiệp — Chợ Xanh Việt" },
-      { name: "description", content: "Phân bón, thuốc bảo vệ thực vật, dụng cụ và vật tư nông nghiệp." },
+      { name: "description", content: "Tra cứu phân bón NPK, phân đơn, hữu cơ, vi sinh, lân và kali; mô tả dinh dưỡng, công dụng và nguồn tham khảo." },
       { property: "og:title", content: "Cửa hàng vật tư nông nghiệp" },
-      { property: "og:description", content: "Phân bón, thuốc BVTV, dụng cụ và vật tư." },
+      { property: "og:description", content: "Tra cứu phân bón và vật tư nông nghiệp." },
     ],
   }),
   component: Shop,
@@ -28,6 +29,7 @@ function Shop() {
   const [liveProducts, setLiveProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [unavailable, setUnavailable] = useState(false);
+  const [catalogGroup, setCatalogGroup] = useState<CatalogGroup | "Tất cả">("Tất cả");
 
   useEffect(() => {
     let active = true;
@@ -72,25 +74,52 @@ function Shop() {
   };
   const liveItems = liveProducts.filter(filter);
   const sampleItems = PRODUCTS.filter(filter);
+  const catalogItems = FERTILIZER_CATALOG.filter((p) =>
+    (!dm || dm === "phan-bon") &&
+    (catalogGroup === "Tất cả" || p.catalogGroup === catalogGroup) &&
+    (!normalizedQuery || [p.name, p.description, p.manufacturer, p.catalogGroup].join(" ").toLocaleLowerCase("vi").includes(normalizedQuery))
+  );
+  const catalogCountByGroup = (group: CatalogGroup) => FERTILIZER_CATALOG.filter((p) => p.catalogGroup === group).length;
 
   return (
     <Page title="Cửa hàng vật tư">
-      <SampleNotice>Sản phẩm do người bán đăng chỉ hiển thị công khai sau khi được duyệt. Thông tin nhà sản xuất và số đăng ký do người bán khai chưa được xem là xác minh độc lập.</SampleNotice>
+      <SampleNotice>Sản phẩm do người bán đăng chỉ hiển thị công khai sau khi được duyệt. Danh mục phân bón tham khảo lấy thông tin từ nguồn công khai của nhà sản xuất; không phải xác nhận tồn kho, người bán hay hàng thật.</SampleNotice>
       <div className="flex gap-2 overflow-x-auto pb-1">
         <Link to="/cua-hang" search={q ? { q } : {}} className={`chip shrink-0 py-2 text-base ${!dm ? "bg-primary text-primary-foreground" : "bg-secondary"}`}>Tất cả</Link>
         {CATEGORIES.map((c) => (
           <Link key={c.id} to="/cua-hang" search={{ ...(q ? { q } : {}), dm: c.id }} className={`chip shrink-0 py-2 text-base ${dm === c.id ? "bg-primary text-primary-foreground" : "bg-secondary"}`}>{c.icon} {c.name}</Link>
         ))}
       </div>
-      {unavailable && <p className="rounded-lg bg-warning p-3 text-sm text-warning-foreground">Chưa tải được sản phẩm thật từ cơ sở dữ liệu. Sản phẩm mẫu bên dưới chỉ để xem giao diện.</p>}
-      <p className="text-sm text-muted-foreground">{loading ? "Đang tải sản phẩm thật…" : `Sản phẩm đã duyệt: ${liveItems.length}`}{q ? ` · Từ khóa “${q}”` : ""}</p>
+      {unavailable && <p className="rounded-lg bg-warning p-3 text-sm text-warning-foreground">Chưa tải được sản phẩm bán thật từ cơ sở dữ liệu. Danh mục tham khảo bên dưới vẫn có thể dùng để tra cứu.</p>}
+      <p className="text-sm text-muted-foreground">{loading ? "Đang tải sản phẩm thật…" : `Sản phẩm người bán đã duyệt: ${liveItems.length}`}{q ? ` · Từ khóa “${q}”` : ""}</p>
+
       {liveItems.length > 0 && <>
         <h2 className="font-bold">Sản phẩm người bán đã được duyệt</h2>
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">{liveItems.map((p) => <div key={p.id} className="space-y-1"><p className="px-1 text-xs font-semibold text-success">ĐÃ DUYỆT · NGƯỜI BÁN KHAI</p><ProductCard p={p} /></div>)}</div>
       </>}
-      <h2 className="font-bold">Sản phẩm mẫu để xem giao diện</h2>
-      {sampleItems.length === 0 ? <div className="card p-5 text-center text-sm text-muted-foreground">Không có sản phẩm mẫu phù hợp bộ lọc.</div> :
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">{sampleItems.map((p) => <div key={p.id} className="space-y-1"><p className="px-1 text-xs font-semibold text-muted-foreground">TIN MẪU · KHÔNG PHẢI HÀNG BÁN THẬT</p><ProductCard p={p} /></div>)}</div>}
+
+      {(!dm || dm === "phan-bon") && <>
+        <section className="space-y-3">
+          <div>
+            <h2 className="text-xl font-bold">Danh mục phân bón tham khảo</h2>
+            <p className="text-sm text-muted-foreground">30 mục tra cứu · giá để “Liên hệ” · mở từng mục để xem hàm lượng, công dụng và nguồn hãng. Chưa phải danh sách hàng đang có trong kho.</p>
+          </div>
+          <div className="flex gap-2 overflow-x-auto pb-1">
+            <button type="button" onClick={() => setCatalogGroup("Tất cả")} className={`chip shrink-0 ${catalogGroup === "Tất cả" ? "bg-primary text-primary-foreground" : "bg-secondary"}`}>Tất cả (30)</button>
+            {CATALOG_GROUPS.map((g) => <button type="button" key={g} onClick={() => setCatalogGroup(g)} className={`chip shrink-0 ${catalogGroup === g ? "bg-primary text-primary-foreground" : "bg-secondary"}`}>{g} ({catalogCountByGroup(g)})</button>)}
+          </div>
+          {catalogItems.length === 0
+            ? <div className="card p-5 text-center text-sm text-muted-foreground">Không có mục tham khảo phù hợp từ khóa/bộ lọc này.</div>
+            : <div className="grid grid-cols-2 gap-3 md:grid-cols-4">{catalogItems.map((p) => <div key={p.id} className="space-y-1"><p className="px-1 text-xs font-semibold text-muted-foreground">THAM KHẢO · CHƯA XÁC MINH HÀNG</p><ProductCard p={p} /></div>)}</div>}
+        </section>
+      </>}
+
+      <section className="space-y-2">
+        <h2 className="font-bold">Sản phẩm mẫu để xem giao diện</h2>
+        <p className="text-sm text-muted-foreground">Các mục có nhãn “Tin mẫu” chỉ minh họa, không phải sản phẩm bán thật.</p>
+        {sampleItems.length === 0 ? <div className="card p-5 text-center text-sm text-muted-foreground">Không có sản phẩm mẫu phù hợp bộ lọc.</div> :
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">{sampleItems.map((p) => <div key={p.id} className="space-y-1"><p className="px-1 text-xs font-semibold text-muted-foreground">TIN MẪU · KHÔNG PHẢI HÀNG BÁN THẬT</p><ProductCard p={p} /></div>)}</div>}
+      </section>
     </Page>
   );
 }
