@@ -46,10 +46,10 @@ export const FERTILIZER_CATALOG: ReferenceProduct[] = [
     "PVFCCo — Phú Mỹ", "https://dpm.vn/san-pham/kali-phu-my-33", "🍇", "https://dpm.vn/public_folder/files_upload/202412/kali-mieng-phu-my-2023-mat-truocpng-1735563102.webp"),
   item("ref-sa", "Phân SA (amoni sunfat)", "Phân đơn",
     "Nguồn đạm amoni và lưu huỳnh. Đạm hỗ trợ sinh trưởng; lưu huỳnh tham gia tổng hợp protein và enzyme. Hàm lượng cụ thể tùy nhà sản xuất nên phải đọc nhãn đúng bao, không lấy một tỷ lệ chung cho mọi sản phẩm.",
-    "Nhiều nhà sản xuất — kiểm tra nhãn", "https://pmb.vn/", "🧪"),
+    "Nhiều nhà sản xuất — kiểm tra nhãn", "https://dpm.vn/en/san-pham/phu-my-ammonium-sulfate-31", "🧪", "https://dpm.vn/public_folder/files_upload/202412/z4274832920388cb2ede477136aa0413576a61fb434261-scaledjpg-1735554225.webp"),
   item("ref-magnesium", "Magie sunfat (MgSO₄)", "Phân đơn",
     "Nguồn magie và lưu huỳnh. Magie là thành phần trung tâm của diệp lục, cần cho quang hợp. Chỉ bổ sung khi đất/cây có nhu cầu; liều và cách dùng tùy sản phẩm. Không tự pha quá đậm hoặc trộn với phân khác khi chưa kiểm tra tính tương thích.",
-    "Nhiều nhà sản xuất — kiểm tra nhãn", "https://pmb.vn/", "🍃"),
+    "Nhiều nhà sản xuất — kiểm tra nhãn", "https://3sfarm.net/phan-magie-sunfat-hang-duc-bao-25kg/", "🍃", "https://3sfarm.net/wp-content/uploads/2025/04/magie-sunfat-3.jpg"),
 
   item("ref-organic70", "Hữu cơ Phú Mỹ Organic 70", "Hữu cơ – viên nở",
     "Hãng công bố: chất hữu cơ 70%, N tổng số 3%, P₂O₅ hữu hiệu 2%, K₂O hữu hiệu 2%, độ ẩm 20%. Hãng mô tả hỗ trợ cải tạo đất, tăng độ tơi xốp và khả năng giữ nước/dinh dưỡng; dùng cho cây lương thực, cây công nghiệp và cây ăn quả. Bón theo nhãn và tưới đủ ẩm.",
@@ -78,7 +78,7 @@ export const FERTILIZER_CATALOG: ReferenceProduct[] = [
     "Điền Trang", "https://phanbondientrang.vn/san-pham/pg095-phan-huu-co-vi-sinh-trichomixdt-lan-vi-sinh-pro-40kg-566.html", "🦠", "https://phanbondientrang.vn/upload/product/180754462046.jpg"),
   item("ref-npkvi-sinh", "NPK Phú Mỹ 16-16-8 + 13S vi sinh + TE", "Vi sinh",
     "Danh mục nhà phân phối giới thiệu công thức N 16%, P₂O₅ 16%, K₂O 8%, S 13%, kèm vi sinh Bacillus và TE theo thông tin sản phẩm. Đây là NPK có thành phần vi sinh, không phải chế phẩm vi sinh thuần. Kiểm tra nhãn của đúng lô hàng.",
-    "Phú Mỹ — thông tin danh mục sản phẩm", "https://www.pse.vn/8-trang-chu.html?start=60", "🌱"),
+    "Phú Mỹ — thông tin danh mục sản phẩm", "https://dpm.vn/public/vi/san-pham/npk-phu-my-16-16-813ste-vi-sinh-44", "🌱", "https://dpm.vn/public_folder/files_upload/202412/221-npk-16-16-813ste-vi-sinh-mat-truoc-2022png-1735614077.webp"),
   item("ref-trichoderma-general", "Chế phẩm Trichoderma cho ủ hữu cơ", "Vi sinh",
     "Nhóm chế phẩm có vi sinh vật Trichoderma thường được dùng hỗ trợ phân hủy phụ phẩm hữu cơ. Chủng, mật độ và công dụng cụ thể khác nhau theo sản phẩm; chọn chế phẩm có nhãn rõ, hạn dùng còn và điều kiện bảo quản phù hợp.",
     "Nhiều nhà sản xuất — kiểm tra nhãn", "https://trichoderma.vn/", "🦠"),
@@ -107,13 +107,13 @@ export const FERTILIZER_CATALOG: ReferenceProduct[] = [
     "Baconco — Con Cò", "https://baconco.com.vn/san-pham/phan-bon-goc/phan-bon-npk/npk-con-co-14721-con-co-cay-tieu", "🌶️"),
   item("ref-npk-15920", "NPK Con Cò 15-9-20", "Kali",
     "Hãng công bố N 15%, P₂O₅ 9%, K₂O 20%, Zn 1.500 ppm, B 300 ppm, độ ẩm 2%. Công thức tương đối giàu kali; hãng mô tả dùng cho cây công nghiệp và giai đoạn nuôi trái theo hướng dẫn nhãn.",
-    "Baconco — Con Cò", "https://baconco.com.vn/san-pham/phan-bon-goc/phan-bon-npk/npk-con-co-15-9-20-2", "🍇"),
+    "Baconco — Con Cò", "https://baconco.com.vn/san-pham/phan-bon-goc/phan-bon-npk/npk-con-co-15-9-20-2", "🍇", "https://baconco.com.vn/media/com_reditem/images/customfield/item_translation/140/24c27273a3eb145451249a915e099fc25c4dfcaa.jpg"),
   item("ref-npk-camau2055", "NPK 2 Phong 16-8-16-6S+TE Plus — nhóm có kali", "Kali",
     "Hãng/nhà phân phối công bố công thức N 16%, P₂O₅ 8%, K₂O 16%, S 6% và TE theo nhãn. Đây là NPK chuyên dùng cho cà phê và hồ tiêu, không phải phân kali đơn. Tỷ lệ kali tương đối cao hơn các công thức NPK thiên đạm; liều bón phải theo nhãn thực tế.",
     "Phân bón 2 Phong", "https://2phong.com.vn/16-8-16-6s-te", "🌿", "https://2phong.com.vn/upload/16-8-16-6S%2BTE_-14-02-2022-16-05-41.jpg"),
   item("ref-npk-17618-k", "NPK Con Cò 17-6-18 + Zn + B", "Kali",
     "N 17%, P₂O₅ 6%, K₂O 18%, Zn và B theo công bố của hãng. Là NPK có tỷ lệ kali đáng kể, nhưng không thay thế kali đơn nếu mục tiêu là bổ sung riêng K₂O. Chọn theo nhãn và cân đối tổng lượng dinh dưỡng.",
-    "Baconco — Con Cò", "https://baconco.com.vn/san-pham/phan-bon-goc/phan-bon-npk/npk-con-co-17618", "🌿"),
+    "Baconco — Con Cò", "https://baconco.com.vn/san-pham/phan-bon-goc/phan-bon-npk/npk-con-co-17618", "🌿", "https://baconco.com.vn/media/com_reditem/images/customfield/item/137/1563181013_17-6-18.webp"),
 ];
 
 export const CATALOG_GROUPS: CatalogGroup[] = [
