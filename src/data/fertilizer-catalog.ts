@@ -37,7 +37,7 @@ export const FERTILIZER_CATALOG: ReferenceProduct[] = [
 
   item("ref-urea-phumy", "Đạm Urê Phú Mỹ 46,3% N", "Phân đơn",
     "Hãng công bố hàm lượng đạm tổng số tối thiểu 46,3%. Đạm giúp phát triển thân lá và tổng hợp protein; bón thừa có thể làm cây xanh rậm, tăng thất thoát đạm và ảnh hưởng ra hoa/đậu trái. Nên chia lần bón, tránh bón sát gốc và bón trước mưa lớn.",
-    "PVFCCo — Phú Mỹ", "https://dpm.vn/", "🧪", "https://dpm.vn/static/upload/users/dpm.vn/2018/05-20/00056.png"),
+    "PVFCCo — Phú Mỹ", "https://dpm.vn/san-pham/ure-phu-my", "🧪", "https://dpm.vn/static/upload/users/dpm.vn/2018/05-20/00056.png"),
   item("ref-dap-phumy", "DAP Phú Mỹ 18-46-0", "Phân đơn",
     "Hãng công bố N 18%, P₂O₅ hữu hiệu 46%. DAP cung cấp đạm và lân, thường được cân nhắc cho bón lót hoặc giai đoạn cây cần lân. Không thay thế toàn bộ nhu cầu kali, trung lượng và vi lượng của cà phê/hồ tiêu.",
     "PVFCCo — Phú Mỹ", "https://dpm.vn/san-pham/dap-phu-my-32", "🪨", "https://pic.yellowpages.com.vn/190831/DAP.jpg"),
@@ -75,7 +75,7 @@ export const FERTILIZER_CATALOG: ReferenceProduct[] = [
     "Phân bón Đại Hùng", "https://www.phanbondaihung.com/products/phan-vi-sinh-trichoderma-green", "🦠"),
   item("ref-trichomix-lan", "Trichomix-DT Lân Vi Sinh PRO", "Vi sinh",
     "Trang Điền Trang mô tả các nhóm vi sinh Trichoderma spp., Bacillus subtilis và Streptomyces spp.; hỗ trợ chuyển hóa lân và góp phần quản lý một số nấm bệnh. Tác dụng phụ thuộc chủng, điều kiện đất và hướng dẫn sử dụng; cần xem nhãn chính xác.",
-    "Điền Trang", "https://trichoderma.vn/san-pham/pg095-phan-huu-co-vi-sinh-trichomixdt-lan-vi-sinh-pro-40kg-566.html", "🦠"),
+    "Điền Trang", "https://phanbondientrang.vn/san-pham/pg095-phan-huu-co-vi-sinh-trichomixdt-lan-vi-sinh-pro-40kg-566.html", "🦠", "https://phanbondientrang.vn/upload/product/180754462046.jpg"),
   item("ref-npkvi-sinh", "NPK Phú Mỹ 16-16-8 + 13S vi sinh + TE", "Vi sinh",
     "Danh mục nhà phân phối giới thiệu công thức N 16%, P₂O₅ 16%, K₂O 8%, S 13%, kèm vi sinh Bacillus và TE theo thông tin sản phẩm. Đây là NPK có thành phần vi sinh, không phải chế phẩm vi sinh thuần. Kiểm tra nhãn của đúng lô hàng.",
     "Phú Mỹ — thông tin danh mục sản phẩm", "https://www.pse.vn/8-trang-chu.html?start=60", "🌱"),
@@ -101,7 +101,7 @@ export const FERTILIZER_CATALOG: ReferenceProduct[] = [
 
   item("ref-kali-mop", "Kali Phú Mỹ MOP — K₂O 61%", "Kali",
     "Hãng công bố K₂O hữu hiệu 61%, độ ẩm 0,5%. Kali hỗ trợ điều tiết nước, vận chuyển đường và chất lượng trái/nhân. Cân đối với đạm, lân, magie và lưu huỳnh; tránh bón quá mức gây mất cân đối dinh dưỡng.",
-    "PVFCCo — Phú Mỹ", "https://pmb.vn/", "🍇", "https://dpm.vn/public_folder/files_upload/202412/kali-mieng-phu-my-2023-mat-truocpng-1735563102.webp"),
+    "PVFCCo — Phú Mỹ", "https://dpm.vn/san-pham/kali-phu-my-33", "🍇", "https://dpm.vn/public_folder/files_upload/202412/kali-mieng-phu-my-2023-mat-truocpng-1735563102.webp"),
   item("ref-npk-14721", "NPK Con Cò 14-7-21 cho hồ tiêu", "Kali",
     "Hãng giới thiệu công thức cho hồ tiêu; tỷ lệ N 14%, P₂O₅ 7%, K₂O 21% theo thông tin sản phẩm. Đây là NPK giàu kali, không phải phân kali đơn. Dùng theo liều trên nhãn và giai đoạn sinh trưởng.",
     "Baconco — Con Cò", "https://baconco.com.vn/san-pham/phan-bon-goc/phan-bon-npk/npk-con-co-14721-con-co-cay-tieu", "🌶️"),
