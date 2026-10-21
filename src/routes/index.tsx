@@ -126,7 +126,7 @@ function Index() {
       >
         <div className="flex transition-transform duration-500 ease-out motion-reduce:transition-none" style={{ transform: `translateX(-${heroSlide * 100}%)` }} aria-live="polite">
           <div className="relative h-[190px] w-full shrink-0 overflow-hidden sm:h-[300px] lg:h-[360px]">
-            <img src="/IMG_1201.png" alt="Chợ Xanh Việt — kết nối nhà nông, cà phê Robusta và vật tư nông nghiệp" className="absolute inset-0 h-full w-full object-cover object-center" fetchPriority="high" decoding="async" />
+            <img src="/IMG_1201.png" alt="Chợ Xanh Việt — kết nối nhà nông, cà phê Robusta và vật tư nông nghiệp" className="absolute inset-0 h-full w-full object-cover object-top" fetchPriority="high" decoding="async" />
           </div>
           <div className="relative h-[190px] w-full shrink-0 overflow-hidden sm:h-[300px] lg:h-[360px]">
             <img src={heroImages[1]} alt="Vật tư và cây trồng nông nghiệp" className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
