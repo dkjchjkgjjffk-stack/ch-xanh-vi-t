@@ -65,7 +65,7 @@ export function Header() {
           aria-label="Hải Tây Phát - Trang chủ"
         >
           <img
-            src="/logo-htp.svg"
+            src="https://raw.githubusercontent.com/dkjchjkgjjffk-stack/ch-xanh-vi-t/main/Glossy%20Gold%20HTP%20Arrow%20Logo.png"
             alt="Logo HTP — Hải Tây Phát"
             className="h-9 w-[88px] shrink-0 object-contain sm:h-11 sm:w-[104px]"
             width={104}
