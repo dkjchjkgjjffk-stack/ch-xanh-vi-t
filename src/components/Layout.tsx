@@ -64,29 +64,13 @@ export function Header() {
           className="flex min-w-0 items-center gap-2.5"
           aria-label="Hải Tây Phát - Trang chủ"
         >
-          <svg
-            viewBox="0 0 120 44"
-            role="img"
-            aria-label="HTP"
-            className="h-9 w-[88px] shrink-0 sm:h-11 sm:w-[104px]"
-          >
-            <defs>
-              <linearGradient id="htpGoldHeader" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stopColor="#f6d66f" />
-                <stop offset=".55" stopColor="#c9972d" />
-                <stop offset="1" stopColor="#e9bd4b" />
-              </linearGradient>
-            </defs>
-            <g fill="url(#htpGoldHeader)">
-              <path d="M2 2H22V16H34V2H54V42H34V25H22V42H2Z" />
-              <path d="M56 2H94L108 14L94 26H78V42H58V18H76V11H56Z" />
-              <path d="M82 2H118V12H102V42H82Z" />
-            </g>
-            <path
-              d="M22 41V27L29 19L36 27V41H31V31L29 28L27 31V41Z"
-              fill="#fff"
-            />
-          </svg>
+          <img
+            src="/logo-htp.svg"
+            alt="Logo HTP — Hải Tây Phát"
+            className="h-9 w-[88px] shrink-0 object-contain sm:h-11 sm:w-[104px]"
+            width={104}
+            height={44}
+          />
           <span className="min-w-0 leading-tight">
             <span className="block whitespace-nowrap text-sm font-extrabold tracking-tight text-[#075b38] sm:text-xl">
               HẢI TÂY PHÁT
