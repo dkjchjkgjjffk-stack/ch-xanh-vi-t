@@ -102,100 +102,15 @@ function Index() {
 
   return (
     <div className="bg-[#f5f8f6]">
-      {/* Hero */}
-      <section className="relative isolate overflow-hidden bg-[#073d28]">
-        <div
-          className="absolute inset-0 -z-20 bg-cover bg-center transition-opacity duration-500"
-          style={{ backgroundImage: `url('${heroImages[heroSlide]}')` }}
+      {/* Hero banner: one complete image uploaded to public/IMG_1201.png */}
+      <section className="w-full overflow-hidden bg-[#073d28]">
+        <img
+          src="/IMG_1201.png"
+          alt="Chợ Xanh Việt — kết nối nhà nông, giá trị bền vững; cà phê Robusta và phân bón"
+          className="block h-auto w-full"
+          fetchPriority="high"
+          decoding="async"
         />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#052f20]/95 via-[#075b38]/82 to-[#075b38]/20" />
-        <div className="mx-auto grid min-h-[350px] max-w-[1400px] items-center gap-3 px-4 py-9 sm:min-h-[430px] sm:px-8 sm:py-12 md:grid-cols-[1fr_.85fr]">
-          <div className="max-w-xl pb-10 md:pb-0">
-            <span className="inline-flex rounded-full border border-white/25 bg-white/10 px-3 py-1.5 text-[10px] font-bold tracking-wide text-[#ffe08a] backdrop-blur-sm sm:text-xs">
-              NÔNG NGHIỆP BỀN VỮNG · GIÁ TRỊ DÀI LÂU
-            </span>
-            <h1 className="mt-3 text-[2rem] font-extrabold leading-[1.08] tracking-tight text-white drop-shadow-sm sm:mt-4 sm:text-5xl lg:text-6xl">
-              Kết nối nhà nông
-              <br />
-              <span className="text-[#ffd04a]">Giá trị bền vững</span>
-            </h1>
-            <p className="mt-4 max-w-lg text-sm leading-relaxed text-white/90 sm:mt-5 sm:text-base sm:leading-7">
-              Hải Tây Phát cung cấp nông sản, phân bón, thuốc BVTV, vật tư nông nghiệp — thông tin rõ ràng, dễ dùng trên điện thoại.
-            </p>
-            <div className="mt-5 flex flex-wrap gap-3">
-              <Link
-                to="/cua-hang"
-                className="inline-flex min-h-12 items-center gap-2 rounded-full bg-[#ffc629] px-6 text-sm font-extrabold text-[#19352a] shadow-[0_8px_24px_rgba(0,0,0,0.18)] transition hover:-translate-y-0.5 hover:bg-[#ffd24a]"
-              >
-                Mua sắm ngay <ArrowRight size={16} />
-              </Link>
-              <Link
-                to="/cho"
-                className="inline-flex min-h-12 items-center gap-2 rounded-full border border-white/60 bg-white/10 px-5 text-sm font-bold text-white backdrop-blur-sm transition hover:bg-white/20"
-              >
-                Chợ nông sản
-              </Link>
-            </div>
-            <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2 text-xs font-semibold text-white/90 sm:text-sm">
-              <span className="inline-flex items-center gap-1.5"><ShieldCheck size={15} className="text-[#ffd04a]" /> Thông tin rõ ràng</span>
-              <span className="inline-flex items-center gap-1.5"><Sprout size={15} className="text-[#ffd04a]" /> Dành riêng cho nhà nông</span>
-              <span className="inline-flex items-center gap-1.5"><Headset size={15} className="text-[#ffd04a]" /> Kết nối trực tiếp</span>
-            </div>
-          </div>
-          <div className="relative mx-auto flex min-h-[230px] w-full max-w-[520px] items-end justify-center pb-8 sm:min-h-[300px] md:mx-0 md:min-h-[360px] md:pb-5">
-            <img
-              className="absolute bottom-8 left-[2%] z-0 h-[54%] w-[58%] rounded-[48%] object-cover opacity-95 drop-shadow-2xl sm:bottom-10 sm:h-[62%]"
-              src="https://images.unsplash.com/photo-1559525839-b184a4d698c7?auto=format&fit=crop&w=900&q=90"
-              alt="Quả cà phê chín đỏ trong vườn"
-              loading="lazy"
-            />
-            <div className="relative z-10 mb-2 ml-[28%] flex items-end gap-2 sm:ml-[25%] sm:gap-4">
-              <div className="relative flex h-[148px] w-[108px] -rotate-2 flex-col items-center justify-center rounded-t-[16px] rounded-b-[8px] border border-[#b99a69] bg-gradient-to-br from-[#e9d2a6] via-[#c9a46b] to-[#a77b43] px-2 text-center shadow-[0_18px_30px_rgba(0,0,0,0.28)] sm:h-[190px] sm:w-[138px]">
-                <div className="absolute inset-x-2 top-3 border-y border-[#77502b]/50 py-2 text-[9px] font-black leading-tight tracking-wide text-[#4b321e] sm:text-xs">CHỢ XANH VIỆT</div>
-                <span className="mt-5 text-[11px] font-black leading-tight text-[#4b321e] sm:text-base">CÀ PHÊ</span>
-                <span className="text-[15px] font-black leading-tight text-[#4b321e] sm:text-xl">ROBUSTA</span>
-                <Sprout className="mt-2 text-[#42633a]" size={25} />
-              </div>
-              <div className="relative flex h-[174px] w-[112px] -rotate-1 flex-col items-center rounded-t-[18px] rounded-b-[9px] border border-white/90 bg-gradient-to-br from-white via-[#f5f6e9] to-[#dfe8cf] px-2 pt-5 text-center shadow-[0_18px_30px_rgba(0,0,0,0.3)] sm:h-[220px] sm:w-[148px] sm:pt-7">
-                <div className="absolute inset-x-0 top-0 h-5 rounded-t-[16px] bg-gradient-to-r from-[#0a603a] via-[#2a8b4d] to-[#0a603a] sm:h-7" />
-                <div className="mt-1 flex size-7 items-center justify-center rounded-full bg-[#176b3b] text-[#f8d85d] sm:size-9"><Sprout size={20} /></div>
-                <span className="mt-2 text-[9px] font-extrabold leading-tight text-[#24563a] sm:text-xs">PHÂN BÓN</span>
-                <span className="mt-1 text-[15px] font-black leading-tight text-[#145c37] sm:text-xl">NPK</span>
-                <span className="mt-1 rounded-full bg-[#176b3b] px-2 py-1 text-[8px] font-extrabold text-white sm:text-[10px]">DINH DƯỠNG CÂY TRỒNG</span>
-                <Sprout className="mt-2 text-[#4c8c45]" size={26} />
-              </div>
-            </div>
-            <div className="absolute bottom-1 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-full border border-white/50 bg-[#ffc629] px-3 py-1.5 text-[9px] font-extrabold tracking-wide text-[#19352a] shadow-lg sm:px-4 sm:py-2 sm:text-xs">
-              TỪ VƯỜN CÂY ĐẾN SẢN PHẨM
-            </div>
-          </div>
-          <button
-            type="button"
-            aria-label="Banner trước"
-            onClick={() => setHeroSlide((heroSlide + 2) % 3)}
-            className="absolute left-3 top-1/2 hidden -translate-y-1/2 rounded-full bg-white/95 p-2.5 text-[#075b38] shadow-md transition hover:bg-white md:block"
-          >
-            <ArrowLeft size={18} />
-          </button>
-          <button
-            type="button"
-            aria-label="Banner tiếp theo"
-            onClick={() => setHeroSlide((heroSlide + 1) % 3)}
-            className="absolute right-3 top-1/2 hidden -translate-y-1/2 rounded-full bg-white/95 p-2.5 text-[#075b38] shadow-md transition hover:bg-white md:block"
-          >
-            <ArrowRight size={18} />
-          </button>
-          <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
-            {[0, 1, 2].map((i) => (
-              <button
-                key={i}
-                aria-label={`Chọn banner ${i + 1}`}
-                onClick={() => setHeroSlide(i)}
-                className={`h-2 rounded-full transition-all ${heroSlide === i ? "w-6 bg-[#075b38]" : "w-2 bg-white/90"}`}
-              />
-            ))}
-          </div>
-        </div>
       </section>
 
       <Page>
