@@ -142,44 +142,30 @@ function Index() {
               <span className="inline-flex items-center gap-1.5"><Headset size={15} className="text-[#ffd04a]" /> Kết nối trực tiếp</span>
             </div>
           </div>
-          <div className="relative mx-auto grid w-full max-w-[430px] grid-cols-2 gap-3 pb-8 md:mx-0 md:pb-0">
-            <div className="group relative mt-5 overflow-hidden rounded-2xl border-2 border-white/80 shadow-2xl">
-              <img
-                className="h-32 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-40"
-                src="https://images.unsplash.com/photo-1559525839-b184a4d698c7?auto=format&fit=crop&w=700&q=85"
-                alt="Vườn cà phê xanh tốt và quả cà phê"
-                loading="lazy"
-              />
-              <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-3 pb-2 pt-7 text-xs font-extrabold text-white sm:text-sm">CÀ PHÊ</span>
+          <div className="relative mx-auto flex min-h-[230px] w-full max-w-[520px] items-end justify-center pb-8 sm:min-h-[300px] md:mx-0 md:min-h-[360px] md:pb-5">
+            <img
+              className="absolute bottom-8 left-[2%] z-0 h-[54%] w-[58%] rounded-[48%] object-cover opacity-95 drop-shadow-2xl sm:bottom-10 sm:h-[62%]"
+              src="https://images.unsplash.com/photo-1559525839-b184a4d698c7?auto=format&fit=crop&w=900&q=90"
+              alt="Quả cà phê chín đỏ trong vườn"
+              loading="lazy"
+            />
+            <div className="relative z-10 mb-2 ml-[28%] flex items-end gap-2 sm:ml-[25%] sm:gap-4">
+              <div className="relative flex h-[148px] w-[108px] -rotate-2 flex-col items-center justify-center rounded-t-[16px] rounded-b-[8px] border border-[#b99a69] bg-gradient-to-br from-[#e9d2a6] via-[#c9a46b] to-[#a77b43] px-2 text-center shadow-[0_18px_30px_rgba(0,0,0,0.28)] sm:h-[190px] sm:w-[138px]">
+                <div className="absolute inset-x-2 top-3 border-y border-[#77502b]/50 py-2 text-[9px] font-black leading-tight tracking-wide text-[#4b321e] sm:text-xs">CHỢ XANH VIỆT</div>
+                <span className="mt-5 text-[11px] font-black leading-tight text-[#4b321e] sm:text-base">CÀ PHÊ</span>
+                <span className="text-[15px] font-black leading-tight text-[#4b321e] sm:text-xl">ROBUSTA</span>
+                <Sprout className="mt-2 text-[#42633a]" size={25} />
+              </div>
+              <div className="relative flex h-[174px] w-[112px] -rotate-1 flex-col items-center rounded-t-[18px] rounded-b-[9px] border border-white/90 bg-gradient-to-br from-white via-[#f5f6e9] to-[#dfe8cf] px-2 pt-5 text-center shadow-[0_18px_30px_rgba(0,0,0,0.3)] sm:h-[220px] sm:w-[148px] sm:pt-7">
+                <div className="absolute inset-x-0 top-0 h-5 rounded-t-[16px] bg-gradient-to-r from-[#0a603a] via-[#2a8b4d] to-[#0a603a] sm:h-7" />
+                <div className="mt-1 flex size-7 items-center justify-center rounded-full bg-[#176b3b] text-[#f8d85d] sm:size-9"><Sprout size={20} /></div>
+                <span className="mt-2 text-[9px] font-extrabold leading-tight text-[#24563a] sm:text-xs">PHÂN BÓN</span>
+                <span className="mt-1 text-[15px] font-black leading-tight text-[#145c37] sm:text-xl">NPK</span>
+                <span className="mt-1 rounded-full bg-[#176b3b] px-2 py-1 text-[8px] font-extrabold text-white sm:text-[10px]">DINH DƯỠNG CÂY TRỒNG</span>
+                <Sprout className="mt-2 text-[#4c8c45]" size={26} />
+              </div>
             </div>
-            <div className="group relative overflow-hidden rounded-2xl border-2 border-white/80 shadow-2xl">
-              <img
-                className="h-32 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-40"
-                src="https://media.thuonghieucongluan.vn/uploads/2021/09/25/a6-1632530904.jpg"
-                alt="Công nhân khai thác mủ tại vườn cao su"
-                loading="lazy"
-              />
-              <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-3 pb-2 pt-7 text-xs font-extrabold text-white sm:text-sm">CAO SU</span>
-            </div>
-            <div className="group relative mt-[-4px] overflow-hidden rounded-2xl border-2 border-white/80 shadow-2xl">
-              <img
-                className="h-32 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-40"
-                src="https://mediafr.vietnamplus.vn/images/6918feb0a7fd892f37a68eead54384ba364dd32b3bede8218dd679fd11a7b0f71686a6223e5afcb3fd7c30b61dba0d3fbc641214598d56ebf6ac7b349144c1fa/poivre.jpg"
-                alt="Chùm hồ tiêu trên cây tiêu"
-                loading="lazy"
-              />
-              <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-3 pb-2 pt-7 text-xs font-extrabold text-white sm:text-sm">HỒ TIÊU</span>
-            </div>
-            <div className="group relative mt-[-4px] overflow-hidden rounded-2xl border-2 border-white/80 bg-white shadow-2xl">
-              <img
-                className="h-32 w-full object-contain bg-white p-2 transition duration-500 group-hover:scale-[1.03] sm:h-40"
-                src="https://www.sikumis.com/media/frontend/products/Kebomas-15-15-15-3D.jpg"
-                alt="Bao phân NPK 15-15-15 minh họa"
-                loading="lazy"
-              />
-              <span className="absolute inset-x-0 bottom-0 bg-[#075b38]/95 px-3 py-2 text-xs font-extrabold text-white sm:text-sm">PHÂN BÓN NPK</span>
-            </div>
-            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 rounded-full border border-white/40 bg-[#ffc629] px-4 py-2 text-[10px] font-extrabold tracking-wide text-[#19352a] shadow-lg sm:text-xs">
+            <div className="absolute bottom-1 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-full border border-white/50 bg-[#ffc629] px-3 py-1.5 text-[9px] font-extrabold tracking-wide text-[#19352a] shadow-lg sm:px-4 sm:py-2 sm:text-xs">
               TỪ VƯỜN CÂY ĐẾN SẢN PHẨM
             </div>
           </div>
