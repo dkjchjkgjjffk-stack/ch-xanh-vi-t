@@ -86,12 +86,20 @@ function Index() {
 
   const featuredProducts = liveProducts;
   const displayPrices = (() => {
-    const sourceRows = livePrices;
+    type PriceRow = (typeof livePrices)[number];
+    const grouped = new Map<string, PriceRow[]>();
+    for (const row of [...livePrices].sort((a, b) => b.price_date.localeCompare(a.price_date))) {
+      const key = [row.crop, row.province, row.unit, row.currency].join("|");
+      const history = grouped.get(key) ?? [];
+      history.push(row);
+      grouped.set(key, history);
+    }
+    const latestRows = [...grouped.values()].map((history) => ({
+      current: history[0],
+      previous: history.find((row) => row.price_date < history[0].price_date) ?? null,
+    }));
     const patterns = [/cà phê nhân xô/i, /^hồ tiêu$/i, /sầu riêng ri6 loại a/i, /lúa om5451/i, /cao su mủ đông/i];
-    const chosen = patterns.map((pattern) => sourceRows.find((row) => pattern.test(row.crop))).filter(Boolean);
-    const unique = new Map<string, (typeof sourceRows)[number]>();
-    for (const row of chosen) if (row) unique.set(row.crop, row);
-    return [...unique.values()].slice(0, 5);
+    return patterns.map((pattern) => latestRows.find(({ current }) => pattern.test(current.crop))).filter(Boolean) as Array<{ current: PriceRow; previous: PriceRow | null }>;
   })();
 
   const heroImages = [
@@ -114,7 +122,73 @@ function Index() {
       </section>
 
       <Page>
-        {/* Danh mục — kiểu icon/grid e-commerce */}
+        {/* Bảng giá nằm ngay dưới banner */}
+        <section className="overflow-hidden rounded-2xl border border-emerald-100 bg-white shadow-[0_8px_30px_rgba(15,45,30,0.06)]">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-emerald-100 bg-gradient-to-r from-[#f1fbf5] to-white px-4 py-4 sm:px-6">
+            <div>
+              <h2 className="flex items-center gap-2 text-lg font-extrabold text-[#075b38] sm:text-xl">
+                <ChartNoAxesCombined size={21} /> Bảng giá nông sản hôm nay
+              </h2>
+              <p className="mt-1 text-xs text-slate-500 sm:text-sm">Giá mới nhất và mức thay đổi so với phiên ghi nhận trước đó</p>
+            </div>
+            <Link to="/bang-gia" className="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-white px-3 py-2 text-sm font-bold text-[#087343] hover:bg-emerald-50">
+              Xem bảng giá <ArrowRight size={15} />
+            </Link>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[620px] border-collapse text-left text-sm">
+              <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+                <tr>
+                  <th className="px-4 py-3 font-semibold sm:px-6">Mặt hàng</th>
+                  <th className="px-4 py-3 font-semibold">Khu vực</th>
+                  <th className="px-4 py-3 text-right font-semibold">Giá hiện tại</th>
+                  <th className="px-4 py-3 text-right font-semibold">So với phiên trước</th>
+                  <th className="px-4 py-3 text-right font-semibold">Ngày giá</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {displayPrices.length === 0 && (
+                  <tr><td colSpan={5} className="px-4 py-8 text-center text-slate-500">Chưa có dữ liệu giá thực tế để hiển thị.</td></tr>
+                )}
+                {displayPrices.map(({ current: row, previous }) => {
+                  const price = Number(row.price);
+                  const previousPrice = previous ? Number(previous.price) : null;
+                  const change = previousPrice !== null ? price - previousPrice : null;
+                  const percent = previousPrice && change !== null ? (change / previousPrice) * 100 : null;
+                  const isUp = change !== null && change > 0;
+                  const isDown = change !== null && change < 0;
+                  const changeColor = isUp ? "text-emerald-700" : isDown ? "text-rose-600" : "text-slate-500";
+                  const changeIcon = isUp ? "↑" : isDown ? "↓" : "—";
+                  const formatPrice = (value: number) => row.currency === "VND"
+                    ? vnd(value)
+                    : value.toLocaleString("en-US", { maximumFractionDigits: 2 }) + " " + row.currency;
+                  return (
+                    <tr key={row.id} className="transition hover:bg-emerald-50/50">
+                      <td className="px-4 py-3.5 sm:px-6">
+                        <div className="font-bold text-slate-800">{row.crop}</div>
+                        <div className="mt-0.5 text-xs text-slate-500">Đơn vị: {row.unit}</div>
+                      </td>
+                      <td className="px-4 py-3.5 text-slate-600">{row.province}</td>
+                      <td className="whitespace-nowrap px-4 py-3.5 text-right font-extrabold text-[#075b38]">{formatPrice(price)}</td>
+                      <td className={`whitespace-nowrap px-4 py-3.5 text-right font-bold ${changeColor}`}>
+                        {change === null ? <span className="text-xs font-medium text-slate-400">Chưa có dữ liệu so sánh</span> : (
+                          <span>{changeIcon} {change > 0 ? "+" : ""}{formatPrice(change)}<span className="mt-0.5 block text-xs font-semibold">({percent !== null ? (percent > 0 ? "+" : "") + percent.toFixed(2) + "%" : "—"})</span></span>
+                        )}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-3.5 text-right text-xs text-slate-500">{row.price_date}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          <div className="flex flex-wrap gap-x-4 gap-y-1 border-t border-slate-100 bg-slate-50/70 px-4 py-3 text-[11px] text-slate-500 sm:px-6">
+            <span><span className="font-bold text-emerald-700">↑ Tăng</span> · <span className="font-bold text-rose-600">↓ Giảm</span> · <span className="font-bold">— Đi ngang</span></span>
+            <span>Chỉ so sánh cùng mặt hàng, khu vực, đơn vị và loại tiền ở ngày ghi nhận trước đó.</span>
+          </div>
+        </section>
+
+        {/* Danh mục nông sản và vật tư */}
         <section className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
           {categoryVisuals.map((c) => (
             <Link
@@ -124,12 +198,7 @@ function Index() {
               className="group overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-[0_2px_10px_rgba(15,45,30,0.06)] transition duration-200 hover:-translate-y-1 hover:border-[#075b38]/20 hover:shadow-[0_8px_24px_rgba(7,91,56,0.12)]"
             >
               <div className="h-[110px] overflow-hidden sm:h-36">
-                <img
-                  src={c.image}
-                  alt={c.title}
-                  loading="lazy"
-                  className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                />
+                <img src={c.image} alt={c.title} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
               </div>
               <div className="flex min-h-[58px] items-center justify-between gap-2 px-3 py-3 sm:p-4">
                 <div className="min-w-0">
@@ -142,83 +211,20 @@ function Index() {
           ))}
         </section>
 
-        {/* Giá + Sản phẩm */}
-        <section className="grid gap-6 lg:grid-cols-[1.05fr_1.4fr]">
-          <div className="rounded-2xl border border-[#cfe9dc] bg-gradient-to-br from-[#f8fffb] to-[#eaf7f0] p-4 shadow-sm sm:p-6">
-            <div className="flex items-center justify-between gap-3">
-              <h2 className="flex items-center gap-2 text-lg font-extrabold text-[#075b38]">
-                <ChartNoAxesCombined size={20} /> Giá nông sản mới nhất
-              </h2>
-              <Link to="/bang-gia" className="text-sm font-semibold text-[#087343] hover:underline">
-                Xem tất cả <ArrowRight size={14} className="inline" />
-              </Link>
-            </div>
-            <p className="mt-1 text-xs text-slate-500">Giá tham khảo theo vùng, có ngày ghi nhận và nguồn.</p>
-            <div className="mt-4 divide-y divide-slate-100/80">
-              {displayPrices.length === 0 && (
-                <p className="rounded-xl bg-white/70 px-3 py-5 text-sm text-slate-600">
-                  Chưa có dữ liệu giá thực tế để hiển thị.
-                </p>
-              )}
-              {displayPrices.map((row) => (
-                <div
-                  key={row.id}
-                  className="grid grid-cols-[36px_1fr_auto] items-center gap-2.5 py-2.5 text-xs sm:grid-cols-[40px_1fr_auto] sm:gap-3 sm:py-3 sm:text-sm"
-                >
-                  <img
-                    className="size-9 rounded-full border border-emerald-100 object-cover sm:size-10"
-                    src={
-                      row.crop.toLowerCase().includes("cà phê")
-                        ? "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=120&q=80"
-                        : row.crop.toLowerCase().includes("tiêu")
-                          ? "https://images.unsplash.com/photo-1599909533730-f9d4c9c1f7f5?auto=format&fit=crop&w=120&q=80"
-                          : row.crop.toLowerCase().includes("lúa")
-                            ? "https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?auto=format&fit=crop&w=120&q=80"
-                            : row.crop.toLowerCase().includes("cao su")
-                              ? "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=120&q=80"
-                              : "https://images.unsplash.com/photo-1547514701-42782101795e?auto=format&fit=crop&w=120&q=80"
-                    }
-                    alt={row.crop}
-                    loading="lazy"
-                  />
-                  <div className="min-w-0">
-                    <div className="font-semibold text-slate-800">{row.crop}</div>
-                    <div className="truncate text-[10px] text-slate-500 sm:text-xs">
-                      {row.province} · /{row.unit}
-                    </div>
-                  </div>
-                  <div className="text-right font-bold text-emerald-700">
-                    {row.currency === "VND" ? vnd(Number(row.price)) : Number(row.price).toLocaleString("en-US") + " " + row.currency}
-                    <div className="text-[9px] font-normal text-slate-500 sm:text-[10px]">{row.price_date}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <p className="mt-3 border-t border-slate-100 pt-3 text-[11px] leading-5 text-slate-500">
-              Giá theo ngày ghi nhận từ CSDL; có thể khác theo phẩm cấp và điểm thu mua.
-            </p>
+        {/* Sản phẩm nổi bật */}
+        <section>
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="text-lg font-extrabold text-[#087343] sm:text-xl">Sản phẩm nổi bật</h2>
+            <Link to="/cua-hang" className="text-sm font-semibold text-[#087343] hover:underline">Xem tất cả <ArrowRight size={14} className="inline" /></Link>
           </div>
-
-          <div>
-            <div className="mb-3 flex items-center justify-between">
-              <h2 className="text-lg font-extrabold text-[#087343] sm:text-xl">Sản phẩm nổi bật</h2>
-              <Link to="/cua-hang" className="text-sm font-semibold text-[#087343] hover:underline">
-                Xem tất cả <ArrowRight size={14} className="inline" />
-              </Link>
-            </div>
-            <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-2 sm:overflow-visible xl:grid-cols-4">
-              {featuredProducts.length ? (
-                featuredProducts.map((p) => (
-                  <div key={p.id} className="min-w-[150px] snap-start sm:min-w-0">
-                    <ProductCard p={p} />
-                  </div>
-                ))
-              ) : (
-                <div className="w-full rounded-2xl border border-dashed border-emerald-200 bg-white/90 p-6 text-sm text-slate-600 sm:col-span-2 xl:col-span-4">
-                  Chưa có sản phẩm thật được duyệt. Sản phẩm sẽ hiện tại đây khi có dữ liệu hợp lệ.
-                </div>
-              )}
-            </div>
+          <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-2 sm:overflow-visible xl:grid-cols-4">
+            {featuredProducts.length ? featuredProducts.map((p) => (
+              <div key={p.id} className="min-w-[150px] snap-start sm:min-w-0"><ProductCard p={p} /></div>
+            )) : (
+              <div className="w-full rounded-2xl border border-dashed border-emerald-200 bg-white/90 p-6 text-sm text-slate-600">
+                Chưa có sản phẩm thật được duyệt. Sản phẩm sẽ hiện tại đây khi có dữ liệu hợp lệ.
+              </div>
+            )}
           </div>
         </section>
 
