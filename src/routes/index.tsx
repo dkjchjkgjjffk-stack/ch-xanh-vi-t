@@ -142,17 +142,46 @@ function Index() {
               <span className="inline-flex items-center gap-1.5"><Headset size={15} className="text-[#ffd04a]" /> Kết nối trực tiếp</span>
             </div>
           </div>
-          <div className="hidden items-center justify-end gap-3 md:flex">
-            <img
-              className="mt-8 h-48 w-40 rounded-2xl object-cover shadow-2xl ring-4 ring-white/80"
-              src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=500&q=85"
-              alt="Hạt cà phê"
-            />
-            <img
-              className="h-60 w-44 rounded-2xl object-cover shadow-2xl ring-4 ring-white/80"
-              src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=500&q=85"
-              alt="Cây trồng xanh tốt"
-            />
+          <div className="relative mx-auto grid w-full max-w-[430px] grid-cols-2 gap-3 pb-8 md:mx-0 md:pb-0">
+            <div className="group relative mt-5 overflow-hidden rounded-2xl border-2 border-white/80 shadow-2xl">
+              <img
+                className="h-32 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-40"
+                src="https://images.unsplash.com/photo-1559525839-b184a4d698c7?auto=format&fit=crop&w=700&q=85"
+                alt="Vườn cà phê xanh tốt và quả cà phê"
+                loading="lazy"
+              />
+              <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-3 pb-2 pt-7 text-xs font-extrabold text-white sm:text-sm">CÀ PHÊ</span>
+            </div>
+            <div className="group relative overflow-hidden rounded-2xl border-2 border-white/80 shadow-2xl">
+              <img
+                className="h-32 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-40"
+                src="https://media.thuonghieucongluan.vn/uploads/2021/09/25/a6-1632530904.jpg"
+                alt="Công nhân khai thác mủ tại vườn cao su"
+                loading="lazy"
+              />
+              <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-3 pb-2 pt-7 text-xs font-extrabold text-white sm:text-sm">CAO SU</span>
+            </div>
+            <div className="group relative mt-[-4px] overflow-hidden rounded-2xl border-2 border-white/80 shadow-2xl">
+              <img
+                className="h-32 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-40"
+                src="https://mediafr.vietnamplus.vn/images/6918feb0a7fd892f37a68eead54384ba364dd32b3bede8218dd679fd11a7b0f71686a6223e5afcb3fd7c30b61dba0d3fbc641214598d56ebf6ac7b349144c1fa/poivre.jpg"
+                alt="Chùm hồ tiêu trên cây tiêu"
+                loading="lazy"
+              />
+              <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-3 pb-2 pt-7 text-xs font-extrabold text-white sm:text-sm">HỒ TIÊU</span>
+            </div>
+            <div className="group relative mt-[-4px] overflow-hidden rounded-2xl border-2 border-white/80 bg-white shadow-2xl">
+              <img
+                className="h-32 w-full object-contain bg-white p-2 transition duration-500 group-hover:scale-[1.03] sm:h-40"
+                src="https://www.sikumis.com/media/frontend/products/Kebomas-15-15-15-3D.jpg"
+                alt="Bao phân NPK 15-15-15 minh họa"
+                loading="lazy"
+              />
+              <span className="absolute inset-x-0 bottom-0 bg-[#075b38]/95 px-3 py-2 text-xs font-extrabold text-white sm:text-sm">PHÂN BÓN NPK</span>
+            </div>
+            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 rounded-full border border-white/40 bg-[#ffc629] px-4 py-2 text-[10px] font-extrabold tracking-wide text-[#19352a] shadow-lg sm:text-xs">
+              TỪ VƯỜN CÂY ĐẾN SẢN PHẨM
+            </div>
           </div>
           <button
             type="button"
