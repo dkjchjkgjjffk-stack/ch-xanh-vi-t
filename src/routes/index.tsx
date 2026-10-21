@@ -31,6 +31,7 @@ function Index() {
     Array<{ id: string; crop: string; unit: string; province: string; price: number; price_date: string; source: string; currency: string }>
   >([]);
   const [heroSlide, setHeroSlide] = useState(0);
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -110,15 +111,47 @@ function Index() {
 
   return (
     <div className="bg-[#f5f8f6]">
-      {/* Hero banner: one complete image uploaded to public/IMG_1201.png */}
-      <section className="w-full overflow-hidden bg-[#073d28]">
-        <img
-          src="/IMG_1201.png"
-          alt="Chợ Xanh Việt — kết nối nhà nông, giá trị bền vững; cà phê Robusta và phân bón"
-          className="block h-auto w-full"
-          fetchPriority="high"
-          decoding="async"
-        />
+      {/* Banner carousel: 3 slides, swipe-friendly on mobile */}
+      <section
+        className="relative w-full overflow-hidden bg-[#073d28]"
+        onTouchStart={(event) => setTouchStartX(event.touches[0]?.clientX ?? null)}
+        onTouchEnd={(event) => {
+          if (touchStartX === null) return;
+          const delta = (event.changedTouches[0]?.clientX ?? touchStartX) - touchStartX;
+          if (Math.abs(delta) > 45) {
+            setHeroSlide((current) => delta < 0 ? (current + 1) % 3 : (current + 2) % 3);
+          }
+          setTouchStartX(null);
+        }}
+      >
+        <div className="flex transition-transform duration-500 ease-out motion-reduce:transition-none" style={{ transform: `translateX(-${heroSlide * 100}%)` }} aria-live="polite">
+          <div className="w-full shrink-0">
+            <img src="/IMG_1201.png" alt="Chợ Xanh Việt — kết nối nhà nông, cà phê Robusta và vật tư nông nghiệp" className="block h-auto max-h-[420px] w-full object-cover object-center" fetchPriority="high" decoding="async" />
+          </div>
+          <div className="relative h-[190px] w-full shrink-0 overflow-hidden sm:h-[300px] lg:h-[360px]">
+            <img src={heroImages[1]} alt="Vật tư và cây trồng nông nghiệp" className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#052f20]/90 via-[#075b38]/55 to-transparent" />
+            <div className="relative flex h-full max-w-3xl flex-col justify-center px-5 text-white sm:px-10 lg:px-16">
+              <p className="text-xs font-bold uppercase tracking-[.18em] text-amber-300 sm:text-sm">Chợ Xanh Việt · Vật tư nhà vườn</p>
+              <h2 className="mt-2 max-w-2xl text-2xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">Đồng hành cùng mùa vụ bền vững</h2>
+              <p className="mt-3 max-w-xl text-sm text-white/90 sm:text-lg">Tìm vật tư nông nghiệp và thông tin sản phẩm rõ ràng, thuận tiện.</p>
+            </div>
+          </div>
+          <div className="relative h-[190px] w-full shrink-0 overflow-hidden sm:h-[300px] lg:h-[360px]">
+            <img src={heroImages[2]} alt="Nông sản và kết nối nhà nông" className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#052f20]/90 via-[#075b38]/55 to-transparent" />
+            <div className="relative flex h-full max-w-3xl flex-col justify-center px-5 text-white sm:px-10 lg:px-16">
+              <p className="text-xs font-bold uppercase tracking-[.18em] text-amber-300 sm:text-sm">Giá nông sản tham khảo</p>
+              <h2 className="mt-2 max-w-2xl text-2xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">Cập nhật giá, chủ động đầu ra</h2>
+              <p className="mt-3 max-w-xl text-sm text-white/90 sm:text-lg">Theo dõi giá theo mặt hàng và khu vực, so sánh với phiên ghi nhận trước.</p>
+            </div>
+          </div>
+        </div>
+        <button type="button" aria-label="Banner trước" onClick={() => setHeroSlide((current) => (current + 2) % 3)} className="absolute left-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-black/30 text-white backdrop-blur transition hover:bg-black/55 sm:left-5 sm:h-11 sm:w-11"><ArrowLeft size={20} /></button>
+        <button type="button" aria-label="Banner tiếp theo" onClick={() => setHeroSlide((current) => (current + 1) % 3)} className="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-black/30 text-white backdrop-blur transition hover:bg-black/55 sm:right-5 sm:h-11 sm:w-11"><ArrowRight size={20} /></button>
+        <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-full bg-black/25 px-3 py-2 backdrop-blur-sm">
+          {heroImages.map((_, index) => <button key={index} type="button" aria-label={`Chuyển đến banner ${index + 1}`} aria-current={heroSlide === index ? "true" : undefined} onClick={() => setHeroSlide(index)} className={`h-2 rounded-full transition-all ${heroSlide === index ? "w-6 bg-white" : "w-2 bg-white/60 hover:bg-white"}`} />)}
+        </div>
       </section>
 
       <Page>
