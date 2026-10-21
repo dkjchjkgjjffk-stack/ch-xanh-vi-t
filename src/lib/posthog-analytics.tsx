@@ -34,8 +34,11 @@ export function PostHogAnalytics() {
     }
 
     // Queue calls until the official PostHog browser SDK finishes loading.
+    // The SDK's bootstrap object is dynamic by design.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const w = window as Window & { posthog?: any };
     if (!w.posthog) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const ph: any = function (...args: unknown[]) {
         ph.push(...args);
       };
