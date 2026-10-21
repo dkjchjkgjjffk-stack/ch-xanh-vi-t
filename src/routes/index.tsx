@@ -136,6 +136,11 @@ function Index() {
                 Chợ nông sản
               </Link>
             </div>
+            <div className="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-xs font-semibold text-[#214b37] sm:text-sm">
+              <span className="inline-flex items-center gap-1.5"><ShieldCheck size={15} className="text-[#087343]" /> Thông tin rõ ràng</span>
+              <span className="inline-flex items-center gap-1.5"><Sprout size={15} className="text-[#087343]" /> Dành riêng cho nhà nông</span>
+              <span className="inline-flex items-center gap-1.5"><Headset size={15} className="text-[#087343]" /> Kết nối trực tiếp</span>
+            </div>
           </div>
           <div className="hidden items-center justify-end gap-3 md:flex">
             <img
