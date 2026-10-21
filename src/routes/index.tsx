@@ -38,7 +38,7 @@ function Index() {
       .from("prices")
       .select("id,crop,unit,province,price,price_date,source,currency")
       .order("price_date", { ascending: false })
-      .limit(100)
+      .limit(300)
       .then(({ data }) => {
         if (active && data?.length) setLivePrices(data as typeof livePrices);
       });
