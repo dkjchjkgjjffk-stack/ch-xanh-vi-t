@@ -27,31 +27,35 @@ export function PostHogAnalytics() {
   useEffect(() => {
     if (typeof window === "undefined" || isPrivatePath(pathname)) return;
 
-    const existing = window.posthog;
+    const existing = window.posthog as (Window["posthog"] & { __initialized?: boolean }) | undefined;
     if (existing?.__initialized) {
       existing.capture("$pageview", { $current_url: window.location.href });
       return;
     }
 
-    // Load the official PostHog browser SDK without adding a build-time dependency.
+    // Queue calls until the official PostHog browser SDK finishes loading.
     const w = window as Window & { posthog?: any };
     if (!w.posthog) {
       const ph: any = function (...args: unknown[]) {
-        ph.push(args);
+        ph.push(...args);
       };
       ph._i = [];
+      ph.push = (...args: unknown[]) => ph._i.push(args);
       ph.init = function (key: string, options: Record<string, unknown>, name?: string) {
         const target = name ? (ph[name] = ph[name] || []) : ph;
         target.__initialized = true;
+        target._i = target._i || [];
         target._i.push([key, options, name]);
-        const script = document.createElement("script");
-        script.id = SCRIPT_ID;
-        script.async = true;
-        script.src = `${API_HOST}/static/array.js`;
-        script.onerror = () => console.warn("PostHog SDK failed to load");
-        document.head.appendChild(script);
+        if (!document.getElementById(SCRIPT_ID)) {
+          const script = document.createElement("script");
+          script.id = SCRIPT_ID;
+          script.async = true;
+          script.src = `${API_HOST}/static/array.js`;
+          script.onerror = () => console.warn("PostHog SDK failed to load");
+          document.head.appendChild(script);
+        }
       };
-      ph.capture = (...args: unknown[]) => ph.push(["capture", ...args]);
+      ph.capture = (...args: unknown[]) => ph.push("capture", ...args);
       w.posthog = ph;
     }
 
@@ -65,8 +69,7 @@ export function PostHogAnalytics() {
       before_send: (event: { event?: string; properties?: Record<string, unknown> }) => {
         const url = String(event?.properties?.$current_url ?? "");
         try {
-          const path = new URL(url).pathname;
-          if (isPrivatePath(path)) return null;
+          if (isPrivatePath(new URL(url).pathname)) return null;
         } catch {
           // Keep events without a URL; PostHog can populate the current URL itself.
         }
