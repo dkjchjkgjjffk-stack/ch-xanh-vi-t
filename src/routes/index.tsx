@@ -103,53 +103,53 @@ function Index() {
   return (
     <div className="bg-[#f5f8f6]">
       {/* Hero */}
-      <section className="relative isolate overflow-hidden bg-[#e9f5eb]">
+      <section className="relative isolate overflow-hidden bg-[#073d28]">
         <div
           className="absolute inset-0 -z-20 bg-cover bg-center transition-opacity duration-500"
           style={{ backgroundImage: `url('${heroImages[heroSlide]}')` }}
         />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#f7fff5]/96 via-[#f7fff5]/88 to-[#f7fff5]/40" />
-        <div className="mx-auto grid min-h-[280px] max-w-[1400px] items-center gap-3 px-4 py-8 sm:min-h-[360px] sm:px-8 sm:py-10 md:grid-cols-[1fr_.85fr]">
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#052f20]/95 via-[#075b38]/82 to-[#075b38]/20" />
+        <div className="mx-auto grid min-h-[350px] max-w-[1400px] items-center gap-3 px-4 py-9 sm:min-h-[430px] sm:px-8 sm:py-12 md:grid-cols-[1fr_.85fr]">
           <div className="max-w-xl pb-10 md:pb-0">
-            <span className="inline-flex rounded-full bg-[#075b38] px-3 py-1.5 text-[10px] font-bold tracking-wide text-white sm:text-xs">
+            <span className="inline-flex rounded-full border border-white/25 bg-white/10 px-3 py-1.5 text-[10px] font-bold tracking-wide text-[#ffe08a] backdrop-blur-sm sm:text-xs">
               NÔNG NGHIỆP BỀN VỮNG · GIÁ TRỊ DÀI LÂU
             </span>
-            <h1 className="mt-3 text-[1.75rem] font-extrabold leading-[1.12] tracking-tight text-[#102b23] sm:mt-4 sm:text-5xl">
+            <h1 className="mt-3 text-[2rem] font-extrabold leading-[1.08] tracking-tight text-white drop-shadow-sm sm:mt-4 sm:text-5xl lg:text-6xl">
               Kết nối nhà nông
               <br />
-              <span className="text-[#087343]">Giá trị bền vững</span>
+              <span className="text-[#ffd04a]">Giá trị bền vững</span>
             </h1>
-            <p className="mt-3 max-w-lg text-sm leading-relaxed text-slate-700 sm:mt-4 sm:text-base">
+            <p className="mt-4 max-w-lg text-sm leading-relaxed text-white/90 sm:mt-5 sm:text-base sm:leading-7">
               Hải Tây Phát cung cấp nông sản, phân bón, thuốc BVTV, vật tư nông nghiệp — thông tin rõ ràng, dễ dùng trên điện thoại.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
               <Link
                 to="/cua-hang"
-                className="inline-flex min-h-11 items-center gap-2 rounded-full bg-[#ffc629] px-5 text-sm font-bold text-[#19352a] shadow-sm transition hover:bg-[#ffd24a]"
+                className="inline-flex min-h-12 items-center gap-2 rounded-full bg-[#ffc629] px-6 text-sm font-extrabold text-[#19352a] shadow-[0_8px_24px_rgba(0,0,0,0.18)] transition hover:-translate-y-0.5 hover:bg-[#ffd24a]"
               >
                 Mua sắm ngay <ArrowRight size={16} />
               </Link>
               <Link
                 to="/cho"
-                className="inline-flex min-h-11 items-center gap-2 rounded-full border-2 border-[#075b38] bg-white/80 px-5 text-sm font-bold text-[#075b38] transition hover:bg-white"
+                className="inline-flex min-h-12 items-center gap-2 rounded-full border border-white/60 bg-white/10 px-5 text-sm font-bold text-white backdrop-blur-sm transition hover:bg-white/20"
               >
                 Chợ nông sản
               </Link>
             </div>
-            <div className="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-xs font-semibold text-[#214b37] sm:text-sm">
-              <span className="inline-flex items-center gap-1.5"><ShieldCheck size={15} className="text-[#087343]" /> Thông tin rõ ràng</span>
-              <span className="inline-flex items-center gap-1.5"><Sprout size={15} className="text-[#087343]" /> Dành riêng cho nhà nông</span>
-              <span className="inline-flex items-center gap-1.5"><Headset size={15} className="text-[#087343]" /> Kết nối trực tiếp</span>
+            <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2 text-xs font-semibold text-white/90 sm:text-sm">
+              <span className="inline-flex items-center gap-1.5"><ShieldCheck size={15} className="text-[#ffd04a]" /> Thông tin rõ ràng</span>
+              <span className="inline-flex items-center gap-1.5"><Sprout size={15} className="text-[#ffd04a]" /> Dành riêng cho nhà nông</span>
+              <span className="inline-flex items-center gap-1.5"><Headset size={15} className="text-[#ffd04a]" /> Kết nối trực tiếp</span>
             </div>
           </div>
           <div className="hidden items-center justify-end gap-3 md:flex">
             <img
-              className="mt-8 h-44 w-40 rounded-2xl object-cover shadow-lg ring-2 ring-white"
+              className="mt-8 h-48 w-40 rounded-2xl object-cover shadow-2xl ring-4 ring-white/80"
               src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=500&q=85"
               alt="Hạt cà phê"
             />
             <img
-              className="h-52 w-44 rounded-2xl object-cover shadow-lg ring-2 ring-white"
+              className="h-60 w-44 rounded-2xl object-cover shadow-2xl ring-4 ring-white/80"
               src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=500&q=85"
               alt="Cây trồng xanh tốt"
             />
