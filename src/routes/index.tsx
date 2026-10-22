@@ -8,10 +8,12 @@ import { Page } from "@/components/Layout";
 import { ProductCard } from "@/components/Cards";
 
 const categoryVisuals = [
-  { id: "nongsan", title: "Nông sản", desc: "Cà phê, hồ tiêu, sầu riêng…", image: "https://images.unsplash.com/photo-1559525839-b184a4d698c7?auto=format&fit=crop&w=900&q=85", search: "Cà phê" },
-  { id: "phan-bon", title: "Phân bón", desc: "NPK, hữu cơ, vi sinh…", image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=900&q=85", search: "phan-bon" },
-  { id: "thuoc-bvtv", title: "Thuốc BVTV", desc: "Tra cứu nhãn và nguồn gốc", image: "https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=900&q=85", search: "thuoc-bvtv" },
-  { id: "vat-tu", title: "Vật tư nông nghiệp", desc: "Ống tưới, dụng cụ, phụ kiện…", image: "https://images.unsplash.com/photo-1558904541-efa843a96f01?auto=format&fit=crop&w=900&q=85", search: "vat-tu" },
+  { id: "ca-phe", title: "Cà phê", desc: "Giá thu mua và thị trường", image: "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=900&q=85", search: "Cà phê", route: "nongsan" },
+  { id: "sau-rieng", title: "Sầu riêng", desc: "Thông tin mùa vụ và giá", image: "https://images.unsplash.com/photo-1591073113125-e46713c829ed?auto=format&fit=crop&w=900&q=85", search: "Sầu riêng", route: "nongsan" },
+  { id: "ho-tieu", title: "Hồ tiêu", desc: "Giá tiêu và vùng trồng", image: "https://images.unsplash.com/photo-1599909533730-f9d4b6f0f6d2?auto=format&fit=crop&w=900&q=85", search: "Hồ tiêu", route: "nongsan" },
+  { id: "cao-su", title: "Cao su", desc: "Giá mủ và thị trường", image: "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=900&q=85", search: "Cao su", route: "nongsan" },
+  { id: "phan-bon", title: "Phân bón", desc: "NPK, hữu cơ, vi sinh", image: "https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=900&q=85", search: "phan-bon", route: "shop" },
+  { id: "vat-tu", title: "Dụng cụ nông nghiệp", desc: "Thiết bị và vật tư vườn", image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=900&q=85", search: "vat-tu", route: "shop" },
 ];
 
 export const Route = createFileRoute("/")({
@@ -127,8 +129,9 @@ function Index() {
       current: history[0],
       previous: history.find((row) => row.price_date < history[0].price_date) ?? null,
     }));
-    const patterns = [/cà phê nhân xô/i, /^hồ tiêu$/i, /sầu riêng ri6 loại a/i, /lúa om5451/i, /cao su mủ đông/i];
-    return patterns.map((pattern) => latestRows.find(({ current }) => pattern.test(current.crop))).filter(Boolean) as Array<{ current: PriceRow; previous: PriceRow | null }>;
+    return latestRows
+      .sort((a, b) => b.current.price_date.localeCompare(a.current.price_date) || a.current.crop.localeCompare(b.current.crop, "vi"))
+      .slice(0, 15);
   })();
 
   const heroImages = [
@@ -153,8 +156,8 @@ function Index() {
         }}
       >
         <div className="flex transition-transform duration-500 ease-out motion-reduce:transition-none" style={{ transform: `translateX(-${heroSlide * 100}%)` }} aria-live="polite">
-          <div className="relative h-[190px] w-full shrink-0 overflow-hidden sm:h-[300px] lg:h-[360px]">
-            <img src="/IMG_1201.png" alt="Chợ Xanh Việt — kết nối nhà nông, cà phê Robusta và vật tư nông nghiệp" className="absolute inset-0 h-full w-full object-cover object-top" fetchPriority="high" decoding="async" />
+          <div className="relative h-[220px] w-full shrink-0 overflow-hidden bg-[#073d28] sm:h-[300px] lg:h-[360px]">
+            <img src="/IMG_1201.png" alt="Chợ Xanh Việt — kết nối nhà nông, cà phê Robusta và vật tư nông nghiệp" className="absolute inset-0 h-full w-full object-contain object-center" fetchPriority="high" decoding="async" />
           </div>
           <div className="relative h-[190px] w-full shrink-0 overflow-hidden sm:h-[300px] lg:h-[360px]">
             <img src={heroImages[1]} alt="Vật tư và cây trồng nông nghiệp" className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
@@ -207,14 +210,14 @@ function Index() {
             </Link>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[620px] border-collapse text-left text-sm">
+            <table className="w-full min-w-[720px] border-collapse text-left text-xs">
               <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
                 <tr>
-                  <th className="px-4 py-3 font-semibold sm:px-6">Mặt hàng</th>
-                  <th className="px-4 py-3 font-semibold">Khu vực</th>
-                  <th className="px-4 py-3 text-right font-semibold">Giá hiện tại</th>
-                  <th className="px-4 py-3 text-right font-semibold">So với phiên trước</th>
-                  <th className="px-4 py-3 text-right font-semibold">Ngày giá</th>
+                  <th className="px-2.5 py-2 font-semibold sm:px-3">Mặt hàng</th>
+                  <th className="px-2.5 py-2 font-semibold">Khu vực</th>
+                  <th className="px-2.5 py-2 text-right font-semibold">Giá hiện tại</th>
+                  <th className="px-2.5 py-2 text-right font-semibold">So với phiên trước</th>
+                  <th className="px-2.5 py-2 text-right font-semibold">Ngày giá</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
@@ -235,18 +238,18 @@ function Index() {
                     : value.toLocaleString("en-US", { maximumFractionDigits: 2 }) + " " + row.currency;
                   return (
                     <tr key={row.id} className="transition hover:bg-emerald-50/50">
-                      <td className="px-4 py-3.5 sm:px-6">
+                      <td className="px-2.5 py-2 sm:px-3">
                         <div className="font-bold text-slate-800">{row.crop}</div>
                         <div className="mt-0.5 text-xs text-slate-500">Đơn vị: {row.unit}</div>
                       </td>
-                      <td className="px-4 py-3.5 text-slate-600">{row.province}</td>
-                      <td className="whitespace-nowrap px-4 py-3.5 text-right font-extrabold text-[#075b38]">{formatPrice(price)}</td>
-                      <td className={`whitespace-nowrap px-4 py-3.5 text-right font-bold ${changeColor}`}>
+                      <td className="px-2.5 py-2 text-slate-600">{row.province}</td>
+                      <td className="whitespace-nowrap px-2.5 py-2 text-right font-extrabold text-[#075b38]">{formatPrice(price)}</td>
+                      <td className={`whitespace-nowrap px-2.5 py-2 text-right font-bold ${changeColor}`}>
                         {change === null ? <span className="text-xs font-medium text-slate-400">Chưa có dữ liệu so sánh</span> : (
                           <span>{changeIcon} {change > 0 ? "+" : ""}{formatPrice(change)}<span className="mt-0.5 block text-xs font-semibold">({percent !== null ? (percent > 0 ? "+" : "") + percent.toFixed(2) + "%" : "—"})</span></span>
                         )}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-3.5 text-right text-xs text-slate-500">{row.price_date}</td>
+                      <td className="whitespace-nowrap px-2.5 py-2 text-right text-[10px] text-slate-500">{row.price_date}</td>
                     </tr>
                   );
                 })}
@@ -260,12 +263,12 @@ function Index() {
         </section>
 
         {/* Danh mục nông sản và vật tư */}
-        <section className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+        <section className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 xl:grid-cols-6">
           {categoryVisuals.map((c) => (
             <Link
               key={c.id}
-              to={c.id === "nongsan" ? "/cho" : "/cua-hang"}
-              search={c.id === "nongsan" ? undefined : { dm: c.search as never }}
+              to={c.route === "nongsan" ? "/cho" : "/cua-hang"}
+              search={c.route === "nongsan" ? { q: c.search } : { dm: c.search as never }}
               className="group overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-[0_2px_10px_rgba(15,45,30,0.06)] transition duration-200 hover:-translate-y-1 hover:border-[#075b38]/20 hover:shadow-[0_8px_24px_rgba(7,91,56,0.12)]"
             >
               <div className="h-[110px] overflow-hidden sm:h-36">
