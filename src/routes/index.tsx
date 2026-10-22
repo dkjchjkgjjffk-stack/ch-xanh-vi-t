@@ -9,7 +9,7 @@ import { ProductCard } from "@/components/Cards";
 const categoryVisuals = [
   { id: "nongsan", title: "Nông sản", desc: "Cà phê, hồ tiêu, sầu riêng…", image: "https://images.unsplash.com/photo-1559525839-b184a4d698c7?auto=format&fit=crop&w=900&q=85", search: "Cà phê" },
   { id: "phan-bon", title: "Phân bón", desc: "NPK, hữu cơ, vi sinh…", image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=900&q=85", search: "phan-bon" },
-  { id: "thuoc-bvtv", title: "Thuốc BVTV", desc: "Thông tin sản phẩm rõ ràng", image: "https://images.unsplash.com/photo-1559525839-b184a4d698c7?auto=format&fit=crop&w=800&q=70", search: "thuoc-bvtv" },
+  { id: "thuoc-bvtv", title: "Thuốc BVTV", desc: "Tra cứu nhãn và nguồn gốc", image: "https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=900&q=85", search: "thuoc-bvtv" },
   { id: "vat-tu", title: "Vật tư nông nghiệp", desc: "Ống tưới, dụng cụ, phụ kiện…", image: "https://images.unsplash.com/photo-1558904541-efa843a96f01?auto=format&fit=crop&w=900&q=85", search: "vat-tu" },
 ];
 
@@ -134,11 +134,12 @@ function Index() {
             <div className="relative flex h-full max-w-3xl flex-col justify-center px-5 pr-28 text-white sm:px-10 sm:pr-48 lg:px-16">
               <p className="text-xs font-bold uppercase tracking-[.18em] text-amber-300 sm:text-sm">Phân bón thương hiệu</p>
               <h2 className="mt-2 max-w-2xl text-2xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">NPK Phú Mỹ cho mùa vụ bội thu</h2>
-              <p className="mt-3 max-w-xl text-sm text-white/90 sm:text-lg">Tìm hiểu các dòng phân bón và công thức phù hợp với cây trồng.</p>
+              <p className="mt-3 max-w-xl text-sm text-white/90 sm:text-lg">Tra cứu thông tin phân bón, hàm lượng và nhà cung cấp trước khi lựa chọn.</p>
             </div>
-            <div className="pointer-events-none absolute bottom-5 right-5 flex items-end gap-2 sm:right-12 sm:bottom-8 sm:gap-4">
-              <div className="flex h-24 w-16 rotate-[-5deg] flex-col items-center justify-center rounded-t-md border border-yellow-200 bg-gradient-to-b from-yellow-300 to-yellow-500 px-1 text-center text-[9px] font-black leading-tight text-green-950 shadow-xl sm:h-40 sm:w-28 sm:text-sm"><span className="mb-1 rounded bg-green-800 px-1 text-yellow-100">PHÚ MỸ</span>NPK PHÂN BÓN<span className="mt-1 text-base sm:text-2xl">16-16-8</span><span className="mt-1 text-[7px] sm:text-[10px]">HÌNH MINH HỌA</span></div>
-              <div className="flex h-20 w-14 rotate-[4deg] flex-col items-center justify-center rounded-t-md border border-white/70 bg-gradient-to-b from-white to-slate-200 px-1 text-center text-[8px] font-black leading-tight text-green-900 shadow-xl sm:h-32 sm:w-24 sm:text-xs"><span className="rounded bg-green-700 px-1 text-white">NPK</span><span className="mt-2">DINH DƯỠNG</span><span className="mt-1 text-[7px] sm:text-[9px]">HÌNH MINH HỌA</span></div>
+            <div className="absolute bottom-4 right-4 sm:right-10 sm:bottom-7">
+              <Link to="/cua-hang" search={{ dm: "phan-bon" as never }} className="inline-flex items-center gap-2 rounded-full bg-[#ffc629] px-4 py-2.5 text-xs font-extrabold text-[#173a2a] shadow-lg transition hover:bg-[#ffda63] sm:text-sm">
+                Xem danh mục phân bón <ArrowRight size={16} />
+              </Link>
             </div>
           </div>
           <div className="relative h-[190px] w-full shrink-0 overflow-hidden sm:h-[300px] lg:h-[360px]">
@@ -147,11 +148,12 @@ function Index() {
             <div className="relative flex h-full max-w-3xl flex-col justify-center px-5 pr-28 text-white sm:px-10 sm:pr-48 lg:px-16">
               <p className="text-xs font-bold uppercase tracking-[.18em] text-amber-300 sm:text-sm">Thuốc bảo vệ thực vật</p>
               <h2 className="mt-2 max-w-2xl text-2xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">Giải pháp mùa vụ từ Syngenta</h2>
-              <p className="mt-3 max-w-xl text-sm text-white/90 sm:text-lg">Tìm hiểu sản phẩm, kiểm tra nhãn và lựa chọn đại lý uy tín.</p>
+              <p className="mt-3 max-w-xl text-sm text-white/90 sm:text-lg">Tìm thông tin sản phẩm, đọc nhãn và xác minh nguồn gốc trước khi mua.</p>
             </div>
-            <div className="pointer-events-none absolute bottom-5 right-5 flex items-end gap-2 sm:right-12 sm:bottom-8 sm:gap-4">
-              <div className="flex h-24 w-16 rotate-[-5deg] flex-col items-center justify-center rounded-lg border border-white/70 bg-gradient-to-b from-white to-slate-100 px-1 text-center text-[8px] font-black leading-tight text-green-900 shadow-xl sm:h-40 sm:w-28 sm:text-sm"><span className="rounded bg-green-700 px-1 text-white">Syngenta</span><span className="mt-2 text-base sm:text-2xl">RIDO</span><span className="mt-1 text-[7px] sm:text-[10px]">HÌNH MINH HỌA</span></div>
-              <div className="flex h-20 w-14 rotate-[4deg] flex-col items-center justify-center rounded-lg border border-white/70 bg-gradient-to-b from-green-700 to-green-950 px-1 text-center text-[8px] font-black leading-tight text-white shadow-xl sm:h-32 sm:w-24 sm:text-xs"><span>Syngenta</span><span className="mt-2">BẢO VỆ CÂY TRỒNG</span><span className="mt-1 text-[7px] sm:text-[9px]">HÌNH MINH HỌA</span></div>
+            <div className="absolute bottom-4 right-4 sm:right-10 sm:bottom-7">
+              <Link to="/cua-hang" search={{ dm: "thuoc-bvtv" as never }} className="inline-flex items-center gap-2 rounded-full bg-[#ffc629] px-4 py-2.5 text-xs font-extrabold text-[#173a2a] shadow-lg transition hover:bg-[#ffda63] sm:text-sm">
+                Xem danh mục thuốc BVTV <ArrowRight size={16} />
+              </Link>
             </div>
           </div>
         </div>
