@@ -135,9 +135,9 @@ function Index() {
   })();
 
   const heroImages = [
-    "/IMG_1201.png",
-    "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=1200&q=70",
-    "https://images.unsplash.com/photo-1559525839-b184a4d698c7?auto=format&fit=crop&w=1200&q=70",
+    "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1800&q=88",
+    "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=1200&q=80",
+    "https://images.unsplash.com/photo-1559525839-b184a4d698c7?auto=format&fit=crop&w=1200&q=80",
   ];
 
   return (
@@ -156,8 +156,20 @@ function Index() {
         }}
       >
         <div className="flex transition-transform duration-500 ease-out motion-reduce:transition-none" style={{ transform: `translateX(-${heroSlide * 100}%)` }} aria-live="polite">
-          <div className="relative h-[220px] w-full shrink-0 overflow-hidden bg-[#073d28] sm:h-[300px] lg:h-[360px]">
-            <img src="/IMG_1201.png" alt="Chợ Xanh Việt — kết nối nhà nông, cà phê Robusta và vật tư nông nghiệp" className="absolute inset-0 h-full w-full object-contain object-center" fetchPriority="high" decoding="async" />
+          <div className="relative h-[250px] w-full shrink-0 overflow-hidden bg-[#073d28] sm:h-[320px] lg:h-[380px]">
+            <img src={heroImages[0]} alt="Hạt cà phê và nông sản Việt Nam" className="absolute inset-0 h-full w-full object-cover object-center" fetchPriority="high" decoding="async" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#042c1c]/95 via-[#063d27]/75 to-[#063d27]/10" />
+            <div className="relative flex h-full max-w-3xl flex-col justify-center px-5 pr-16 text-white sm:px-10 sm:pr-24 lg:px-16">
+              <p className="text-[10px] font-bold uppercase tracking-[.18em] text-amber-300 sm:text-sm">Chợ Xanh Việt · Hải Tây Phát</p>
+              <h2 className="mt-2 max-w-2xl text-2xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">CÀ PHÊ VIỆT NAM</h2>
+              <p className="mt-1 max-w-xl text-lg font-bold leading-tight text-amber-50 sm:text-2xl lg:text-3xl">Chất lượng tạo nên giá trị</p>
+              <div className="mt-4 flex flex-wrap gap-2 text-[10px] font-semibold sm:mt-6 sm:gap-3 sm:text-sm">
+                <span className="rounded-full border border-white/25 bg-white/10 px-3 py-2 backdrop-blur">Giá cả minh bạch</span>
+                <span className="rounded-full border border-white/25 bg-white/10 px-3 py-2 backdrop-blur">Cập nhật theo nguồn</span>
+                <span className="rounded-full border border-white/25 bg-white/10 px-3 py-2 backdrop-blur">Kết nối nhà nông</span>
+              </div>
+              <Link to="/bang-gia" className="mt-4 inline-flex w-fit items-center gap-2 rounded-full bg-emerald-500 px-4 py-2.5 text-xs font-extrabold text-white shadow-lg transition hover:bg-emerald-400 sm:mt-5 sm:text-sm">Xem bảng giá cà phê <ArrowRight size={16} /></Link>
+            </div>
           </div>
           <div className="relative h-[190px] w-full shrink-0 overflow-hidden sm:h-[300px] lg:h-[360px]">
             <img src={heroImages[1]} alt="Vật tư và cây trồng nông nghiệp" className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
