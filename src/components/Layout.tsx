@@ -46,7 +46,7 @@ export function Header() {
             🌱 Hải Tây Phát — Đồng hành cùng nhà nông Việt · Giao hàng toàn quốc
           </p>
           <div className="hidden items-center gap-4 sm:flex">
-            <a href="tel:1900xxxx" className="flex items-center gap-1.5 hover:text-[#f6d36b]">
+            <a href="tel:+84962334444" className="flex items-center gap-1.5 hover:text-[#f6d36b]">
               <Phone size={13} /> Hotline tư vấn
             </a>
             <span className="text-white/40">|</span>
@@ -317,7 +317,7 @@ export function Footer() {
           <ul className="space-y-2 text-sm text-slate-600">
             <li className="flex items-start gap-2">
               <Phone size={15} className="mt-0.5 shrink-0 text-[#075b38]" />
-              <span>Hotline tư vấn (cập nhật sau)</span>
+              <a href="tel:+84962334444" className="font-semibold text-[#075b38] hover:underline">096 233 4444</a>
             </li>
             <li className="flex items-start gap-2">
               <MapPin size={15} className="mt-0.5 shrink-0 text-[#075b38]" />
