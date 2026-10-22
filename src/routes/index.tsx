@@ -66,8 +66,8 @@ function Index() {
           registration: "Đối chiếu nhãn của đúng lô hàng",
           verify: row.verify_status as Product["verify"],
           seller: { name: "Danh mục tham khảo — chưa phải tin bán hàng", phone: "", address: "" },
-          sourceUrl: row.source_url,
-          catalogGroup: row.catalog_group,
+          sourceUrl: row.source_url || "",
+          catalogGroup: row.catalog_group as ReferenceProduct["catalogGroup"],
           isReference: true,
         })));
       });
