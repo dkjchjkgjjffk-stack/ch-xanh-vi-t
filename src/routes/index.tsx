@@ -222,19 +222,22 @@ function Index() {
             </Link>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[720px] border-collapse text-left text-xs">
+            <table className="w-full min-w-[900px] border-collapse text-left text-[11px]">
               <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
                 <tr>
                   <th className="px-2.5 py-2 font-semibold sm:px-3">Mặt hàng</th>
                   <th className="px-2.5 py-2 font-semibold">Khu vực</th>
                   <th className="px-2.5 py-2 text-right font-semibold">Giá hiện tại</th>
-                  <th className="px-2.5 py-2 text-right font-semibold">So với phiên trước</th>
+                  <th className="px-2.5 py-2 text-right font-semibold">Phiên trước</th>
+                  <th className="px-2.5 py-2 text-right font-semibold">Chênh lệch</th>
+                  <th className="px-2.5 py-2 text-right font-semibold">Tăng / giảm %</th>
                   <th className="px-2.5 py-2 text-right font-semibold">Ngày giá</th>
+                  <th className="px-2.5 py-2 font-semibold">Nguồn</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {displayPrices.length === 0 && (
-                  <tr><td colSpan={5} className="px-4 py-8 text-center text-slate-500">Chưa có dữ liệu giá thực tế để hiển thị.</td></tr>
+                  <tr><td colSpan={8} className="px-4 py-8 text-center text-slate-500">Chưa có dữ liệu giá thực tế để hiển thị.</td></tr>
                 )}
                 {displayPrices.map(({ current: row, previous }) => {
                   const price = Number(row.price);
@@ -256,12 +259,13 @@ function Index() {
                       </td>
                       <td className="px-2.5 py-2 text-slate-600">{row.province}</td>
                       <td className="whitespace-nowrap px-2.5 py-2 text-right font-extrabold text-[#075b38]">{formatPrice(price)}</td>
+                      <td className="whitespace-nowrap px-2.5 py-2 text-right text-slate-600">{previousPrice !== null ? formatPrice(previousPrice) : "—"}</td>
                       <td className={`whitespace-nowrap px-2.5 py-2 text-right font-bold ${changeColor}`}>
-                        {change === null ? <span className="text-xs font-medium text-slate-400">Chưa có dữ liệu so sánh</span> : (
-                          <span>{changeIcon} {change > 0 ? "+" : ""}{formatPrice(change)}<span className="mt-0.5 block text-xs font-semibold">({percent !== null ? (percent > 0 ? "+" : "") + percent.toFixed(2) + "%" : "—"})</span></span>
-                        )}
+                        {change === null ? <span className="font-medium text-slate-400">Chưa có dữ liệu</span> : <span>{changeIcon} {change > 0 ? "+" : ""}{formatPrice(change)}</span>}
                       </td>
+                      <td className={`whitespace-nowrap px-2.5 py-2 text-right font-bold ${changeColor}`}>{percent !== null ? (percent > 0 ? "+" : "") + percent.toFixed(2) + "%" : "—"}</td>
                       <td className="whitespace-nowrap px-2.5 py-2 text-right text-[10px] text-slate-500">{row.price_date}</td>
+                      <td className="max-w-[140px] truncate px-2.5 py-2 text-[10px] text-slate-500" title={row.source}>{row.source || "Chưa ghi nguồn"}</td>
                     </tr>
                   );
                 })}
