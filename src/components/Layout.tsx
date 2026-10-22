@@ -41,7 +41,7 @@ export function Header() {
     <header className="sticky top-0 z-40 bg-white shadow-[0_2px_8px_rgba(0,0,0,0.06)]">
       {/* Top promo bar — kiểu Điện Máy Xanh */}
       <div className="bg-[#075b38] text-white">
-        <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-3 px-4 py-1.5 text-[11px] sm:px-6 sm:text-xs">
+        <div className="mx-auto flex max-w-[1600px] w-full items-center justify-between gap-3 px-4 py-1.5 text-[11px] sm:px-6 sm:text-xs">
           <p className="truncate font-medium">
             🌱 Hải Tây Phát — Đồng hành cùng nhà nông Việt · Giao hàng toàn quốc
           </p>
@@ -58,7 +58,7 @@ export function Header() {
       </div>
 
       {/* Main header row */}
-      <div className="mx-auto flex max-w-[1400px] items-center gap-2 px-2 py-3 sm:gap-4 sm:px-6">
+      <div className="mx-auto flex max-w-[1600px] w-full items-center gap-2 px-2 py-3 sm:gap-4 sm:px-6">
         <Link
           to="/"
           className="flex min-w-0 shrink-0 items-center gap-1.5 sm:gap-2.5"
@@ -167,7 +167,7 @@ export function Header() {
 
       {/* Category nav bar */}
       <nav className="border-t border-[#e8f0eb] bg-[#075b38] text-white" aria-label="Điều hướng chính">
-        <div className="mx-auto hidden max-w-[1400px] items-center gap-0.5 px-4 sm:flex sm:px-6">
+        <div className="mx-auto hidden max-w-[1600px] w-full items-center gap-0.5 px-4 sm:flex sm:px-6">
           <Link
             to="/cua-hang"
             className="mr-1 flex items-center gap-2 rounded-b-md bg-[#064b2f] px-4 py-2.5 text-sm font-semibold transition hover:bg-[#053d26]"
@@ -265,7 +265,7 @@ export function BottomNav() {
 export function Footer() {
   return (
     <footer className="mt-10 border-t border-[#e0ebe4] bg-[#f4faf6]">
-      <div className="mx-auto grid max-w-[1400px] gap-8 px-4 py-10 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
+      <div className="mx-auto grid max-w-[1600px] w-full gap-8 px-4 py-10 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
         <div>
           <div className="mb-3 text-base font-extrabold text-[#075b38]">HẢI TÂY PHÁT</div>
           <p className="text-sm leading-relaxed text-slate-600">
@@ -344,7 +344,7 @@ export function SampleNotice({ children }: { children?: ReactNode }) {
 
 export function Page({ title, children }: { title?: string; children: ReactNode }) {
   return (
-    <main className="mx-auto max-w-[1400px] space-y-5 px-4 py-5 sm:px-6">
+    <main className="mx-auto w-full max-w-[1600px] space-y-5 px-3 py-4 sm:px-5 sm:py-5 lg:px-8">
       {title && <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">{title}</h1>}
       {children}
     </main>
