@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight, ChartNoAxesCombined, Headset, PackageCheck, ShieldCheck, Sprout } from "lucide-react";
 import { type Product, vnd } from "@/data/sample";
+import { FERTILIZER_CATALOG, type ReferenceProduct } from "@/data/fertilizer-catalog";
 import { supabase } from "@/integrations/supabase/client";
 import { Page } from "@/components/Layout";
 import { ProductCard } from "@/components/Cards";
@@ -27,6 +28,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const [liveProducts, setLiveProducts] = useState<Product[]>([]);
+  const [referenceProducts, setReferenceProducts] = useState<ReferenceProduct[]>(FERTILIZER_CATALOG);
   const [livePrices, setLivePrices] = useState<
     Array<{ id: string; crop: string; unit: string; province: string; price: number; price_date: string; source: string; currency: string }>
   >([]);
@@ -42,6 +44,32 @@ function Index() {
       .limit(300)
       .then(({ data }) => {
         if (active && data?.length) setLivePrices(data as typeof livePrices);
+      });
+    void supabase
+      .from("reference_products")
+      .select("id,name,category,catalog_group,description,manufacturer,source_url,icon,image_url,price_on_request,unit,verify_status")
+      .order("catalog_group")
+      .order("name")
+      .then(({ data }) => {
+        if (!active || !data?.length) return;
+        setReferenceProducts(data.map((row): ReferenceProduct => ({
+          id: row.id,
+          name: row.name,
+          category: row.category as Product["category"],
+          price: 0,
+          priceOnRequest: true,
+          unit: row.unit,
+          icon: row.icon || "🌱",
+          imageUrl: row.image_url,
+          description: row.description || "",
+          manufacturer: row.manufacturer || "Chưa cung cấp",
+          registration: "Đối chiếu nhãn của đúng lô hàng",
+          verify: row.verify_status as Product["verify"],
+          seller: { name: "Danh mục tham khảo — chưa phải tin bán hàng", phone: "", address: "" },
+          sourceUrl: row.source_url,
+          catalogGroup: row.catalog_group,
+          isReference: true,
+        })));
       });
     void supabase
       .from("products")
@@ -262,12 +290,10 @@ function Index() {
           </div>
           <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 sm:grid sm:grid-cols-2 sm:overflow-visible xl:grid-cols-4">
             {featuredProducts.length ? featuredProducts.map((p) => (
-              <div key={p.id} className="min-w-[150px] snap-start sm:min-w-0"><ProductCard p={p} /></div>
-            )) : (
-              <div className="w-full rounded-2xl border border-dashed border-emerald-200 bg-white/90 p-6 text-sm text-slate-600">
-                Chưa có sản phẩm thật được duyệt. Sản phẩm sẽ hiện tại đây khi có dữ liệu hợp lệ.
-              </div>
-            )}
+              <div key={p.id} className="min-w-[150px] snap-start space-y-1 sm:min-w-0"><p className="px-1 text-[10px] font-bold text-emerald-700">NGƯỜI BÁN ĐÃ ĐĂNG</p><ProductCard p={p} /></div>
+            )) : referenceProducts.slice(0, 4).map((p) => (
+              <div key={p.id} className="min-w-[150px] snap-start space-y-1 sm:min-w-0"><p className="px-1 text-[10px] font-bold text-slate-500">THAM KHẢO · LIÊN HỆ</p><ProductCard p={p} /></div>
+            ))}
           </div>
         </section>
 
