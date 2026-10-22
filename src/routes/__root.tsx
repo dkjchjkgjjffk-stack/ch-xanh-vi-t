@@ -15,6 +15,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { CartProvider } from "../lib/cart";
 import { Header, BottomNav, Footer } from "../components/Layout";
 import { WebsiteAnalyticsTracker } from "@/lib/website-analytics";
+import { PostHogAnalytics } from "@/lib/posthog-analytics";
 
 function NotFoundComponent() {
   return (
@@ -126,6 +127,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <CartProvider>
         <WebsiteAnalyticsTracker />
+        <PostHogAnalytics />
         <Header />
         <div className="pb-24 md:pb-0">
           <Outlet />
