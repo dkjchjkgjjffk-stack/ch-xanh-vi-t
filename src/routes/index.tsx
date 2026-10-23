@@ -129,8 +129,20 @@ function Index() {
       current: history[0],
       previous: history.find((row) => row.price_date < history[0].price_date) ?? null,
     }));
-    return latestRows
-      .sort((a, b) => b.current.price_date.localeCompare(a.current.price_date) || a.current.crop.localeCompare(b.current.crop, "vi"))
+    const byProvince = (a: { current: PriceRow }, b: { current: PriceRow }) =>
+      a.current.province.localeCompare(b.current.province, "vi");
+    const localCoffee = latestRows.filter(({ current }) => /cà phê nhân xô/i.test(current.crop));
+    const pepper = latestRows.filter(({ current }) => /hồ tiêu/i.test(current.crop)).sort(byProvince);
+    const futures = latestRows.filter(({ current }) => /cà phê.*(london|new york)/i.test(current.crop))
+      .sort((a, b) => {
+        const aRobusta = /robusta/i.test(a.current.crop) ? 0 : 1;
+        const bRobusta = /robusta/i.test(b.current.crop) ? 0 : 1;
+        return aRobusta - bRobusta || a.current.crop.localeCompare(b.current.crop, "vi");
+      });
+    const other = latestRows.filter(({ current }) =>
+      !/cà phê nhân xô|hồ tiêu|cà phê.*(london|new york)/i.test(current.crop),
+    );
+    return [...localCoffee, ...pepper.slice(0, 5), ...futures.slice(0, 9), ...other]
       .slice(0, 15);
   })();
 
@@ -172,7 +184,7 @@ function Index() {
             </div>
           </div>
           <div className="relative h-[250px] w-full shrink-0 overflow-hidden bg-[#073d28] sm:h-[320px] lg:h-[380px]">
-            <img src={heroImages[1]} alt="Các bao phân bón xếp trong kho hàng" className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
+            <img src={heroImages[1]} alt="Các bao phân bón xếp trong kho hàng" className="absolute inset-0 h-full w-full object-cover" loading={heroSlide === 1 ? "eager" : "lazy"} decoding="async" />
             <div className="absolute inset-0 bg-gradient-to-r from-[#052f20]/90 via-[#075b38]/55 to-transparent" />
             <div className="relative flex h-full max-w-3xl flex-col justify-center px-5 pr-28 text-white sm:px-10 sm:pr-48 lg:px-16">
               <p className="text-xs font-bold uppercase tracking-[.18em] text-amber-300 sm:text-sm">Phân bón thương hiệu</p>
@@ -186,7 +198,7 @@ function Index() {
             </div>
           </div>
           <div className="relative h-[250px] w-full shrink-0 overflow-hidden bg-[#073d28] sm:h-[320px] lg:h-[380px]">
-            <img src={heroImages[2]} alt="Chùm quả hồ tiêu trên cây" className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
+            <img src={heroImages[2]} alt="Sản phẩm thuốc bảo vệ thực vật chính hãng Syngenta" className="absolute inset-0 h-full w-full object-cover" loading={heroSlide === 2 ? "eager" : "lazy"} decoding="async" />
             <div className="absolute inset-0 bg-gradient-to-r from-[#052f20]/90 via-[#075b38]/55 to-transparent" />
             <div className="relative flex h-full max-w-3xl flex-col justify-center px-5 pr-28 text-white sm:px-10 sm:pr-48 lg:px-16">
               <p className="text-xs font-bold uppercase tracking-[.18em] text-amber-300 sm:text-sm">Thuốc bảo vệ thực vật</p>
@@ -213,7 +225,7 @@ function Index() {
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-emerald-100 bg-gradient-to-r from-[#f1fbf5] to-white px-4 py-4 sm:px-6">
             <div>
               <h2 className="flex items-center gap-2 text-lg font-extrabold text-[#075b38] sm:text-xl">
-                <ChartNoAxesCombined size={21} /> Bảng giá nông sản hôm nay
+                <ChartNoAxesCombined size={21} /> Bảng giá nông sản mới nhất
               </h2>
               <p className="mt-1 text-xs text-slate-500 sm:text-sm">Giá mới nhất và mức thay đổi so với phiên ghi nhận trước đó</p>
             </div>
