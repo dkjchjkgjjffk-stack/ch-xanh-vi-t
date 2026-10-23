@@ -8,12 +8,12 @@ import { Page } from "@/components/Layout";
 import { ProductCard } from "@/components/Cards";
 
 const categoryVisuals = [
-  { id: "ca-phe", title: "Cà phê", desc: "Giá thu mua và thị trường", image: "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=900&q=85", search: "Cà phê", route: "nongsan" },
-  { id: "sau-rieng", title: "Sầu riêng", desc: "Thông tin mùa vụ và giá", image: "https://images.unsplash.com/photo-1655179532149-9123346e5c0d?auto=format&fit=crop&w=900&q=85", search: "Sầu riêng", route: "nongsan" },
+  { id: "ca-phe", title: "Cà phê", desc: "Giá thu mua và thị trường", image: "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=640&q=75", search: "Cà phê", route: "nongsan" },
+  { id: "sau-rieng", title: "Sầu riêng", desc: "Thông tin mùa vụ và giá", image: "https://images.unsplash.com/photo-1655179532149-9123346e5c0d?auto=format&fit=crop&w=640&q=75", search: "Sầu riêng", route: "nongsan" },
   { id: "ho-tieu", title: "Hồ tiêu", desc: "Giá tiêu và vùng trồng", image: "https://sc02.alicdn.com/kf/H13ac0f2ec13649568cbc5400ffab896e2.png", search: "Hồ tiêu", route: "nongsan" },
-  { id: "cao-su", title: "Cao su", desc: "Giá mủ và thị trường", image: "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=900&q=85", search: "Cao su", route: "nongsan" },
+  { id: "cao-su", title: "Cao su", desc: "Giá mủ và thị trường", image: "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=640&q=75", search: "Cao su", route: "nongsan" },
   { id: "phan-bon", title: "Phân bón", desc: "NPK, hữu cơ, vi sinh", image: "https://bcp.cdnchinhphu.vn/334894974524682240/2022/12/31/phan-bon-2-16563241995661012848475-16724794670331355401155.jpg", search: "phan-bon", route: "shop" },
-  { id: "vat-tu", title: "Dụng cụ nông nghiệp", desc: "Thiết bị và vật tư vườn", image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=900&q=85", search: "vat-tu", route: "shop" },
+  { id: "vat-tu", title: "Dụng cụ nông nghiệp", desc: "Thiết bị và vật tư vườn", image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=640&q=75", search: "vat-tu", route: "shop" },
 ];
 
 export const Route = createFileRoute("/")({
@@ -135,7 +135,7 @@ function Index() {
   })();
 
   const heroImages = [
-    "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1800&q=88",
+    "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1200&q=75",
     "https://bcp.cdnchinhphu.vn/334894974524682240/2022/12/31/phan-bon-2-16563241995661012848475-16724794670331355401155.jpg",
     "https://www.syngenta.com.vn/sites/g/files/kgtney1261/files/pinned-image/2023-10/2023.06.09_NHAN%20DIEN%20CHINH%20HIEU-01%20%281%29.jpg",
   ];
@@ -288,7 +288,7 @@ function Index() {
               className="group overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-[0_2px_10px_rgba(15,45,30,0.06)] transition duration-200 hover:-translate-y-1 hover:border-[#075b38]/20 hover:shadow-[0_8px_24px_rgba(7,91,56,0.12)]"
             >
               <div className="h-[110px] overflow-hidden sm:h-36">
-                <img src={c.image} alt={c.title} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+                <img src={c.image} alt={c.title} loading="lazy" decoding="async" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
               </div>
               <div className="flex min-h-[58px] items-center justify-between gap-2 px-3 py-3 sm:p-4">
                 <div className="min-w-0">
