@@ -38,12 +38,11 @@ export function PostHogAnalytics() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const w = window as Window & { posthog?: any };
     if (!w.posthog) {
+      // Match PostHog's official array-based bootstrap queue. The SDK replays
+      // queued calls from this array when array.js loads.
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const ph: any = function (...args: unknown[]) {
-        ph.push(...args);
-      };
+      const ph: any = [];
       ph._i = [];
-      ph.push = (...args: unknown[]) => ph._i.push(args);
       ph.init = function (key: string, options: Record<string, unknown>, name?: string) {
         const target = name ? (ph[name] = ph[name] || []) : ph;
         target.__initialized = true;
@@ -58,7 +57,7 @@ export function PostHogAnalytics() {
           document.head.appendChild(script);
         }
       };
-      ph.capture = (...args: unknown[]) => ph.push("capture", ...args);
+      ph.capture = (...args: unknown[]) => ph.push(["capture", ...args]);
       w.posthog = ph;
     }
 
