@@ -104,7 +104,7 @@ export const FERTILIZER_CATALOG: ReferenceProduct[] = [
     "PVFCCo — Phú Mỹ", "https://dpm.vn/san-pham/kali-phu-my-33", "🍇", "https://dpm.vn/public_folder/files_upload/202412/kali-mieng-phu-my-2023-mat-truocpng-1735563102.webp"),
   item("ref-npk-14721", "NPK Con Cò 14-7-21 cho hồ tiêu", "Kali",
     "Hãng giới thiệu công thức cho hồ tiêu; tỷ lệ N 14%, P₂O₅ 7%, K₂O 21% theo thông tin sản phẩm. Đây là NPK giàu kali, không phải phân kali đơn. Dùng theo liều trên nhãn và giai đoạn sinh trưởng.",
-    "Baconco — Con Cò", "https://baconco.com.vn/san-pham/phan-bon-goc/phan-bon-npk/npk-con-co-14721-con-co-cay-tieu", "🌶️"),
+    "Baconco — Con Cò", "https://baconco.com.vn/san-pham/phan-bon-goc/phan-bon-npk/npk-con-co-14721-con-co-cay-tieu", "🌶️", "https://baconco.com.vn/wp-content/uploads/2026/06/npk-con-co-14-7-21-con-co-cay-tieu-truoc.jpg"),
   item("ref-npk-15920", "NPK Con Cò 15-9-20", "Kali",
     "Hãng công bố N 15%, P₂O₅ 9%, K₂O 20%, Zn 1.500 ppm, B 300 ppm, độ ẩm 2%. Công thức tương đối giàu kali; hãng mô tả dùng cho cây công nghiệp và giai đoạn nuôi trái theo hướng dẫn nhãn.",
     "Baconco — Con Cò", "https://baconco.com.vn/san-pham/phan-bon-goc/phan-bon-npk/npk-con-co-15-9-20-2", "🍇", "https://baconco.com.vn/wp-content/uploads/2026/06/npk-con-co-15-9-20-truoc.jpg"),
