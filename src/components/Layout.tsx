@@ -58,7 +58,7 @@ export function Header() {
       </div>
 
       {/* Main header row */}
-      <div className="mx-auto flex max-w-[1600px] w-full items-center gap-2 px-2 py-3 sm:gap-4 sm:px-6">
+      <div className="mx-auto flex w-full max-w-[1600px] items-center gap-2 px-2 py-3 sm:gap-3 sm:px-4 lg:gap-4 lg:px-6">
         <Link
           to="/"
           className="flex min-w-0 shrink-0 items-center gap-1.5 sm:gap-2.5"
@@ -167,10 +167,10 @@ export function Header() {
 
       {/* Category nav bar */}
       <nav className="border-t border-[#e8f0eb] bg-[#075b38] text-white" aria-label="Điều hướng chính">
-        <div className="mx-auto hidden max-w-[1600px] w-full items-center gap-0.5 px-4 sm:flex sm:px-6">
+        <div className="mx-auto hidden w-full max-w-[1600px] items-center gap-0 px-2 lg:gap-0.5 lg:px-4 xl:px-6 sm:flex">
           <Link
             to="/cua-hang"
-            className="mr-1 flex items-center gap-2 rounded-b-md bg-[#064b2f] px-4 py-2.5 text-sm font-semibold transition hover:bg-[#053d26]"
+            className="mr-1 flex shrink-0 items-center gap-1.5 rounded-b-md bg-[#064b2f] px-2 py-2.5 text-xs font-semibold transition hover:bg-[#053d26] lg:gap-2 lg:px-3 lg:text-sm"
           >
             <Menu size={17} /> Danh mục sản phẩm
             <ChevronDown size={14} className="opacity-70" />
@@ -179,14 +179,14 @@ export function Header() {
             <Link
               key={n.to}
               to={n.to}
-              className="rounded-md px-3.5 py-2.5 text-sm font-semibold transition hover:bg-white/10"
+              className="whitespace-nowrap rounded-md px-2 py-2.5 text-xs font-semibold transition hover:bg-white/10 lg:px-2.5 lg:text-sm"
               activeProps={{ className: "bg-white/15 text-[#f6d36b]" }}
               activeOptions={{ exact: n.to === "/" }}
             >
               {n.label}
             </Link>
           ))}
-          <div className="ml-auto flex items-center gap-1">
+          <div className="ml-auto hidden items-center gap-1 xl:flex">
             {CATEGORY_LINKS.slice(0, 3).map((c) => (
               <Link
                 key={c.label}
