@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { BadgeCheck, FileText, MapPin, Package } from "lucide-react";
 import { type Listing, type Product, type VerifyStatus, vnd } from "@/data/sample";
@@ -19,6 +20,7 @@ export function VerifyBadge({ v }: { v: VerifyStatus }) {
 }
 
 export function ProductCard({ p }: { p: Product }) {
+  const [imageFailed, setImageFailed] = useState(false);
   return (
     <Link
       to="/cua-hang/$id"
@@ -26,17 +28,19 @@ export function ProductCard({ p }: { p: Product }) {
       className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-[0_2px_8px_rgba(15,45,30,0.06)] transition duration-200 hover:-translate-y-0.5 hover:border-[#075b38]/25 hover:shadow-[0_8px_24px_rgba(7,91,56,0.12)]"
     >
       <div className="relative aspect-square overflow-hidden bg-[#f4faf6]">
-        {p.imageUrl ? (
+        {p.imageUrl && !imageFailed ? (
           <img
             src={p.imageUrl}
             alt={p.name}
             loading="lazy"
+            decoding="async"
+            onError={() => setImageFailed(true)}
             className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.04]"
           />
         ) : (
           <div className="flex h-full flex-col items-center justify-center gap-2 text-slate-400">
             <Package size={36} strokeWidth={1.4} />
-            <span className="text-xs">Chưa có hình ảnh</span>
+            <span className="px-3 text-center text-xs">Ảnh sản phẩm chưa có hoặc không tải được</span>
           </div>
         )}
       </div>
