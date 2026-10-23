@@ -10,7 +10,7 @@ import { ProductCard } from "@/components/Cards";
 const categoryVisuals = [
   { id: "ca-phe", title: "Cà phê", desc: "Giá thu mua và thị trường", image: "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=900&q=85", search: "Cà phê", route: "nongsan" },
   { id: "sau-rieng", title: "Sầu riêng", desc: "Thông tin mùa vụ và giá", image: "https://images.unsplash.com/photo-1591073113125-e46713c829ed?auto=format&fit=crop&w=900&q=85", search: "Sầu riêng", route: "nongsan" },
-  { id: "ho-tieu", title: "Hồ tiêu", desc: "Giá tiêu và vùng trồng", image: "https://images.unsplash.com/photo-1599909533730-f9d4b6f0f6d2?auto=format&fit=crop&w=900&q=85", search: "Hồ tiêu", route: "nongsan" },
+  { id: "ho-tieu", title: "Hồ tiêu", desc: "Giá tiêu và vùng trồng", image: "https://images.unsplash.com/photo-1559525839-b184a4d698c7?auto=format&fit=crop&w=900&q=85", search: "Hồ tiêu", route: "nongsan" },
   { id: "cao-su", title: "Cao su", desc: "Giá mủ và thị trường", image: "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=900&q=85", search: "Cao su", route: "nongsan" },
   { id: "phan-bon", title: "Phân bón", desc: "NPK, hữu cơ, vi sinh", image: "https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=900&q=85", search: "phan-bon", route: "shop" },
   { id: "vat-tu", title: "Dụng cụ nông nghiệp", desc: "Thiết bị và vật tư vườn", image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=900&q=85", search: "vat-tu", route: "shop" },
