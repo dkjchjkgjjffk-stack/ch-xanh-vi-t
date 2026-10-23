@@ -9,10 +9,10 @@ import { ProductCard } from "@/components/Cards";
 
 const categoryVisuals = [
   { id: "ca-phe", title: "Cà phê", desc: "Giá thu mua và thị trường", image: "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=900&q=85", search: "Cà phê", route: "nongsan" },
-  { id: "sau-rieng", title: "Sầu riêng", desc: "Thông tin mùa vụ và giá", image: "https://images.unsplash.com/photo-1591073113125-e46713c829ed?auto=format&fit=crop&w=900&q=85", search: "Sầu riêng", route: "nongsan" },
-  { id: "ho-tieu", title: "Hồ tiêu", desc: "Giá tiêu và vùng trồng", image: "https://images.unsplash.com/photo-1559525839-b184a4d698c7?auto=format&fit=crop&w=900&q=85", search: "Hồ tiêu", route: "nongsan" },
+  { id: "sau-rieng", title: "Sầu riêng", desc: "Thông tin mùa vụ và giá", image: "https://images.unsplash.com/photo-1655179532149-9123346e5c0d?auto=format&fit=crop&w=900&q=85", search: "Sầu riêng", route: "nongsan" },
+  { id: "ho-tieu", title: "Hồ tiêu", desc: "Giá tiêu và vùng trồng", image: "https://sc02.alicdn.com/kf/H13ac0f2ec13649568cbc5400ffab896e2.png", search: "Hồ tiêu", route: "nongsan" },
   { id: "cao-su", title: "Cao su", desc: "Giá mủ và thị trường", image: "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=900&q=85", search: "Cao su", route: "nongsan" },
-  { id: "phan-bon", title: "Phân bón", desc: "NPK, hữu cơ, vi sinh", image: "https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=900&q=85", search: "phan-bon", route: "shop" },
+  { id: "phan-bon", title: "Phân bón", desc: "NPK, hữu cơ, vi sinh", image: "https://bcp.cdnchinhphu.vn/334894974524682240/2022/12/31/phan-bon-2-16563241995661012848475-16724794670331355401155.jpg", search: "phan-bon", route: "shop" },
   { id: "vat-tu", title: "Dụng cụ nông nghiệp", desc: "Thiết bị và vật tư vườn", image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=900&q=85", search: "vat-tu", route: "shop" },
 ];
 
@@ -136,8 +136,8 @@ function Index() {
 
   const heroImages = [
     "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1800&q=88",
-    "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=1200&q=80",
-    "https://images.unsplash.com/photo-1559525839-b184a4d698c7?auto=format&fit=crop&w=1200&q=80",
+    "https://bcp.cdnchinhphu.vn/334894974524682240/2022/12/31/phan-bon-2-16563241995661012848475-16724794670331355401155.jpg",
+    "https://sc02.alicdn.com/kf/H13ac0f2ec13649568cbc5400ffab896e2.png",
   ];
 
   return (
@@ -171,8 +171,8 @@ function Index() {
               <Link to="/bang-gia" className="mt-4 inline-flex w-fit items-center gap-2 rounded-full bg-emerald-500 px-4 py-2.5 text-xs font-extrabold text-white shadow-lg transition hover:bg-emerald-400 sm:mt-5 sm:text-sm">Xem bảng giá cà phê <ArrowRight size={16} /></Link>
             </div>
           </div>
-          <div className="relative h-[190px] w-full shrink-0 overflow-hidden sm:h-[300px] lg:h-[360px]">
-            <img src={heroImages[1]} alt="Vật tư và cây trồng nông nghiệp" className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
+          <div className="relative h-[250px] w-full shrink-0 overflow-hidden bg-[#073d28] sm:h-[320px] lg:h-[380px]">
+            <img src={heroImages[1]} alt="Các bao phân bón xếp trong kho hàng" className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
             <div className="absolute inset-0 bg-gradient-to-r from-[#052f20]/90 via-[#075b38]/55 to-transparent" />
             <div className="relative flex h-full max-w-3xl flex-col justify-center px-5 pr-28 text-white sm:px-10 sm:pr-48 lg:px-16">
               <p className="text-xs font-bold uppercase tracking-[.18em] text-amber-300 sm:text-sm">Phân bón thương hiệu</p>
@@ -185,8 +185,8 @@ function Index() {
               </Link>
             </div>
           </div>
-          <div className="relative h-[190px] w-full shrink-0 overflow-hidden sm:h-[300px] lg:h-[360px]">
-            <img src={heroImages[2]} alt="Nông sản và kết nối nhà nông" className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
+          <div className="relative h-[250px] w-full shrink-0 overflow-hidden bg-[#073d28] sm:h-[320px] lg:h-[380px]">
+            <img src={heroImages[2]} alt="Chùm quả hồ tiêu trên cây" className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
             <div className="absolute inset-0 bg-gradient-to-r from-[#052f20]/90 via-[#075b38]/55 to-transparent" />
             <div className="relative flex h-full max-w-3xl flex-col justify-center px-5 pr-28 text-white sm:px-10 sm:pr-48 lg:px-16">
               <p className="text-xs font-bold uppercase tracking-[.18em] text-amber-300 sm:text-sm">Thuốc bảo vệ thực vật</p>
@@ -323,8 +323,8 @@ function Index() {
           className="group relative block overflow-hidden rounded-2xl bg-[#075b38] shadow-sm ring-1 ring-emerald-900/10"
         >
           <img
-            src="https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=1600&q=85"
-            alt="Vật tư nông nghiệp"
+            src="https://bcp.cdnchinhphu.vn/334894974524682240/2022/12/31/phan-bon-2-16563241995661012848475-16724794670331355401155.jpg"
+            alt="Kho bao phân bón nông nghiệp"
             loading="lazy"
             className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]"
           />
