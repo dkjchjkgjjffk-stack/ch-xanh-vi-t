@@ -13,6 +13,7 @@ type PostHogStub = {
   __htpInitialized?: boolean;
   init?: (key: string, options: Record<string, unknown>) => void;
   capture?: (event: string, properties?: Record<string, unknown>) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 };
 
