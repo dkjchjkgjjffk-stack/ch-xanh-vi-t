@@ -143,7 +143,7 @@ function Index() {
       !/cà phê nhân xô|hồ tiêu|cà phê.*(london|new york)/i.test(current.crop),
     );
     return [...localCoffee, ...pepper.slice(0, 5), ...futures.slice(0, 9), ...other]
-      .slice(0, 15);
+      .slice(0, 6);
   })();
 
   const heroImages = [
