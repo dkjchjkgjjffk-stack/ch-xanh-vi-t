@@ -11,9 +11,9 @@ const categoryVisuals = [
   { id: "ca-phe", title: "Cà phê", desc: "Giá thu mua và thị trường", image: "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=640&q=75", search: "Cà phê", route: "nongsan" },
   { id: "sau-rieng", title: "Sầu riêng", desc: "Thông tin mùa vụ và giá", image: "https://images.unsplash.com/photo-1655179532149-9123346e5c0d?auto=format&fit=crop&w=640&q=75", search: "Sầu riêng", route: "nongsan" },
   { id: "ho-tieu", title: "Hồ tiêu", desc: "Giá tiêu và vùng trồng", image: "https://sc02.alicdn.com/kf/H13ac0f2ec13649568cbc5400ffab896e2.png", search: "Hồ tiêu", route: "nongsan" },
-  { id: "cao-su", title: "Cao su", desc: "Giá mủ và thị trường", image: "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=640&q=75", search: "Cao su", route: "nongsan" },
+  { id: "cao-su", title: "Cao su", desc: "Giá mủ và thị trường", image: "https://media.thuonghieucongluan.vn/uploads/2024/10/01/cao-su-vn-1727743316.jpg", search: "Cao su", route: "nongsan" },
   { id: "phan-bon", title: "Phân bón", desc: "NPK, hữu cơ, vi sinh", image: "https://bcp.cdnchinhphu.vn/334894974524682240/2022/12/31/phan-bon-2-16563241995661012848475-16724794670331355401155.jpg", search: "phan-bon", route: "shop" },
-  { id: "vat-tu", title: "Dụng cụ nông nghiệp", desc: "Thiết bị và vật tư vườn", image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=640&q=75", search: "vat-tu", route: "shop" },
+  { id: "vat-tu", title: "Dụng cụ nông nghiệp", desc: "Thiết bị và vật tư vườn", image: "https://agroenlace.co/wp-content/uploads/2025/05/ChatGPT-Image-25-may-2025-19_27_47_11zon.webp", search: "vat-tu", route: "shop" },
 ];
 
 export const Route = createFileRoute("/")({
@@ -149,7 +149,7 @@ function Index() {
   const heroImages = [
     "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1200&q=75",
     "https://bcp.cdnchinhphu.vn/334894974524682240/2022/12/31/phan-bon-2-16563241995661012848475-16724794670331355401155.jpg",
-    "https://www.syngenta.com.vn/sites/g/files/kgtney1261/files/pinned-image/2023-10/2023.06.09_NHAN%20DIEN%20CHINH%20HIEU-01%20%281%29.jpg",
+    "https://product.hstatic.net/200000692099/product/2024.04.17_nhan_dien_chinh_hieu_reflectxtra_6a597d1389c1414ab7cc09f22defa422_grande.jpg",
   ];
 
   return (
@@ -198,7 +198,7 @@ function Index() {
             </div>
           </div>
           <div className="relative h-[250px] w-full shrink-0 overflow-hidden bg-[#073d28] sm:h-[320px] lg:h-[380px]">
-            <img src={heroImages[2]} alt="Sản phẩm thuốc bảo vệ thực vật chính hãng Syngenta" className="absolute inset-0 h-full w-full object-cover" loading={heroSlide === 2 ? "eager" : "lazy"} decoding="async" />
+            <img src={heroImages[2]} alt="Thuốc trừ bệnh Reflect Xtra của Syngenta" className="absolute inset-0 h-full w-full object-cover" loading={heroSlide === 2 ? "eager" : "lazy"} decoding="async" />
             <div className="absolute inset-0 bg-gradient-to-r from-[#052f20]/90 via-[#075b38]/55 to-transparent" />
             <div className="relative flex h-full max-w-3xl flex-col justify-center px-5 pr-28 text-white sm:px-10 sm:pr-48 lg:px-16">
               <p className="text-xs font-bold uppercase tracking-[.18em] text-amber-300 sm:text-sm">Thuốc bảo vệ thực vật</p>
