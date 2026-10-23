@@ -136,3 +136,30 @@
   .chip { @apply inline-flex items-center rounded-full px-3 py-1 text-sm font-medium; }
   .field { @apply min-h-12 w-full rounded-xl border-2 border-input bg-card px-4 text-base outline-none focus:border-primary; }
 }
+
+
+/* Responsive safety rails: prevent oversized media/content from widening the page. */
+@layer base {
+  html {
+    width: 100%;
+    overflow-x: clip;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    min-width: 320px;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  img,
+  video,
+  canvas,
+  svg {
+    max-width: 100%;
+  }
+
+  table {
+    border-spacing: 0;
+  }
+}
