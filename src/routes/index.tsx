@@ -137,7 +137,7 @@ function Index() {
   const heroImages = [
     "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1800&q=88",
     "https://bcp.cdnchinhphu.vn/334894974524682240/2022/12/31/phan-bon-2-16563241995661012848475-16724794670331355401155.jpg",
-    "https://sc02.alicdn.com/kf/H13ac0f2ec13649568cbc5400ffab896e2.png",
+    "https://www.syngenta.com.vn/sites/g/files/kgtney1261/files/pinned-image/2023-10/2023.06.09_NHAN%20DIEN%20CHINH%20HIEU-01%20%281%29.jpg",
   ];
 
   return (
