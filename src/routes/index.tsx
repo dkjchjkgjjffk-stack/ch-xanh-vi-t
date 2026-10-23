@@ -11,9 +11,9 @@ const categoryVisuals = [
   { id: "ca-phe", title: "Cà phê", desc: "Giá thu mua và thị trường", image: "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=640&q=75", search: "Cà phê", route: "nongsan" },
   { id: "sau-rieng", title: "Sầu riêng", desc: "Thông tin mùa vụ và giá", image: "https://images.unsplash.com/photo-1655179532149-9123346e5c0d?auto=format&fit=crop&w=640&q=75", search: "Sầu riêng", route: "nongsan" },
   { id: "ho-tieu", title: "Hồ tiêu", desc: "Giá tiêu và vùng trồng", image: "https://sc02.alicdn.com/kf/H13ac0f2ec13649568cbc5400ffab896e2.png", search: "Hồ tiêu", route: "nongsan" },
-  { id: "cao-su", title: "Cao su", desc: "Giá mủ và thị trường", image: "https://media.thuonghieucongluan.vn/uploads/2024/10/01/cao-su-vn-1727743316.jpg", search: "Cao su", route: "nongsan" },
-  { id: "phan-bon", title: "Phân bón", desc: "NPK, hữu cơ, vi sinh", image: "https://bcp.cdnchinhphu.vn/334894974524682240/2022/12/31/phan-bon-2-16563241995661012848475-16724794670331355401155.jpg", search: "phan-bon", route: "shop" },
-  { id: "vat-tu", title: "Dụng cụ nông nghiệp", desc: "Thiết bị và vật tư vườn", image: "https://agroenlace.co/wp-content/uploads/2025/05/ChatGPT-Image-25-may-2025-19_27_47_11zon.webp", search: "vat-tu", route: "shop" },
+  { id: "cao-su", title: "Cao su", desc: "Giá mủ và thị trường", image: "https://images.weserv.nl/?url=media.thuonghieucongluan.vn/uploads/2024/10/01/cao-su-vn-1727743316.jpg&w=640&q=70&output=webp", search: "Cao su", route: "nongsan" },
+  { id: "phan-bon", title: "Phân bón", desc: "NPK, hữu cơ, vi sinh", image: "https://images.weserv.nl/?url=bcp.cdnchinhphu.vn/334894974524682240/2022/12/31/phan-bon-2-16563241995661012848475-16724794670331355401155.jpg&w=900&q=70&output=webp", search: "phan-bon", route: "shop" },
+  { id: "vat-tu", title: "Dụng cụ nông nghiệp", desc: "Thiết bị và vật tư vườn", image: "https://images.weserv.nl/?url=agroenlace.co/wp-content/uploads/2025/05/ChatGPT-Image-25-may-2025-19_27_47_11zon.webp&w=640&q=70&output=webp", search: "vat-tu", route: "shop" },
 ];
 
 export const Route = createFileRoute("/")({
@@ -148,7 +148,7 @@ function Index() {
 
   const heroImages = [
     "https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1200&q=75",
-    "https://bcp.cdnchinhphu.vn/334894974524682240/2022/12/31/phan-bon-2-16563241995661012848475-16724794670331355401155.jpg",
+    "https://images.weserv.nl/?url=bcp.cdnchinhphu.vn/334894974524682240/2022/12/31/phan-bon-2-16563241995661012848475-16724794670331355401155.jpg&w=900&q=70&output=webp",
     "https://product.hstatic.net/200000692099/product/2024.04.17_nhan_dien_chinh_hieu_reflectxtra_6a597d1389c1414ab7cc09f22defa422_grande.jpg",
   ];
 
@@ -335,7 +335,7 @@ function Index() {
           className="group relative block overflow-hidden rounded-2xl bg-[#075b38] shadow-sm ring-1 ring-emerald-900/10"
         >
           <img
-            src="https://bcp.cdnchinhphu.vn/334894974524682240/2022/12/31/phan-bon-2-16563241995661012848475-16724794670331355401155.jpg"
+            src="https://images.weserv.nl/?url=bcp.cdnchinhphu.vn/334894974524682240/2022/12/31/phan-bon-2-16563241995661012848475-16724794670331355401155.jpg&w=900&q=70&output=webp"
             alt="Kho bao phân bón nông nghiệp"
             loading="lazy"
             className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]"
