@@ -74,7 +74,7 @@ function PrivacyPolicyPage() {
             dịch vụ, giải quyết tranh chấp và đáp ứng nghĩa vụ pháp luật áp
             dụng. Bạn có thể yêu cầu xem, sửa hoặc xóa thông tin cá nhân theo
             hướng dẫn tại trang{" "}
-            <a className="font-semibold text-emerald-800 underline" href="/data-deletion">
+            <a className="font-semibold text-emerald-800 underline" href="/data-deletion/">
               Xóa dữ liệu người dùng
             </a>
             .
