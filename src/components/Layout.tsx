@@ -310,6 +310,16 @@ export function Footer() {
                 Giỏ hàng
               </Link>
             </li>
+            <li>
+              <Link to="/privacy-policy" className="hover:text-[#075b38]">
+                Chính sách quyền riêng tư
+              </Link>
+            </li>
+            <li>
+              <Link to="/data-deletion" className="hover:text-[#075b38]">
+                Xóa dữ liệu người dùng
+              </Link>
+            </li>
           </ul>
         </div>
         <div>
