@@ -316,7 +316,7 @@ export function Footer() {
               </Link>
             </li>
             <li>
-              <Link to="/data-deletion" className="hover:text-[#075b38]">
+              <Link to="/data-deletion/" className="hover:text-[#075b38]">
                 Xóa dữ liệu người dùng
               </Link>
             </li>
